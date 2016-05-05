@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Edit Folder</title>
+  <meta name="description" content="Bookmarx">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="imgs/tp.png">
+
+  <link rel="stylesheet" href="css/style.css">
+  
+</head>
+
+<body class="black-background">
+  <nav>
+    <ul>
+      <li><a href="index.html">BookMarx</a></li>
+    </ul>
+  </nav>
+  <section class="slide">
+    <div class="formcontainer column-40">
+      <form>
+        <h1>Edit Folder</h1>
+        <div class="inputgroup">
+          <input type="text" autofocus required/>
+          <span class="bar"></span>
+          <label>Title</label>
+        </div>
+        <div class="labelgroup deleteConf hide">
+          <label>Delete the Folder and BookMarx inside?</label>
+        </div>
+        <div class="inputgroup deleteContainer hide">
+          <button type='button' class="boxButton deleteButton" onclick="window.location.replace('index.html')">Delete</button>
+          <button type='button' class="boxButton cancelButton" onclick="cancelDeleteFolder()">Cancel</button>
+        </div>
+        <div class="inputgroup actionContainer">
+          <button type='button' class="boxButton okayButton" onclick="window.location.replace('index.html')">Save</button>
+          <button type='button' class="boxButton cancelButton" onclick="window.location.replace('index.html')">Cancel</button>
+          <button type='button' class="boxButton deleteButton" onclick="deleteFolder()">Delete</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sign Up</title>
+  <meta name="description" content="signup">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="imgs/tp.png">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="black-background">
+  <nav>
+    <ul>
+      <li><a href="index.html">BookMarx</a></li>
+    </ul>
+  </nav>
+  <section class="slide">
+    <div class="formcontainer column-40">
+      <form action="/login" method="POST" autocomplete="off">
+        <h1>Sign Up</h1>
+        <div class="inputgroup">
+          <input type="text" name="username" autofocus required/>
+          <span class="bar"></span>
+          <label>Username</label>
+        </div>
+        <div class="inputgroup">
+          <input type="password" name="pass" required/>
+          <span class="bar"></span>
+          <label>Password</label>
+        </div>
+        <div class="inputgroup">
+          <input type="password" name="repass" required/>
+          <span class="bar"></span>
+          <label>Reconfirm Password</label>
+        </div>
+        <div class="inputgroup">
+          <input type="submit" class="boxButton okayButton" value="Sign Up">
+          <a type='button' class="boxButton cancelButton" href="/login">Login</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>

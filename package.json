@@ -1,0 +1,21 @@
+{
+  "name": "wowsuchawesome",
+  "version": "1.0.0",
+  "description": "Express CRUD using EJS",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "install": "^0.7.3",
+    "mysql": "^2.10.2",
+    "npm": "^3.8.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Christie Sorenson",
+  "license": "MIT"
+}
