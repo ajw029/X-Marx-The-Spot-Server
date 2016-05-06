@@ -1,0 +1,20 @@
+Session Table ?
+session_key |
+
+Accounts Table
+account_id | name/email | password | timestamp
+
+Folder Table
+folder_id | account_id | folder_name |  timestamp
+
+Bookmarx Table
+bookmarx_id | folder_id | bookmarx_name |description | url | isfavorite | timestamp
+
+Bookmarx Keywords Table
+keyword_id | bookmarx_id
+
+Keyword Table
+keyword_id | keyword | timestamp
+
+Notes Table
+note_id | folder_id | note_title | body | timestamp
