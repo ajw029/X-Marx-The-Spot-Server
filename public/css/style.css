@@ -1060,9 +1060,8 @@ h3 {
 		top: -9999px !important;
 		left: -9999px !important;
 	}
-	.searchContainer input {
-		margin: 0 0 0 8px;
-		width: 55%;
+	.searchContainer  {
+		width: 90%;
 	}
 }
 
@@ -1073,13 +1072,13 @@ h3 {
 }
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 100px;
+    width: 125px;
     background-color: black;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-
+		font-size: 16px;
     /* Position the tooltip */
     position: absolute;
 

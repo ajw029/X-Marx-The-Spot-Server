@@ -4,13 +4,12 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Edit Folder</title>
+  <title>Add Folder</title>
   <meta name="description" content="Bookmarx">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="imgs/tp.png">
 
   <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body class="black-background">
@@ -21,24 +20,17 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="/bookmarx/updatefolder" method="POST">
-        <h1>Edit Folder Name</h1>
+      <form action="/bookmarx/addfolder" method="POST">
+        <h1>Add Folder</h1>
         <div class="inputgroup">
           <input type="text" autofocus required/>
           <span class="bar"></span>
           <label>Title</label>
         </div>
-
         <div class="inputgroup actionContainer">
-          <input type="submit" class="boxButton okayButton" value="Save">
-          <a class="boxButton cancelButton" href="/bookmarx">Cancel</a>
+          <a href='button' class="boxButton okayButton">Create</a>
+          <a href='button' class="boxButton cancelButton">Cancel</a>
         </div>
-      </form>
-      <form action="/bookmarx/deletefolder" method="POST">
-        <div class="inputgroup actionContainer">
-          <input type="submit" class="boxButton deleteButton" value="Delete">
-        </div>
-      </form>
       </form>
     </div>
   </section>
