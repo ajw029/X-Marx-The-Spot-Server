@@ -32,6 +32,7 @@ app.get('/signup', users.signup);
 app.post('/signup', users.signupAuth);
 app.get('/login', users.login);
 app.post('/login', users.loginAuth);
+app.get('/logout', users.logout);
 
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);

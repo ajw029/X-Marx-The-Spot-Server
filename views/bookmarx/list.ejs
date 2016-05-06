@@ -18,15 +18,25 @@
       <li><a href="index.html">BookMarx</a></li>
     </ul>
     <div class="searchContainer">
-      <input type="text" placeholder="Search"/>
+      <!--input type="text" placeholder="Search"/-->
+      <div class="folderSearchBar">
+        <form action="list" method="GET">
+        <input type="text" name="title" placeholder="Search"/>
+        <select name="filter">
+          <option value="alpha">A-Z</option>
+          <option value="alphaBack">Z-A</option>
+        </select>
+        <input type="submit" value="Search">
+        <form>
+      </div>
     </div>
     <ul class="navbar-right">
       <li class="navbar-hide"><button onclick="window.location.replace('add.html')" class="tooltip"><img src="img/ic_bookmark_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Add a BookMarx</span></button></li>
       <li class="navbar-hide"><button onclick="window.location.replace('folder.html')" class="tooltip"><img src="img/ic_create_new_folder_white_48dp_2x.png" alt="folder"><span class="tooltiptext">Add a Folder</span></button></li>
       <li><button onclick="toggleSort()" class="tooltip"><img src="img/ic_filter_list_white_48dp_2x.png" alt="filter"><span class="tooltiptext">Filter</span></button></li>
       <li class="navbar-hide"><button onclick="window.location.replace('setting.html')" class="tooltip"><img src="img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></button></li>
-      <li><button onclick="window.location.replace('settings.html')" class="tooltip"><img class="cog" src="img/ic_settings_white_48px.svg" alt="settings"><span class="tooltiptext" >Settings</span></button></li>
-      <li><button class="tooltip"><img src="img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></button></li>
+      <li><a onclick="window.location.replace('settings.html')" class="tooltip"><img class="cog" src="img/ic_settings_white_48px.svg" alt="settings"><span class="tooltiptext" >Settings</span></a></li>
+      <li><a class="tooltip" href="/logout"><img src="img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
     </ul>
   </nav>
 
@@ -76,8 +86,7 @@
       <div class="slide">
 
         <div class="folderContent">
-          <div class="folderSearchBar">
-          </div>
+
           <ul>
             <li>
               <div class="bookmark" data-id="0">

@@ -61,7 +61,6 @@ module.exports.loginAuth = function(req, res) {
   else {
     res.redirect('/login');
   }
-
 };
 
 /**
@@ -79,5 +78,9 @@ module.exports.signupAuth = function(req, res) {
   else {
     res.redirect('/signup');
   }
+};
 
+module.exports.logout = function(req, res) {
+  req.session.destroy();
+  res.redirect('/login');
 };

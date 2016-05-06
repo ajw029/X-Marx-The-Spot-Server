@@ -70,6 +70,7 @@ nav ul li {
 	display: inline-block;
 	vertical-align: top;
 }
+/*
 .searchContainer input {
 	width: 33%;
 	padding: 8px;
@@ -82,6 +83,64 @@ nav ul li {
 	vertical-align: top;
 	border-radius:2px;
 }
+*/
+.searchContainer {
+	width: 33%;
+	padding: 8px;
+	margin: 0 auto;
+	font-size: 16px;
+	left: 0;
+	right: 0;
+	display: inline-block;
+	position: absolute;
+	vertical-align: top;
+	border-radius:2px;
+}
+.folderSearchBar form {
+	width: 98%;
+	margin: 0 auto;
+
+}
+.folderSearchBar input[type="text"] {
+	padding: 8px;
+	margin: 0 auto;
+	font-size: 16px;
+	left: 0;
+	right: 0;
+	display: inline-block;
+	border-radius:2px;
+	width: 60%;
+}
+
+.folderSearchBar select {
+	padding: 8px;
+	margin: 0 auto;
+	font-size: 16px;
+	display: inline-block;
+	border-radius:0;
+	width: 15%;
+	background-color: white;
+	border: 0;
+	height: 32px;
+}
+
+.folderSearchBar select option {
+
+}
+
+.folderSearchBar input[type="submit"]:hover {
+	cursor: pointer;
+}
+.folderSearchBar input[type="submit"] {
+	padding: 8px;
+	margin: 0 auto;
+	font-size: 16px;
+	width: 15%;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #FF9800;
+	color: white;
+}
 
 nav ul li a {
 	font-size: 22px;
@@ -93,7 +152,12 @@ nav button {
 	width: 40px;
 	z-index: 9999;
 }
-
+nav a {
+	height: 32px;
+	vertical-align: top;
+	width: 40px;
+	z-index: 9999;
+}
 .cog:hover {
    -webkit-animation: rotateCog 2.5s infinite
    -moz-animation:    rotateCog 2.5s infinite;
@@ -117,6 +181,12 @@ nav button img:hover {
 
 .searchContainer button img, nav button img {
 	height: 100%;
+}
+nav a img {
+	height: 32px;
+}
+nav a:hover {
+	cursor: pointer;
 }
 
 .notification-tray {
@@ -299,12 +369,7 @@ nav h2 {
 	margin-top: 48px;
 }
 .folderSearchBar {
-	background-color: white;
-	width: 70%;
 	margin: 0 auto;
-	height: 64px;
-	box-shadow:0 1px 2px #aaa;
-	margin-bottom: 16px;
 }
 
 .folderContainer {
