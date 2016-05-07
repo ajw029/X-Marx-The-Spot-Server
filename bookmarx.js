@@ -50,15 +50,15 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
  * Selects all books and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function(req, res) {
-  var folder_id = req.params.folder_id;
-  if (folder_id) {
-    console.log('hi')
-    // TODO
-    var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
-    db.query(querystring, function(err, res) {
+  var folder_id = db.escape(req.params.folder_id);
 
-    });
-    //res.render('bookmarx/list.ejs');
+  if (folder_id) {
+    // TODO
+    // var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
+    // db.query(queryString, function(err, res) {
+    //
+    // });
+    res.render('bookmarx/list.ejs');
   }
   else {
     // TODO
@@ -126,7 +126,6 @@ var edit = module.exports.edit =  function(req, res) {
 
 var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  //var folder_id = db.escape(req.body.folder_id);
   // TODO
   // var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
   // db.query(select_queryString, function(err, res) {
