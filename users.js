@@ -1,7 +1,7 @@
 var config = require('./my_configs');
 var tables = require('./tableconfigs');
 var encryption = require("./encrypt");
-
+var db = require('./db');
 var user_table = tables.user_table;
 
 /*
@@ -60,11 +60,30 @@ module.exports.auth = function(req, res, next) {
   * Attempt to login the user.
   */
 module.exports.loginAuth = function(req, res) {
+
   var username = req.body.username;
   var password = req.body.pass;
+
   if (username && password) {
-    req.session.username = encryption.encrypt(req.body.username);
-    res.redirect('/bookmarx');
+
+    var queryString="SELECT password from"+ user_table +"WHERE username="+username;
+
+    db.query(queryString,function(err,res){
+
+      if(err){
+
+        console.log("err"+err);
+         res.redirect('/login');
+
+      }else if(res){
+          console.log("incallback "+res[0]);
+          if(password=res[0].password){
+          }
+          req.session.username = encryption.encrypt(req.body.username);
+          res.redirect('/bookmarx');
+      }
+    
+    });
 
   }
   else {
@@ -77,28 +96,44 @@ module.exports.loginAuth = function(req, res) {
  * Attempt to Signup the user.
  */
 module.exports.signupAuth = function(req, response) {
+
   var username = req.body.username;
   var password = req.body.pass;
   var repassword = req.body.repass;
-  if (username && password && repassword && password===repassword) {
-    //var querystring = "SELECT * FROM " + user_table + "WHERE name="+name + " AND password=" + password;
-    // TODO Check if username exists or not
-    // db.query(querystring, function(err, res) {
-    //   if (err) throw err;
-    //   if (res) {
-    //     var createaccountstring = "INSERT INTO " + user_table + "(name, password) VALUES (";
-    //     createaccountstring += username +"," + password+ ")";
-    //     db.query(createaccountstring, function(err2, res2) {
-    //       if (err) throw err;
-    //
-    //       if (res2) {
-    //         response.redirect('/signup');
-    //       }
-    //     });
-    //   }
-    // });
+
+
+  if(password==repassword){
+
+     var queryString="SELECT EXISTS(SELECT username from"+ user_table +"WHERE username="+username+")";
+
+      db.query(queryString,function(err,res){
+
+      if(err){
+
+        console.log("err"+err);
+         res.redirect('/signup');
+
+      }if(res){
+        //check if username exists
+        if(res[0]=='1'){
+          console.log("account exists");
+        }else {
+          // not exists create new one
+          var createUserQueryString="INSERT INTO"+ user_table+" (username,password) values ("+username+","+password+");"
+          db.query(createUserQueryString,function(err,res){
+            if(err){
+              console.log("err"+err);
+            }else if(res){
+              console.log("res"+res);
+              res.redirect('/login');
+            }
+          });
+        }
+          
+      }
+   });
   }
-  else {
+    else {
     res.redirect('/signup');
   }
 };
