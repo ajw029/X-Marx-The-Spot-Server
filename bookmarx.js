@@ -50,25 +50,28 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
  * Selects all books and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function(req, res) {
-  var folder_id = req.params.folder_id;
+  var folder_id = db.escape(req.params.folder_id);
+
   if (folder_id) {
-    console.log('hi')
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
-    db.query(querystring, function(err, res) {
-
+    db.query(queryString, function(err, res) {
+      if (err){
+        throw err;
+      }
+      else {
+        res.render('bookmarx/list.ejs');
+      }
     });
-    //res.render('bookmarx/list.ejs');
   }
   else {
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
-      res.render('bookmarx/list.ejs');
+    res.render('bookmarx/list.ejs');
   }
 };
 
 /**
- *
  * Deletes a bookmarx
  */
 var deleteBookmarx = module.exports.deleteBookmarx =  function(req, res) {
@@ -87,6 +90,19 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, res)
 var foldersettings = module.exports.foldersettings =  function(req, res) {
   res.render('bookmarx/foldersettings.ejs');
 };
+
+var updatefolder = module.exports.updatefolder = function(req, res) {
+  //TODO Make query to update the folder name 
+  var folder_id = req.params.folder_id;
+  var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
+  if (folder_id) {
+    console.log('hi');
+  }
+  else {
+    var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
+    return res.render('bookmarx/list.ejs');
+  }
+}
 
 var addfolder = module.exports.addfolder =  function(req, res) {
   var folder_title = db.escape(req.body.folder_title);
@@ -126,7 +142,6 @@ var edit = module.exports.edit =  function(req, res) {
 
 var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  //var folder_id = db.escape(req.body.folder_id);
   // TODO
   // var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
   // db.query(select_queryString, function(err, res) {
