@@ -5,7 +5,6 @@ var folder_table = tables.folder_table;
 var user_table = tables.user_table;
 var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
-var keywords_relation_table = tables.keywords_relation_table;
 
 /**
  *
@@ -24,63 +23,139 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_folder_id = db.escape(req.body.folder_id);
+  var bookmarx_folder_id = db.escape(req.body.folder);
+  var account_id = db.escape(req.body.account_id);
+  // var getAccountIdQuery = "Select account_id from " + account_table + " where account_id="+account_id;
+  // db.query(getAccountIdQuery, function(err, res) {
+  //   if (err) throw err;
+  // });
 
-  // TODO validate
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
       bookmarx_keywords &&
-      bookmarx_folder) {
-        // TODO Insert into DB
+      bookmarx_folder_id) {
+        var queryString = "INSERT INTO " + bookmarx_table + " (folder_id, account_id, name, url, description, favorite)";
+        queryString += " VALUES(" + 1 + "," + 2 + "," + bookmarx_title + "," + bookmarx_url + "," + bookmarx_desc + "," + false +")";
+        db.query(queryString, function(err, res) {
+          if (err){
+            throw err;
+          }
+          if (res) {
+            // Insert Keywords
+            response.redirect('/bookmarx');
+          }
+        });
 
-        var querystring = "INSERT INTO " + bookmarx_table + " (bookmarx_id , folder_id, bookmarx_name, description, url, isfavorite) VALUES(";
-        querystring += "TODOID"+ "," + bookmarx_folder_id + "," + bookmarx_title +","+ bookmarx_desc + "," + bookmarx_url + "," + false + ")";
-
-        res.redirect('/bookmarx');
   }
   else {
     res.render('bookmarx/add.ejs');
   }
 };
 
-
 /**
  *
  * Selects all books and then renders the page with the list.ejs template
  */
-var list = module.exports.list = function(req, res) {
-  var folder_id = req.params.folder_id;
+var list = module.exports.list = function(req, response) {
+  var folder_id = db.escape(req.params.folder_id);
+  var account_id = req.body.account_id;
+
   if (folder_id) {
-    console.log('hi')
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
-    db.query(querystring, function(err, res) {
-
+    db.query(queryString, function(err, res) {
+      if (err){
+        throw err;
+      }
+      if (res) {
+        response.render('bookmarx/list.ejs', {bookmarxList: res});
+      }
     });
-    //res.render('bookmarx/list.ejs');
   }
   else {
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
-      res.render('bookmarx/list.ejs');
+    db.query(queryString, function(err, res) {
+      if (err){
+        throw err;
+      }
+      if (res) {
+        response.render('bookmarx/list.ejs', {bookmarxList: res});
+      }
+    });
+    res.render('bookmarx/list.ejs');
   }
 };
 
 /**
- * Deletes a bookmarx
+ * Renders page to delete a bookmarx
  */
 var deleteBookmarx = module.exports.deleteBookmarx =  function(req, res) {
-  var bookmarx_id = db.escape(req.body.bookmarx_id);
-
-  res.render('bookmarx/delete.ejs');
+  var bookmarx_id = req.params.bookmarx_id;
+  res.render('bookmarx/delete.ejs', {bookmarx_id: bookmarx_id});
 };
 
-var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, res) {
-  var bookmarx_id = db.escape(req.body.bookmarx_id);
-  var querystring = "DELETE FROM " + bookmarx_table + " where bookmarx_id=" +  bookmarx_id;
+/*
+ * Deletes a bookmark
+ */
+var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, response) {
+  var bookmarx_id = req.body.bookmarx_id;
 
-  res.redirect('/bookmarx');
+  var deleteKeywordsQuery = "DELETE FROM " + keywords_table + " WHERE id="+bookmarx_id;
+  db.query(deleteKeywordsQuery, function(err, res) {
+    if (err){
+      response.redirect('/bookmarx/delete');
+      throw err;
+    }
+    if (res) {
+      var queryString = "DELETE FROM " + bookmarx_table + " WHERE id="+bookmarx_id;
+      db.query(queryString, function(err, res) {
+        if (err){
+          response.redirect('/bookmarx/delete');
+          throw err;
+        }
+        if (res) {
+          response.redirect('/bookmarx');
+        }
+      });
+    }
+  });
+
+};
+
+/*
+ * Updates a bookmark
+ *
+ */
+var edit = module.exports.edit =  function(req, res) {
+  var bookmarx_title = db.escape(req.body.title);
+  var bookmarx_url = db.escape(req.body.url);
+  var bookmarx_desc = db.escape(req.body.desc);
+  var bookmarx_keywords = db.escape(req.body.keywords);
+  var bookmarx_folder_id = db.escape(req.body.folder);
+  var account_id = db.escape(req.body.account_id);
+
+  if (bookmarx_title &&
+      bookmarx_url   &&
+      bookmarx_desc  &&
+      bookmarx_keywords &&
+      bookmarx_folder_id) {
+        var querystring = "UPDATE " + bookmarx_table + "SET ";
+        querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
+        querystring += " WHERE bookmarx_id="+bookmarx_id+" AND account_id="+account_id;
+        db.query(queryString, function(err, res) {
+          if (err) throw err;
+          if (res) {
+            // TODO update keywords if changed?
+
+            res.redirect('/bookmarx');
+          }
+        });
+  }
+  else {
+    res.render('bookmarx/edit.ejs');
+  }
 };
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
@@ -88,7 +163,7 @@ var foldersettings = module.exports.foldersettings =  function(req, res) {
 };
 
 var updatefolder = module.exports.updatefolder = function(req, res) {
-  //TODO Make query to update the folder name 
+  //TODO Make query to update the folder name
   var folder_id = req.params.folder_id;
   var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
   if (folder_id) {
@@ -112,33 +187,8 @@ var settings = module.exports.settings =  function(req, res) {
   res.render('bookmarx/settings.ejs');
 };
 
-var edit = module.exports.edit =  function(req, res) {
-  var bookmarx_title = db.escape(req.body.title);
-  var bookmarx_url = db.escape(req.body.url);
-  var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_folder = db.escape(req.body.folder_id);
-  var bookmarx_id = db.escape(req.params.bookmarx_id);
-
-  // TODO validate
-  if (bookmarx_title &&
-      bookmarx_url   &&
-      bookmarx_desc  &&
-      bookmarx_keywords &&
-      bookmarx_folder) {
-        var querystring = "UPDATE " + bookmarx_table + "SET ";
-        querystring += "bookmarx_folder="+bookmarx_folder+ ", bookmarx_name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
-        querystring += " WHERE bookmarx_id="+bookmarx_id;
-        res.redirect('/bookmarx');
-  }
-  else {
-    res.render('bookmarx/edit.ejs');
-  }
-};
-
 var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  //var folder_id = db.escape(req.body.folder_id);
   // TODO
   // var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
   // db.query(select_queryString, function(err, res) {

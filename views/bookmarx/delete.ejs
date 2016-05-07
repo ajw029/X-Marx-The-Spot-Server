@@ -22,7 +22,7 @@
     <div class="formcontainer column-40">
       <form action="/bookmarx/delete?=" method="POST">
         <h1>Delete ?</h1>
-
+        <input type="hidden" name="bookmarx_id" value='<%=bookmarx_id%>'>
         <div class="inputgroup">
           <input type='submit' class="boxButton deleteButton" value="Delete">
           <a class="boxButton cancelButton" href="/bookmarx">Cancel</a>

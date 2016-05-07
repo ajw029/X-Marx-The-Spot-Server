@@ -3,7 +3,7 @@ var db = require('./db');
 var bookmarx = require('./bookmarx');
 var users = require('./users');
 
-//db.init();
+db.init();
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -39,7 +39,9 @@ app.get('/logout', users.logout);
 app.use(users.auth);
 
 // Bookmarx Routes
-app.get(['/bookmarx', '/index.html'], bookmarx.list);
+app.get(['/bookmarx',
+         '/index.html',
+         '/bookmarx/:bookmarx_id(\\d+)'], bookmarx.list);
 
 app.get('/bookmarx/settings', bookmarx.settings);
 
@@ -48,15 +50,14 @@ app.post('/bookmarx/add', bookmarx.addBookmarxAuth);
 
 app.post('/bookmarx/staraction', bookmarx.staraction);
 
-app.get('/bookmarx/edit/:bookmarx_id(\\d+)', bookmarx.edit);
-app.get('/bookmarx/edit', bookmarx.edit);
+app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.edit);
 
 app.get('/bookmarx/addfolder', bookmarx.addfolder);
 
-app.get('/bookmarx/delete', bookmarx.deleteBookmarx);
+app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
 
-//Folder Settings 
+//Folder Settings
 app.get('/foldersetting', bookmarx.foldersettings);
 app.post('/bookmarx/updatefolder', bookmarx.updatefolder);
 
