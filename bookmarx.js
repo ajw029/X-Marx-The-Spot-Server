@@ -54,16 +54,20 @@ var list = module.exports.list = function(req, res) {
 
   if (folder_id) {
     // TODO
-    // var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
-    // db.query(queryString, function(err, res) {
-    //
-    // });
-    res.render('bookmarx/list.ejs');
+    var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
+    db.query(queryString, function(err, res) {
+      if (err){
+        throw err;
+      }
+      else {
+        res.render('bookmarx/list.ejs');
+      }
+    });
   }
   else {
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
-      res.render('bookmarx/list.ejs');
+    res.render('bookmarx/list.ejs');
   }
 };
 
