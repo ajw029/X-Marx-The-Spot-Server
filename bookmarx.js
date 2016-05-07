@@ -5,6 +5,7 @@ var folder_table = tables.folder_table;
 var user_table = tables.user_table;
 var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
+var account_table = tables.user_table;
 
 /**
  * Renders page to add a bookmark
@@ -193,18 +194,21 @@ var addfolder = module.exports.addfolder =  function(req, res) {
 
 var addfolderauth = module.exports.addfolderauth =  function(req, response) {
   var folder_title = db.escape(req.body.folder_title);
-  var account_id = db.escape(req.body.account_id);
-  var queryID = "SELECT ID FROM " + account_table + " WHERE username=" + "\"" + account_id + "\""; 
+  var account_id = req.body.account_id;
+  var queryID = "SELECT id FROM " + account_table + " WHERE username=" + "\"" + account_id + "\""; 
   db.query(queryID, function(err, res) {
     if(err) throw err;
-    if(res[0]) {
-      var querystring = "INSERT INTO " + folder_table + " (account_id, folder_name) VALUES(" + res[0] +"," + account_id +"," + folder_title+ ")";
-      db.query(queryString, function(err, res2) {
+    if(res) {
+      console.log(res[0].id);
+      console.log(folder_title);
+      var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + res[0].id +"," + "\""+ folder_title + "\"" + ")";
+      db.query(querystring, function(err, res2) {
+        if(err) throw err;
         response.redirect('/bookmarx');
       });
     }
     else {
-      response.redirect('bookmarx/addfolder');
+      response.redirect('/bookmarx/addfolder');
     }
   });
 };
