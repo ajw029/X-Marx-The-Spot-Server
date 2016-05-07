@@ -53,6 +53,7 @@ app.post('/bookmarx/staraction', bookmarx.staraction);
 app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.edit);
 
 app.get('/bookmarx/addfolder', bookmarx.addfolder);
+app.post('/bookmarx/addfolder', bookmarx.addfolderauth);
 
 app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);

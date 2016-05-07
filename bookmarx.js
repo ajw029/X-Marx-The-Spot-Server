@@ -80,7 +80,6 @@ var list = module.exports.list = function(req, response) {
                 }
               });
             }
-        }
         else {
           // TODO
           var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
@@ -94,6 +93,7 @@ var list = module.exports.list = function(req, response) {
           });
           res.render('bookmarx/list.ejs');
         }
+      }
     });
 };
 
@@ -187,9 +187,26 @@ var updatefolder = module.exports.updatefolder = function(req, res) {
 var addfolder = module.exports.addfolder =  function(req, res) {
   var folder_title = db.escape(req.body.folder_title);
   var account_id = db.escape(req.body.account_id);
-  var querystring = "INSERT INTO " + folder_table + " (folder_id, account_id, folder_name) VALUES(" + "TODOid" +"," + account_id +"," + folder_title+ ")";
 
   res.render('bookmarx/addfolder.ejs');
+};
+
+var addfolderauth = module.exports.addfolderauth =  function(req, response) {
+  var folder_title = db.escape(req.body.folder_title);
+  var account_id = db.escape(req.body.account_id);
+  var queryID = "SELECT ID FROM " + account_table + " WHERE username=" + "\"" + account_id + "\""; 
+  db.query(queryID, function(err, res) {
+    if(err) throw err;
+    if(res[0]) {
+      var querystring = "INSERT INTO " + folder_table + " (account_id, folder_name) VALUES(" + res[0] +"," + account_id +"," + folder_title+ ")";
+      db.query(queryString, function(err, res2) {
+        response.redirect('/bookmarx');
+      });
+    }
+    else {
+      response.redirect('bookmarx/addfolder');
+    }
+  });
 };
 
 var settings = module.exports.settings =  function(req, res) {

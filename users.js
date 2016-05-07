@@ -90,7 +90,7 @@ module.exports.loginAuth = function(req, response) {
 
   }
   else {
-    res.redirect('/login');
+    response.redirect('/login');
   }
 };
 

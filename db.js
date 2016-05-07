@@ -9,6 +9,7 @@ var MySQL = function() {
             MySQL.connection = mysql.createConnection({
                 host     : config.DATABASE_HOST,
                 user     : config.DATABASE_USER,
+                port     : config.DATABASE_PORT,
                 password : config.DATABASE_PASSWORD,
                 database : config.DATABASE_NAME
             });
@@ -18,8 +19,7 @@ var MySQL = function() {
         query: function(querystring, callback){
             MySQL.connection.query(querystring, callback);
         },
-        escape: mysql.escape,
-        unescape: mysql.unescape
+        escape: mysql.escape
     };
 }();
 
