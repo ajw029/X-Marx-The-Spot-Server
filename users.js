@@ -67,11 +67,9 @@ module.exports.loginAuth = function(req, response) {
 
   if (username && password) {
     var queryString="SELECT password from "+ user_table +" WHERE username="+ "\"" + username + "\"";
-    console.log(queryString)
     db.query(queryString,function(err,res){
 
       if(err){
-        console.log("err"+err);
         response.redirect('/login');
       }else if(res){
         // If Null
