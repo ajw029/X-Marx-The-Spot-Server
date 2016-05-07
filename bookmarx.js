@@ -81,7 +81,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
 var list = module.exports.list = function(req, res) {
   var folder_id = req.params.folder_id;
   if (folder_id) {
-    console.log('hi')
+    console.log('hi');
   }
   else {
     var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";

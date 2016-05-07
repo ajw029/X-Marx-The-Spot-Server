@@ -55,7 +55,7 @@ app.get('/bookmarx/addfolder', bookmarx.addfolder);
 
 app.get('/bookmarx/delete', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
-app.get('/foldersetting', bookmarx.foldersettings)
+app.get('/foldersetting', bookmarx.foldersettings);
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');

@@ -19,7 +19,7 @@ var MySQL = function() {
             MySQL.connection.query(querystring, callback);
         },
         escape: mysql.escape
-    }
+    };
 }();
 
 module.exports = MySQL;
