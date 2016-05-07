@@ -42,7 +42,7 @@ db.query(createKeywordsRelation, function(err, res) {
  */
 var add = module.exports.add = function(req, res) {
   res.render('bookmarx/add.ejs');
-}
+};
 /**
  *
  * Allows a user to add a bookmark
@@ -71,7 +71,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
   else {
     res.render('bookmarx/add.ejs');
   }
-}
+};
 
 
 /**
@@ -97,18 +97,18 @@ var deleteBookmarx = module.exports.deleteBookmarx =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
 
   res.render('bookmarx/delete.ejs');
-}
+};
 
 var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var querystring = "DELETE FROM " + bookmarx_table + " where bookmarx_id=" +  bookmarx_id;
 
   res.redirect('/bookmarx');
-}
+};
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
   res.render('bookmarx/foldersettings.ejs');
-}
+};
 
 var addfolder = module.exports.addfolder =  function(req, res) {
   var folder_title = db.escape(req.body.folder_title);
@@ -116,11 +116,11 @@ var addfolder = module.exports.addfolder =  function(req, res) {
   var querystring = "INSERT INTO " + folder_table + " (folder_id, account_id, folder_name) VALUES(" + "TODOid" +"," + account_id +"," + folder_title+ ")";
 
   res.render('bookmarx/addfolder.ejs');
-}
+};
 
 var settings = module.exports.settings =  function(req, res) {
   res.render('bookmarx/settings.ejs');
-}
+};
 
 var edit = module.exports.edit =  function(req, res) {
   var bookmarx_title = db.escape(req.body.title);
@@ -128,7 +128,7 @@ var edit = module.exports.edit =  function(req, res) {
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder = db.escape(req.body.folder_id);
-  var bookmarx_id;
+  var bookmarx_id = db.escape(req.query.bookmarx_id);
 
   // TODO validate
   if (bookmarx_title &&
@@ -136,15 +136,15 @@ var edit = module.exports.edit =  function(req, res) {
       bookmarx_desc  &&
       bookmarx_keywords &&
       bookmarx_folder) {
-        var querystring = "UPDATE " + bookmark_table + "SET ";
-        querystring += "folder_id=" +folder_id +",bookmarx_folder="+bookmarx_folder+ ", bookmarx_name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
+        var querystring = "UPDATE " + bookmarx_table + "SET ";
+        querystring += "bookmarx_folder="+bookmarx_folder+ ", bookmarx_name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
         querystring += " WHERE bookmarx_id="+bookmarx_id;
         res.redirect('/bookmarx');
   }
   else {
     res.render('bookmarx/edit.ejs');
   }
-}
+};
 
 var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
@@ -161,4 +161,4 @@ var staraction = module.exports.staraction =  function(req, res) {
   //     res.redirect('/bookmarx')
   //   }
   // });
-}
+};
