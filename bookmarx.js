@@ -105,7 +105,7 @@ var edit = module.exports.edit =  function(req, res) {
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder = db.escape(req.body.folder_id);
-  var bookmarx_id = db.escape(req.query.bookmarx_id);
+  var bookmarx_id = db.escape(req.params.bookmarx_id);
 
   // TODO validate
   if (bookmarx_title &&
