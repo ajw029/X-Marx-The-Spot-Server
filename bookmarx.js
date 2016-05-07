@@ -7,14 +7,13 @@ var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
 
 /**
- *
  * Renders page to add a bookmark
  */
 var add = module.exports.add = function(req, res) {
   res.render('bookmarx/add.ejs');
 };
+
 /**
- *
  * Allows a user to add a bookmark
  */
 var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
@@ -61,31 +60,41 @@ var list = module.exports.list = function(req, response) {
   var folder_id = db.escape(req.params.folder_id);
   var account_id = req.body.account_id;
 
-  if (folder_id) {
-    // TODO
-    var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
-    db.query(queryString, function(err, res) {
+  var queryFolderListString = "SELECT * FROM " + folder_table;
+
+  db.query(queryFolderListString, function(err, folderRes) {
       if (err){
         throw err;
       }
-      if (res) {
-        response.render('bookmarx/list.ejs', {bookmarxList: res});
-      }
+      if (folderRes) {
+        if (folder_id) {
+          // TODO
+          var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id;
+
+              db.query(queryString, function(err, res) {
+                if (err){
+                  throw err;
+                }
+                if (res) {
+                  response.render('bookmarx/list.ejs', {bookmarxList: res, folderList: folderRes});
+                }
+              });
+            }
+        }
+        else {
+          // TODO
+          var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
+          db.query(queryString, function(err, res) {
+            if (err){
+              throw err;
+            }
+            if (res) {
+              response.render('bookmarx/list.ejs', {bookmarxList: res, folderList: foldeRes});
+            }
+          });
+          res.render('bookmarx/list.ejs');
+        }
     });
-  }
-  else {
-    // TODO
-    var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
-    db.query(queryString, function(err, res) {
-      if (err){
-        throw err;
-      }
-      if (res) {
-        response.render('bookmarx/list.ejs', {bookmarxList: res});
-      }
-    });
-    res.render('bookmarx/list.ejs');
-  }
 };
 
 /**
