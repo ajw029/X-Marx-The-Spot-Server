@@ -7,6 +7,7 @@ var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
 var keywords_relation_table = tables.keywords_relation_table;
 
+/*
 var createFolderTable= "CREATE TABLE IF NOT EXISTS " + folder_table + " folder_id SERIAL PRIMARY KEY, ";
 createFolderTable +=  "account_id integer references "+user_table+"(account_id), folder_name varchar NOT NULL, ";
 createFolderTable +=  "timestamp timestamp without timezone DEFAULT now()";
@@ -33,7 +34,7 @@ createKeywordsRelation += " (keyword_id), bookmarx_id integer REFERENCES " + boo
 db.query(createKeywordsRelation, function(err, res) {
   if (err) throw err
 });
-
+*/
 
 /**
  *
@@ -149,15 +150,15 @@ var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   //var folder_id = db.escape(req.body.folder_id);
   // TODO
-  var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
-  db.query(select_queryString, function(err, res) {
-    if (err) throw err;
-    if (res) {
-      var isFavorite;
-      var querystring = "UPDATE " + bookmark_table + "SET ";
-      querystring += "isfavorite="+isFavorite;
-      querystring += " WHERE bookmarx_id="+bookmarx_id;
-      res.redirect('/bookmarx')
-    }
-  });
+  // var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
+  // db.query(select_queryString, function(err, res) {
+  //   if (err) throw err;
+  //   if (res) {
+  //     var isFavorite;
+  //     var querystring = "UPDATE " + bookmark_table + "SET ";
+  //     querystring += "isfavorite="+isFavorite;
+  //     querystring += " WHERE bookmarx_id="+bookmarx_id;
+  //     res.redirect('/bookmarx')
+  //   }
+  // });
 }

@@ -1,5 +1,5 @@
 var config = require('./my_configs');
-//var db = require('./db');
+var db = require('./db');
 var bookmarx = require('./bookmarx');
 var users = require('./users');
 
@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Login And Signup
 app.get('/', users.login);
+
 app.get('/signup', users.signup);
 app.post('/signup', users.signupAuth);
 app.get('/login', users.login);
