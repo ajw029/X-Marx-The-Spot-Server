@@ -52,17 +52,18 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
 var list = module.exports.list = function(req, res) {
   var folder_id = req.params.folder_id;
   if (folder_id) {
-
+    console.log('hi')
     // TODO
     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
     db.query(querystring, function(err, res) {
 
     });
-    res.render('bookmarx/list.ejs');
+    //res.render('bookmarx/list.ejs');
   }
   else {
     // TODO
-      "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id" +
+    var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
+      res.render('bookmarx/list.ejs');
   }
 };
 
