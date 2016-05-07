@@ -39,7 +39,7 @@ app.get('/logout', users.logout);
 app.use(users.auth);
 
 // Bookmarx Routes
-app.get('/bookmarx', bookmarx.list);
+app.get(['/bookmarx', '/index.html'], bookmarx.list);
 
 app.get('/bookmarx/settings', bookmarx.settings);
 
@@ -55,7 +55,7 @@ app.get('/bookmarx/addfolder', bookmarx.addfolder);
 
 app.get('/bookmarx/delete', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
-app.get('/foldersetting', bookmarx.foldersettings)
+app.get('/foldersetting', bookmarx.foldersettings);
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');
