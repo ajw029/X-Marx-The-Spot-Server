@@ -72,7 +72,6 @@ var list = module.exports.list = function(req, res) {
 };
 
 /**
- *
  * Deletes a bookmarx
  */
 var deleteBookmarx = module.exports.deleteBookmarx =  function(req, res) {
@@ -91,6 +90,19 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, res)
 var foldersettings = module.exports.foldersettings =  function(req, res) {
   res.render('bookmarx/foldersettings.ejs');
 };
+
+var updatefolder = module.exports.updatefolder = function(req, res) {
+  //TODO Make query to update the folder name 
+  var folder_id = req.params.folder_id;
+  var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
+  if (folder_id) {
+    console.log('hi');
+  }
+  else {
+    var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
+    return res.render('bookmarx/list.ejs');
+  }
+}
 
 var addfolder = module.exports.addfolder =  function(req, res) {
   var folder_title = db.escape(req.body.folder_title);

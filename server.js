@@ -23,7 +23,7 @@ app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Login And Signup
@@ -57,7 +57,10 @@ app.get('/bookmarx/addfolder', bookmarx.addfolder);
 
 app.get('/bookmarx/delete', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
+
+//Folder Settings 
 app.get('/foldersetting', bookmarx.foldersettings);
+app.post('/bookmarx/updatefolder', bookmarx.updatefolder);
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');
