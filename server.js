@@ -23,7 +23,7 @@ app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Login And Signup
