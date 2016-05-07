@@ -76,6 +76,24 @@
 
         <div class="folderContent">
           <ul>
+            <% bookmarxList.forEach(function(bookmarx) { %>
+              <li>
+                <div class="bookmark">
+                  <a href="https://www.facebook.com">
+                    <h2><%= bookmarx.name %></h2>
+                    <h3><%= bookmarx.url %></h3>
+                  </a>
+                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
+                  <div class="card__action-bar">
+                    <form action="/bookmarx/staraction" method="POST">
+                      <input type="hidden" value="asdf">
+                      <button class="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
+                    </form>
+                    <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>">EDIT</a>
+                  </div>
+                </div>
+              </li>
+            <% }); %>
             <li>
               <div class="bookmark">
                 <a href="https://www.facebook.com">

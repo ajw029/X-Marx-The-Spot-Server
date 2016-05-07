@@ -23,8 +23,12 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_folder_id = db.escape(req.body.folder_id);
+  var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
+  var getAccountIdQuery = "Select account_id from " + account_table + " where account_id="+account_id;
+  db.query(getAccountIdQuery, function(err, res) {
+    if (err) throw err;
+  });
 
   // TODO validate
   if (bookmarx_title &&
@@ -32,8 +36,6 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
       bookmarx_desc  &&
       bookmarx_keywords &&
       bookmarx_folder_id) {
-        // TODO Insert into DB
-
         var queryString = "INSERT INTO " + bookmarx_table + " (folder_id, account_id, name, url, description)";
         queryString += " VALUES(" + bookmarx_folder_id + "," + account_id + "," + bookmarx_title + "," + bookmarx_url + "," + bookmarx_desc +")";
         db.query(queryString, function(err, res) {
@@ -41,10 +43,11 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
             throw err;
           }
           if (res) {
-            response.render('bookmarx/list.ejs');
+            // Insert Keywords
+            response.redirect('/bookmarx');
           }
         });
-        res.redirect('/bookmarx');
+
   }
   else {
     res.render('bookmarx/add.ejs');
@@ -68,7 +71,7 @@ var list = module.exports.list = function(req, response) {
         throw err;
       }
       if (res) {
-        response.render('bookmarx/list.ejs', {bookmarx: res});
+        response.render('bookmarx/list.ejs', {bookmarxList: res});
       }
     });
   }
@@ -80,7 +83,7 @@ var list = module.exports.list = function(req, response) {
         throw err;
       }
       if (res) {
-        response.render('bookmarx/list.ejs', {bookmarx: res});
+        response.render('bookmarx/list.ejs', {bookmarxList: res});
       }
     });
     res.render('bookmarx/list.ejs');

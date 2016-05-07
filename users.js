@@ -47,6 +47,7 @@ module.exports.auth = function(req, res, next) {
   if (session) {
     var decryptedSession = encryption.decrypt(session);
     // Validate TODO
+    req.body.account_id = decryptedSession;
 
     return next();
   }
