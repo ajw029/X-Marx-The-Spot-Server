@@ -7,35 +7,6 @@ var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
 var keywords_relation_table = tables.keywords_relation_table;
 
-/*
-var createFolderTable= "CREATE TABLE IF NOT EXISTS " + folder_table + " folder_id SERIAL PRIMARY KEY, ";
-createFolderTable +=  "account_id integer references "+user_table+"(account_id), folder_name varchar NOT NULL, ";
-createFolderTable +=  "timestamp timestamp without timezone DEFAULT now()";
-db.query(createFolderTable, function(err, res) {
-  if (err) throw err
-});
-
-var createBookmarxTable = "CREATE TABLE IF NOT EXISTS " + bookmarx_table + " bookmarx_id SERIAL PRIMARY KEY, ";
-createBookmarxTable += " folder_id integer references " + folder_table + " (folder_id), bookmarx_name varchar NOT NULL, ";
-createBookmarxTable += "description varchar NOT NULL, url varchar NOT NULL, isfavorite bit not null,";
-createBookmarxTable += " timestamp timestamp without timezone DEFAULT now()";
-db.query(createBookmarxTable, function(err, res) {
-  if (err) throw err
-});
-
-var createKeywordsTable = "CREATE TABLE IF NOT EXISTS " + keywords_table + "keywords_id SERIAL PRIMARY KEY, ";
-createKeywordsTable += "keyword varchar NOT NULL, timestamp timestamp without time zone DEFAULT now()";
-db.query(createKeywordsTable, function(err, res) {
-  if (err) throw err
-});
-
-var createKeywordsRelation = "CREATE TABLE IF NOT EXISTS " + keywords_relation_table + "keywords_id integer REFERENCES "+keywords_table;
-createKeywordsRelation += " (keyword_id), bookmarx_id integer REFERENCES " + bookmarx_table;
-db.query(createKeywordsRelation, function(err, res) {
-  if (err) throw err
-});
-*/
-
 /**
  *
  * Renders page to add a bookmark
@@ -81,11 +52,18 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
 var list = module.exports.list = function(req, res) {
   var folder_id = req.params.folder_id;
   if (folder_id) {
-    console.log('hi');
+    console.log('hi')
+    // TODO
+    var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id="+folder_id;
+    db.query(querystring, function(err, res) {
+
+    });
+    //res.render('bookmarx/list.ejs');
   }
   else {
-    var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
-    res.render('bookmarx/list.ejs');
+    // TODO
+    var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
+      res.render('bookmarx/list.ejs');
   }
 };
 
@@ -140,7 +118,7 @@ var edit = module.exports.edit =  function(req, res) {
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder = db.escape(req.body.folder_id);
-  var bookmarx_id = db.escape(req.query.bookmarx_id);
+  var bookmarx_id = db.escape(req.params.bookmarx_id);
 
   // TODO validate
   if (bookmarx_title &&
