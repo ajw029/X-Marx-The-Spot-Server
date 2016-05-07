@@ -39,7 +39,7 @@ app.get('/logout', users.logout);
 app.use(users.auth);
 
 // Bookmarx Routes
-app.get('/bookmarx', bookmarx.list);
+app.get(['/bookmarx', '/index.html'], bookmarx.list);
 
 app.get('/bookmarx/settings', bookmarx.settings);
 
