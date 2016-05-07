@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('./my_configs');
 var tables = require('./tableconfigs');
 var encryption = require("./encrypt");
 
