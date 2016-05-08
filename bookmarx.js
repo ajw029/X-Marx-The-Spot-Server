@@ -68,7 +68,7 @@ var list = module.exports.list = function(req, response) {
   var folder_id =  req.params.folder_id;
   var account_id = req.body.account_id;
 
-  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id;
+  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id +" && deleted=0";
 
   db.query(queryFolderListString, function(err, folderRes) {
       if (err){
@@ -77,7 +77,7 @@ var list = module.exports.list = function(req, response) {
       if (folderRes) {
         if (folder_id) {
           // TODO
-          var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id;
+          var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id+" && deleted=0";
 
           db.query(queryString, function(err, res) {
             if (err){
@@ -93,7 +93,7 @@ var list = module.exports.list = function(req, response) {
           // TODO
           var queryString;
           if (folderRes[0]) {
-            queryString = "SELECT * FROM " + bookmarx_table + " b where b.folder_id=" +folderRes[0].id;
+            queryString = "SELECT * FROM " + bookmarx_table + " b where b.folder_id=" +folderRes[0].id+" && deleted=0";
             db.query(queryString, function(err, res) {
               if (err){
                 throw err;
@@ -129,23 +129,17 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
   var bookmarx_id = req.body.bookmarx_id;
   var account_id = req.body.account_id;
 
-  var deleteKeywordsQuery = "DELETE FROM " + keywords_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
-  db.query(deleteKeywordsQuery, function(err, res) {
+  //Not deleted but hidden
+  //var deleteKeywordsQuery = "DELETE FROM " + keywords_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
+  var delelteBookMarksQuery="update bookmarks set deleted=1 where account_id="+account_id+" && id="+bookmarx_id;
+  db.query(delelteBookMarksQuery, function(err, res) {
     if (err){
       response.redirect('/bookmarx/delete');
       throw err;
     }
     if (res) {
-      var queryString = "DELETE FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
-      db.query(queryString, function(err, res) {
-        if (err){
-          response.redirect('/bookmarx/delete');
-          throw err;
-        }
-        if (res) {
+     
           response.redirect('/bookmarx');
-        }
-      });
     }
   });
 
@@ -162,6 +156,7 @@ var edit = module.exports.edit =  function(req, res) {
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
+
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -186,6 +181,13 @@ var edit = module.exports.edit =  function(req, res) {
 };
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
+  var folder_title=db.escape(req.body.folder_title);
+  var account_id=req.body.account_id;
+  var folder_id=req.body.folder;
+  var a=req.params.folder;
+  var b=req.params.folder_id;
+
+  console.log(folder_title+account_id+folder_id+a+b);
   res.render('bookmarx/foldersettings.ejs');
 };
 
@@ -208,9 +210,46 @@ var addfolder = module.exports.addfolder =  function(req, res) {
   res.render('bookmarx/addfolder.ejs');
 };
 
+
+
+
+
+var deletefolder=module.exports.deletefolder=function(req,response){
+
+
+  // var folder_title=db.escape(req.body.folder_title);
+  // var account_id=req.body.account_id;
+  // var folder_id=req.body.folder_id;
+
+
+  // var deleteFolderQuery="update folders set deleted=1 where id="+folder_id+" && account_id="+account_id;
+
+  // db.query(deleteFolderQuery,function(err,res){
+  //   if(err){
+  //     throw err;
+  //     response.redirect('/bookmarx/deletefolder');
+  //   }if(res){
+
+  //     var deleteChildBookmarksQuery="update bookmarks set deleted=1 where id="+folder_id+" && account_id="+account_id;
+
+  //     db.query(deleteChildBookmarksQuery,function(err,res2){
+  //       if(err){
+  //         throw err;
+  //       }if(res2){
+  //          response.redirect('/bookmarx');
+  //       }
+  //     });
+  //   }
+
+  // });
+};
+
+
+
 var addfolderauth = module.exports.addfolderauth =  function(req, response) {
   var folder_title = db.escape(req.body.folder_title);
   var account_id = req.body.account_id;
+
   var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + account_id +"," + "\""+ folder_title + "\"" + ")";
   db.query(querystring, function(err, res2) {
     if(err) {
@@ -223,8 +262,13 @@ var addfolderauth = module.exports.addfolderauth =  function(req, response) {
 };
 
 var settings = module.exports.settings =  function(req, res) {
+
+  
   res.render('bookmarx/settings.ejs');
+
 };
+
+
 
 var staraction = module.exports.staraction =  function(req, res) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
