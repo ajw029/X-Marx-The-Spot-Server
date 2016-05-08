@@ -182,21 +182,31 @@ var edit = module.exports.edit =  function(req, res) {
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
   var folder_id=req.params.folder_id;
-  console.log(folder_id+"in foldersetting ");
+  
   res.render('bookmarx/foldersettings.ejs',{folder_id:folder_id});
 };
+
 
 var updatefolder = module.exports.updatefolder = function(req, res) {
   //TODO Make query to update the folder name
   var folder_id = req.params.folder_id;
-  var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
-  if (folder_id) {
-  }
-  else {
-    var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
-    return res.render('bookmarx/list.ejs');
-  }
+  var account_id=req.body.account_id;
+
+
+  var updateFolderQuery="update "+folder_table+" set name="+"'"+newName+"'"+" where id="+folder_id+" && account_id="+account_id;
+ 
+  db.query(updateFolderQuery,function(err,res1){
+    if(err){
+      throw err;
+      res.redirect("/foldersettings");
+    }if(res1){
+      res.redirect("/bookmarx");
+    }
+  });
+
 }
+
+
 
 var addfolder = module.exports.addfolder =  function(req, res) {
   var folder_title = db.escape(req.body.folder_title);
@@ -212,11 +222,10 @@ var addfolder = module.exports.addfolder =  function(req, res) {
 var deletefolder=module.exports.deletefolder=function(req,response){
 
 
-  var folder_title=db.escape(req.body.folder_title);
-  var account_id=req.body.account_id;
+  
   var folder_id=req.params.folder_id;
  
-  console.log(folder_id+"in deletefolder");
+
 
   var deleteFolderQuery="update folders set deleted=1 where id="+folder_id+" && account_id="+account_id;
 

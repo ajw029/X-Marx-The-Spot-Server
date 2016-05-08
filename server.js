@@ -60,7 +60,7 @@ app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
 
 //Folder Settings
 app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);
-app.post('/bookmarx/updatefolder', bookmarx.updatefolder);
+app.post('/bookmarx/updatefolder/:folder_id(\\d+)', bookmarx.updatefolder);
 
 app.post('/bookmarx/deletefolder/:folder_id(\\d+)',bookmarx.deletefolder);
 
