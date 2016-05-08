@@ -181,8 +181,9 @@ var edit = module.exports.edit =  function(req, res) {
 };
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
-
-  res.render('bookmarx/foldersettings.ejs');
+  var folder_id=req.params.folder_id;
+  console.log(folder_id+"in foldersetting ");
+  res.render('bookmarx/foldersettings.ejs',{folder_id:folder_id});
 };
 
 var updatefolder = module.exports.updatefolder = function(req, res) {
@@ -213,8 +214,9 @@ var deletefolder=module.exports.deletefolder=function(req,response){
 
   var folder_title=db.escape(req.body.folder_title);
   var account_id=req.body.account_id;
-  var folder_id=req.body.folder_id;
-
+  var folder_id=req.params.folder_id;
+ 
+  console.log(folder_id+"in deletefolder");
 
   var deleteFolderQuery="update folders set deleted=1 where id="+folder_id+" && account_id="+account_id;
 
