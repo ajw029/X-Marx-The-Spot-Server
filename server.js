@@ -59,8 +59,11 @@ app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarx);
 app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
 
 //Folder Settings
-app.get('/foldersetting', bookmarx.foldersettings);
+app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);
 app.post('/bookmarx/updatefolder', bookmarx.updatefolder);
+
+app.post('/bookmarx/deletefolder/:folder_id(\\d+)',bookmarx.deletefolder);
+
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');
