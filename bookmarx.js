@@ -181,13 +181,7 @@ var edit = module.exports.edit =  function(req, res) {
 };
 
 var foldersettings = module.exports.foldersettings =  function(req, res) {
-  var folder_title=db.escape(req.body.folder_title);
-  var account_id=req.body.account_id;
-  var folder_id=req.body.folder;
-  var a=req.params.folder;
-  var b=req.params.folder_id;
 
-  console.log(folder_title+account_id+folder_id+a+b);
   res.render('bookmarx/foldersettings.ejs');
 };
 
@@ -217,31 +211,31 @@ var addfolder = module.exports.addfolder =  function(req, res) {
 var deletefolder=module.exports.deletefolder=function(req,response){
 
 
-  // var folder_title=db.escape(req.body.folder_title);
-  // var account_id=req.body.account_id;
-  // var folder_id=req.body.folder_id;
+  var folder_title=db.escape(req.body.folder_title);
+  var account_id=req.body.account_id;
+  var folder_id=req.body.folder_id;
 
 
-  // var deleteFolderQuery="update folders set deleted=1 where id="+folder_id+" && account_id="+account_id;
+  var deleteFolderQuery="update folders set deleted=1 where id="+folder_id+" && account_id="+account_id;
 
-  // db.query(deleteFolderQuery,function(err,res){
-  //   if(err){
-  //     throw err;
-  //     response.redirect('/bookmarx/deletefolder');
-  //   }if(res){
+  db.query(deleteFolderQuery,function(err,res){
+    if(err){
+      throw err;
+      response.redirect('/bookmarx/deletefolder');
+    }if(res){
 
-  //     var deleteChildBookmarksQuery="update bookmarks set deleted=1 where id="+folder_id+" && account_id="+account_id;
+      var deleteChildBookmarksQuery="update bookmarks set deleted=1 where id="+folder_id+" && account_id="+account_id;
 
-  //     db.query(deleteChildBookmarksQuery,function(err,res2){
-  //       if(err){
-  //         throw err;
-  //       }if(res2){
-  //          response.redirect('/bookmarx');
-  //       }
-  //     });
-  //   }
+      db.query(deleteChildBookmarksQuery,function(err,res2){
+        if(err){
+          throw err;
+        }if(res2){
+           response.redirect('/bookmarx');
+        }
+      });
+    }
 
-  // });
+  });
 };
 
 
