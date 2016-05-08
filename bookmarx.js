@@ -10,14 +10,24 @@ var account_table = tables.user_table;
 /**
  * Renders page to add a bookmark
  */
-var add = module.exports.add = function(req, res) {
-  res.render('bookmarx/add.ejs');
+var add = module.exports.add = function(req, response) {
+  var account_id = req.body.account_id;
+  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id;
+
+  db.query(queryFolderListString, function(err, folderRes) {
+    if (err) {
+      throw err;
+    }
+    if (folderRes) {
+      response.render('bookmarx/add.ejs', {foldersList: folderRes});
+    }
+  });
 };
 
 /**
  * Allows a user to add a bookmark
  */
-var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
+var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
 
   var bookmarx_title = db.escape(req.body.title);
   var bookmarx_url = db.escape(req.body.url);
@@ -25,10 +35,6 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
-  // var getAccountIdQuery = "Select account_id from " + account_table + " where account_id="+account_id;
-  // db.query(getAccountIdQuery, function(err, res) {
-  //   if (err) throw err;
-  // });
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -36,20 +42,21 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
       bookmarx_keywords &&
       bookmarx_folder_id) {
         var queryString = "INSERT INTO " + bookmarx_table + " (folder_id, account_id, name, url, description, favorite)";
-        queryString += " VALUES(" + 1 + "," + 2 + "," + bookmarx_title + "," + bookmarx_url + "," + bookmarx_desc + "," + false +")";
+        queryString += " VALUES(" + bookmarx_folder_id + "," + account_id + "," + bookmarx_title + "," + bookmarx_url + "," + bookmarx_desc + "," + false +")";
+
         db.query(queryString, function(err, res) {
           if (err){
-            throw err;
+            //throw err;
+            response.redirect('/bookmarx/add');
           }
           if (res) {
             // Insert Keywords
             response.redirect('/bookmarx');
           }
         });
-
   }
   else {
-    res.render('bookmarx/add.ejs');
+    response.render('bookmarx/add.ejs');
   }
 };
 
@@ -58,10 +65,10 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, res) {
  * Selects all books and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function(req, response) {
-  var folder_id = db.escape(req.params.folder_id);
+  var folder_id =  req.params.folder_id;
   var account_id = req.body.account_id;
 
-  var queryFolderListString = "SELECT * FROM " + folder_table;
+  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id;
 
   db.query(queryFolderListString, function(err, folderRes) {
       if (err){
@@ -72,27 +79,36 @@ var list = module.exports.list = function(req, response) {
           // TODO
           var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id;
 
-              db.query(queryString, function(err, res) {
-                if (err){
-                  throw err;
-                }
-                if (res) {
-                  response.render('bookmarx/list.ejs', {bookmarxList: res, folderList: folderRes});
-                }
-              });
-            }
-        else {
-          // TODO
-          var queryString = "SELECT * FROM " + bookmarx_table + " JOIN " + folder_table + " ON " +bookmarx_table+".folder_id=" +folder_table+".folder_id WHERE " +folder_table +".name=default";
           db.query(queryString, function(err, res) {
             if (err){
               throw err;
             }
             if (res) {
-              response.render('bookmarx/list.ejs', {bookmarxList: res, folderList: foldeRes});
+              response.render('bookmarx/list.ejs', {bookmarxList: res,
+                                                    folderList: folderRes});
             }
           });
-          res.render('bookmarx/list.ejs');
+        }
+        else {
+          // TODO
+          var queryString;
+          if (folderRes[0]) {
+            queryString = "SELECT * FROM " + bookmarx_table + " b where b.folder_id=" +folderRes[0].id;
+            db.query(queryString, function(err, res) {
+              if (err){
+                throw err;
+              }
+              if (res) {
+                response.render('bookmarx/list.ejs', {bookmarxList: res,
+                                                      folderList: folderRes});
+              }
+            });
+          }
+          else {
+            response.render('bookmarx/list.ejs', {bookmarxList: [],
+                                                  folderList: folderRes});
+          }
+
         }
       }
     });
@@ -177,7 +193,6 @@ var updatefolder = module.exports.updatefolder = function(req, res) {
   var folder_id = req.params.folder_id;
   var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
   if (folder_id) {
-    console.log('hi');
   }
   else {
     var querystring = "SELECT * from " + bookmarx_table + " LEFT OUTER JOIN " + folder_table + " ON "+bookmarx_table+".folder_id = " + folder_table+".folder_id ORDER BY "+ bookmarx_table +"timestamp";
@@ -195,22 +210,15 @@ var addfolder = module.exports.addfolder =  function(req, res) {
 var addfolderauth = module.exports.addfolderauth =  function(req, response) {
   var folder_title = db.escape(req.body.folder_title);
   var account_id = req.body.account_id;
-  var queryID = "SELECT id FROM " + account_table + " WHERE username=" + "\"" + account_id + "\""; 
-  db.query(queryID, function(err, res) {
-    if(err) throw err;
-    if(res) {
-      console.log(res[0].id);
-      console.log(folder_title);
-      var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + res[0].id +"," + "\""+ folder_title + "\"" + ")";
-      db.query(querystring, function(err, res2) {
-        if(err) throw err;
-        response.redirect('/bookmarx');
-      });
-    }
-    else {
+  var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + account_id +"," + "\""+ folder_title + "\"" + ")";
+  db.query(querystring, function(err, res2) {
+    if(err) {
+      throw err;
       response.redirect('/bookmarx/addfolder');
     }
+    response.redirect('/bookmarx');
   });
+
 };
 
 var settings = module.exports.settings =  function(req, res) {

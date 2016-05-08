@@ -41,7 +41,7 @@ app.use(users.auth);
 // Bookmarx Routes
 app.get(['/bookmarx',
          '/index.html',
-         '/bookmarx/:bookmarx_id(\\d+)'], bookmarx.list);
+         '/bookmarx/:folder_id(\\d+)'], bookmarx.list);
 
 app.get('/bookmarx/settings', bookmarx.settings);
 

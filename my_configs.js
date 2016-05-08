@@ -4,8 +4,8 @@ module.exports = {
   SESSION_KEY: 'OMG_NODE_SESSIONc00l',
   DATABASE_HOST: 'localhost',
   DATABASE_USER: 'root',
-  DATABASE_PASSWORD: 'mysql',
-  DATABASE_PORT: 3307,
+  DATABASE_PASSWORD: '',
+  DATABASE_PORT: 3306,
   DATABASE_NAME: 'bookmarx',
   PORT: 5001
 };

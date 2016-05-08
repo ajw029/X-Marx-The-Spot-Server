@@ -47,8 +47,10 @@
         </div>
         <div class="inputgroup">
           <select name="folder">
-            <option value="562">Default</option>
-            <option value="666">Folder 2</option>
+            <% foldersList.forEach(function(folder) { %>
+              <option value="<%= folder.id %>"><%= folder.name %></option>
+            <% });%>
+
           </select>
         </div>
         <div class="inputgroup">

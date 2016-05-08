@@ -2,14 +2,9 @@ var config = require('./my_configs');
 var tables = require('./tableconfigs');
 var encryption = require("./encrypt");
 var db = require('./db');
-var user_table = tables.user_table;
 
-/*
-var createUserTableQueryString = "CREATE TABLE IF NOT EXISTS " + user_table + "account_id SERIAL PRIMARY KEY NOT NULL, username varchar NOT NULL, password varchar NOT NULL, timestamp timestamp without time zone DEFAULT now())";
-db.query(createUserTableQueryString, function(err, res) {
-  if (err) throw err
-}
-*/
+var user_table = tables.user_table;
+var account_table = tables.user_table;
 
 /**
  *
@@ -46,10 +41,16 @@ module.exports.auth = function(req, res, next) {
   var session = req.session.username;
   if (session) {
     var decryptedSession = encryption.decrypt(session);
-    // Validate TODO
-    req.body.account_id = decryptedSession;
 
-    return next();
+    var queryID = "SELECT id FROM " + account_table + " WHERE username=" + "\"" + decryptedSession + "\"";
+    db.query(queryID, function(err, res) {
+      if (err) throw err
+      if (res) {
+        req.body.account_id = res[0].id;
+        return next();
+      }
+    });
+
   }
   else {
     res.redirect('/login');
