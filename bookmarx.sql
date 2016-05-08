@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `bookmarx`.`folders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `account_id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
-  `deleted ` INT(1) NOT NULL,
+  `deleted ` INT(1) NOT NULL DEFAULT 0;
   PRIMARY KEY (`id`),
   INDEX `id_idx` (`account_id` ASC),
   CONSTRAINT `fk_folders_accounts_id`
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `bookmarx`.`bookmarks` (
   `favorite` TINYINT(1) NOT NULL,
   `url` VARCHAR(45) NOT NULL,
   `description` VARCHAR(1000) NOT NULL,
-  `deleted ` INT(1) NOT NULL,
+  `deleted ` INT(1) NOT NULL DEFAULT 0;
   PRIMARY KEY (`id`),
   INDEX `id_idx` (`folder_id` ASC),
   INDEX `id_idx1` (`account_id` ASC),
