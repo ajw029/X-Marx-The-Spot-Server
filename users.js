@@ -41,16 +41,8 @@ module.exports.auth = function(req, res, next) {
   var session = req.session.username;
   if (session) {
     var decryptedSession = encryption.decrypt(session);
-
-    var queryID = "SELECT id FROM " + account_table + " WHERE username=" + "\"" + decryptedSession + "\"";
-    db.query(queryID, function(err, res) {
-      if (err) throw err
-      if (res) {
-        req.body.account_id = res[0].id;
-        return next();
-      }
-    });
-
+    req.body.account_id = parseInt(decryptedSession);
+    return next();
   }
   else {
     res.redirect('/login');
@@ -67,7 +59,7 @@ module.exports.loginAuth = function(req, response) {
   var password = req.body.pass;
 
   if (username && password) {
-    var queryString="SELECT password from "+ user_table +" WHERE username="+ "\"" + username + "\"";
+    var queryString="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
     db.query(queryString,function(err,res){
 
       if(err){
@@ -78,17 +70,17 @@ module.exports.loginAuth = function(req, response) {
           response.redirect('/login');
         }
         else {
-
-          if(password.toString()==res[0].password.toString()){
-            req.session.username = encryption.encrypt(req.body.username);
+          var queryP = res[0].password;
+          if(password.toString()==queryP.toString()){
+            req.session.username = encryption.encrypt(res[0].id.toString());
             response.redirect('/bookmarx');
           }
+          else {
+            response.redirect('/login');
+          }
         }
-
       }
-
     });
-
   }
   else {
     response.redirect('/login');
@@ -122,8 +114,11 @@ module.exports.signupAuth = function(req, response) {
           db.query(createUserQueryString,function(err,res){
             if(err){
             }else if(res){
-              req.session.username = encryption.encrypt(req.body.username);
-              response.redirect('/login');
+              var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
+              db.query(getAccountId,function(err, accountId){
+                req.session.username = encryption.encrypt(accountId[0].id);
+                response.redirect('/login');
+              });
             }
           });
         }

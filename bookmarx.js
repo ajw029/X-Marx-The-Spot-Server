@@ -127,15 +127,16 @@ var deleteBookmarx = module.exports.deleteBookmarx =  function(req, res) {
  */
 var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, response) {
   var bookmarx_id = req.body.bookmarx_id;
+  var account_id = req.body.account_id;
 
-  var deleteKeywordsQuery = "DELETE FROM " + keywords_table + " WHERE id="+bookmarx_id;
+  var deleteKeywordsQuery = "DELETE FROM " + keywords_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
   db.query(deleteKeywordsQuery, function(err, res) {
     if (err){
       response.redirect('/bookmarx/delete');
       throw err;
     }
     if (res) {
-      var queryString = "DELETE FROM " + bookmarx_table + " WHERE id="+bookmarx_id;
+      var queryString = "DELETE FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
       db.query(queryString, function(err, res) {
         if (err){
           response.redirect('/bookmarx/delete');
