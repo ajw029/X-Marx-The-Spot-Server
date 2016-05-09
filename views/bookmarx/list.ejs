@@ -20,10 +20,10 @@
     <div class="searchContainer">
       <div class="folderSearchBar">
         <form action="/bookmarx" method="GET">
-        <input type="text" name="search" placeholder="Search"/>
+        <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
         <select name="ordering">
-          <option value="asc">A-Z</option>
-          <option value="desc">Z-A</option>
+          <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
+          <option value="desc" <% if (ordering === 'desc') {%> selected <%} %>>Z-A</option>
         </select>
         <input type="submit" value="Search">
       </form>
