@@ -184,6 +184,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
           throw err;
         }
         else {
+          console.log(res[0])
           response.render('bookmarx/edit.ejs', {bookmarx: res[0],
                                                 foldersList: folderList});
           }
@@ -192,14 +193,15 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
   });
 };
 
-var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, res) {
-  var bookmarx_title = db.escape(req.params.title);
-  var bookmarx_url = db.escape(req.params.url);
-  var bookmarx_desc = db.escape(req.params.desc);
-  var bookmarx_keywords = db.escape(req.params.keywords);
-  var bookmarx_folder_id = db.escape(req.params.folder);
-  var account_id = req.body.account_id;
-  var bookmarx_id = req.params.bookmarx_id;
+var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response) {
+  var bookmarx_title = db.escape(req.body.title);
+  var bookmarx_url = db.escape(req.body.url);
+  var bookmarx_desc = db.escape(req.body.desc);
+  var bookmarx_keywords = db.escape(req.body.keywords);
+  var bookmarx_folder_id = db.escape(req.body.folder);
+  var bookmarx_id = db.escape(req.body.bookmarx_id);
+
+  var account_id = db.escape(req.body.account_id);
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -208,10 +210,8 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, res) {
       bookmarx_folder_id) {
         var querystring = "UPDATE " + bookmarx_table + " SET ";
         querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
-        querystring += " WHERE bookmarx_id="+bookmarx_id+" AND account_id="+account_id;
-
-        console.log(querystring);
-
+        querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id;
+        console.log(querystring)
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -220,12 +220,12 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, res) {
           if (res) {
             // TODO update keywords if changed?
 
-            res.redirect('/bookmarx');
+            response.redirect('/bookmarx');
           }
         });
   }
   else {
-    res.render('bookmarx/edit.ejs');
+    response.render('bookmarx/edit.ejs');
   }
 };
 
