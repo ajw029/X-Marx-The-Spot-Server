@@ -21,25 +21,25 @@
 
     <section class="slide">
       <div class="formcontainer column-40">
-        <form>
-          <h1>Edit Bookmarx</h1>
+        <form action="/bookmarx/edit" method="POST">
+          <h1>Edit <%= bookmarx.name %> </h1>
           <div class="inputgroup">
-            <input type="text" autofocus required/>
+            <input type="text" value="<%= bookmarx.name %>" required/>
             <span class="bar"></span>
             <label>Title</label>
           </div>
           <div class="inputgroup">
-            <input type="text" required/>
+            <input type="text" value="<%= bookmarx.url %>"  required/>
             <span class="bar"></span>
             <label>URL</label>
           </div>
           <div class="inputgroup">
-            <input type="text" required/>
+            <input type="text" value="<%= bookmarx.description %>" required/>
             <span class="bar"></span>
             <label>Description</label>
           </div>
           <div class="inputgroup">
-            <input type="text" required/>
+            <input type="text"  required/>
             <span class="bar"></span>
             <label>Keywords</label>
           </div>
@@ -47,10 +47,13 @@
             <label>Folder</label>
           </div>
           <div class="inputgroup">
-            <select>
-              <option>No Folder</option>
-              <option>Sites I Like</option>
-              <option>Folder 2</option>
+            <select name="folder">
+              <% foldersList.forEach(function(folder) { %>
+                <% if (folder.id==bookmarx.folder_id) { %>
+                <option selected value="<%= folder.id %>"><%= folder.name %></option>
+                <% } else { %>
+                <option value="<%= folder.id %>"><%= folder.name %></option>
+              <% } });%>
             </select>
           </div>
           <div class="inputgroup">

@@ -106,6 +106,7 @@ module.exports.signupAuth = function(req, response) {
       if(err){
         response.redirect('/signup');
       }if(res){
+        // Redirect back to Sign Up if Account Exists
         if(res[0]){
           response.redirect('/signup');
         }else {
@@ -116,7 +117,7 @@ module.exports.signupAuth = function(req, response) {
             }else if(res){
               var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
               db.query(getAccountId,function(err, accountId){
-                req.session.username = encryption.encrypt(accountId[0].id);
+                req.session.username = encryption.encrypt(accountId[0].id.toString());
                 response.redirect('/login');
               });
             }

@@ -50,13 +50,13 @@ app.post('/bookmarx/add', bookmarx.addBookmarxAuth);
 
 app.post('/bookmarx/staraction', bookmarx.staraction);
 
-app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.edit);
+app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.editBookmarx);
+app.post('/bookmarx/edit', bookmarx.editBookmarxAuth);
 
 app.get('/bookmarx/addfolder', bookmarx.addfolder);
 app.post('/bookmarx/addfolder', bookmarx.addfolderauth);
 
-app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarx);
-app.post('/bookmarx/delete', bookmarx.deleteBookmarxAuth);
+app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarxAuth);
 
 //Folder Settings
 app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);

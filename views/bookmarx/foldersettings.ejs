@@ -22,15 +22,15 @@
   <section class="slide">
     <div class="formcontainer column-40">
       <form action="/bookmarx/updatefolder/<%= folder_id %>" method="POST">
-        <h1>Edit Folder Name</h1>
+        <h1>Edit <%= bookmarx.name %></h1>
         <div class="inputgroup">
-          <input type="text"name="newName"  autofocus required/>
+          <input type="text" name="newname" value="<%= bookmarx.name %>" required/>
           <span class="bar"></span>
           <label>Title</label>
         </div>
 
         <div class="inputgroup actionContainer">
-          <input type="submit"  class="boxButton okayButton" value="Save">
+          <input type="submit" class="boxButton okayButton" value="Save">
           <a class="boxButton cancelButton" href="/bookmarx">Cancel</a>
         </div>
       </form>
