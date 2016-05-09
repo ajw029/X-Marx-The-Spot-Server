@@ -135,32 +135,6 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
 
 };
 
-var deletefolder=module.exports.deletefolder=function(req,response){
-  var folder_id= req.params.folder_id;
-  var account_id = req.body.account_id;
-
-  var deleteFolderQuery="UPDATE " + folder_table +" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
-
-  db.query(deleteFolderQuery,function(err,res){
-    if(err){
-      throw err;
-      response.redirect('/bookmarx/deletefolder');
-    }if(res){
-
-      var deleteChildBookmarksQuery="update bookmarks set deleted=1 where id="+folder_id+" AND account_id="+account_id;
-
-      db.query(deleteChildBookmarksQuery,function(err,res2){
-        if(err){
-          throw err;
-        }if(res2){
-           response.redirect('/bookmarx');
-        }
-      });
-    }
-
-  });
-};
-
 /*
  * Updates a bookmark
  *
@@ -211,7 +185,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
         var querystring = "UPDATE " + bookmarx_table + " SET ";
         querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
         querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id;
-        console.log(querystring)
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -229,6 +202,10 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   }
 };
 
+/*
+ *
+ */
+
 var foldersettings = module.exports.foldersettings =  function(req, response) {
   var folder_id= db.escape(req.params.folder_id);
   var account_id = db.escape(req.body.account_id);
@@ -240,13 +217,41 @@ var foldersettings = module.exports.foldersettings =  function(req, response) {
       throw err;
     }
     if (res) {
-
-      response.render('bookmarx/foldersettings.ejs',{folder_id:folder_id,
-                                                     bookmarx: res[0]});
+      console.log(res[0])
+      response.render('bookmarx/foldersettings.ejs', {folder: res[0]});
     }
   });
 
 };
+
+var deletefolder=module.exports.deletefolder=function(req,response){
+  var folder_id= db.escape(req.body.folder_id);
+  var account_id = db.escape(req.body.account_id);
+
+  var deleteFolderQuery="UPDATE " + folder_table +" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
+
+  db.query(deleteFolderQuery,function(err,res){
+    if(err){
+      throw err;
+      response.redirect('/bookmarx/deletefolder');
+    }if(res){
+
+      var deleteChildBookmarksQuery="update "+bookmarx_table+" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
+
+      db.query(deleteChildBookmarksQuery,function(err,res2){
+        if(err){
+          throw err;
+          response.redirect('/bookmarx/deletefolder');
+        }
+        if(res2){
+           response.redirect('/bookmarx');
+        }
+      });
+    }
+
+  });
+};
+
 
 
 var updatefolder = module.exports.updatefolder = function(req, res) {

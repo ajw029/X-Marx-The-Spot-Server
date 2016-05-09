@@ -61,8 +61,7 @@ app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarxAuth);
 //Folder Settings
 app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);
 app.post('/bookmarx/updatefolder/:folder_id(\\d+)', bookmarx.updatefolder);
-
-app.post('/bookmarx/deletefolder/:folder_id(\\d+)',bookmarx.deletefolder);
+app.post('/bookmarx/deletefolder',bookmarx.deletefolder);
 
 
 app.listen(config.PORT, function () {

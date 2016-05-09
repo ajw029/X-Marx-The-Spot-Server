@@ -21,10 +21,10 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="/bookmarx/updatefolder/<%= folder_id %>" method="POST">
-        <h1>Edit <%= bookmarx.name %></h1>
+      <form action="/bookmarx/updatefolder/<%= folder.id %>" method="POST">
+        <h1>Edit <%= folder.name %></h1>
         <div class="inputgroup">
-          <input type="text" name="newname" value="<%= bookmarx.name %>" required/>
+          <input type="text" name="newname" value="<%= folder.name %>" required/>
           <span class="bar"></span>
           <label>Title</label>
         </div>
@@ -35,8 +35,9 @@
         </div>
       </form>
 
-      <form action="/bookmarx/deletefolder/<%= folder_id %>" method="POST">
+      <form action="/bookmarx/deletefolder" method="POST">
         <div class="inputgroup actionContainer">
+          <input type="hidden" name="folder_id" value="<%= folder.id %>">
           <input type="submit" class="boxButton deleteButton" value="Delete">
         </div>
       </form>
