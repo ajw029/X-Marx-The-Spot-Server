@@ -75,12 +75,18 @@ var list = module.exports.list = function(req, response) {
       if (err){
         throw err;
       }
+
+    var ordering = '';
+    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
+      ordering = ' ORDER BY name ' + req.query.ordering;
+    }
       if (folderRes) {
         if (folder_id) {
           // TODO
           var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id+" AND deleted=0";
 
-          db.query(queryString, function(err, res) {
+
+          db.query(queryString + ordering, function(err, res) {
             if (err){
               throw err;
             }
@@ -94,8 +100,18 @@ var list = module.exports.list = function(req, response) {
           // TODO
           var queryString;
           if (folderRes[0]) {
+
             queryString = "SELECT * FROM " + bookmarx_table + " b where b.folder_id=" +folderRes[0].id+" AND deleted=0";
-            db.query(queryString, function(err, res) {
+
+            if (req.query.search && req.query.search.length > 0) {
+              req.query.search = db.escape(req.query.search);
+              req.query.search = req.query.search.slice(1, req.query.search.length - 1);
+              var pattern = 'LIKE \'%' + req.query.search + '%\'';
+              queryString += ' AND (name ' + pattern +' OR url '+ pattern +' OR description '+ pattern +')';
+
+            }
+
+            db.query(queryString + ordering, function(err, res) {
               if (err){
                 throw err;
               }
