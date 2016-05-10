@@ -18,13 +18,12 @@
       <li><a href="index.html">BookMarx</a></li>
     </ul>
     <div class="searchContainer">
-      <!--input type="text" placeholder="Search"/-->
       <div class="folderSearchBar">
-        <form action="list" method="GET">
-        <input type="text" name="title" placeholder="Search"/>
-        <select name="filter">
-          <option value="alpha">A-Z</option>
-          <option value="alphaBack">Z-A</option>
+        <form action="/bookmarx" method="GET">
+        <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
+        <select name="ordering">
+          <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
+          <option value="desc" <% if (ordering === 'desc') {%> selected <%} %>>Z-A</option>
         </select>
         <input type="submit" value="Search">
       </form>
