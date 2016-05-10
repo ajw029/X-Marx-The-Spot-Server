@@ -63,6 +63,7 @@ app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);
 app.post('/bookmarx/updatefolder/:folder_id(\\d+)', bookmarx.updatefolder);
 app.post('/bookmarx/deletefolder',bookmarx.deletefolder);
 
+app.post('/bookmarx/updatepassword',users.updatepassword);
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');

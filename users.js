@@ -132,6 +132,45 @@ module.exports.signupAuth = function(req, response) {
   }
 };
 
+
+module.exports.updatepassword=function(req,res){
+  var account_id = db.escape(req.body.account_id);
+  var oldPassword=db.escape(req.body.oldPassword);
+  var newPassword=db.escape(req.body.newPassword);
+  var reNewPassword=db.escape(req.body.reNewPassword);
+
+  console.log(account_id+oldPassword+newPassword+reNewPassword);
+
+  if(oldPassword&&newPassword&&reNewPassword){
+    if(newPassword==reNewPassword){
+        var queryPasswordString="SELECT password from "+ user_table +" WHERE id="+  account_id;
+        db.query(queryPasswordString,function(err,res1){
+          if(err){
+            throw err;
+            res.redirect('/settings');
+          }
+          if(res1){
+            var updatePasswordQuery="UPDATE "+ user_table+" set password=" + newPassword+ " where id="+account_id;
+            db.query(updatePasswordQuery,function(err,res2){
+              if(err){
+                throw err;
+                res.redirect('/settings');
+              }
+              if(res2){
+                res.redirect('/bookmarx');
+              }
+            });
+          }
+        });
+
+    }else{
+      res.redirect('/settings');
+    }
+  }
+
+};
+
+
 module.exports.logout = function(req, res) {
   req.session.destroy();
   res.redirect('/login');
