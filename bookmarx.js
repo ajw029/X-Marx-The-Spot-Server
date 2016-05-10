@@ -325,26 +325,33 @@ var addfolderauth = module.exports.addfolderauth =  function(req, response) {
 };
 
 var settings = module.exports.settings =  function(req, res) {
-
-
   res.render('bookmarx/settings.ejs');
 
 };
 
-
-
-var staraction = module.exports.staraction =  function(req, res) {
+var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  // TODO
-  // var select_queryString = "SELECT isfavorite FROM " + bookmarx_folder + " WHERE bookmarx_id="+bookmarx_id;
-  // db.query(select_queryString, function(err, res) {
-  //   if (err) throw err;
-  //   if (res) {
-  //     var isFavorite;
-  //     var querystring = "UPDATE " + bookmark_table + "SET ";
-  //     querystring += "isfavorite="+isFavorite;
-  //     querystring += " WHERE bookmarx_id="+bookmarx_id;
-  //     res.redirect('/bookmarx')
-  //   }
-  // });
+  var account_id = req.body.account_id;
+
+  var select_queryString = "SELECT * FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
+  db.query(select_queryString, function(err, res) {
+    if (err) {
+      throw err;
+      response.redirect('/bookmarx');
+    }
+    if (res) {
+      var querystring = "UPDATE " + bookmarx_table + " SET ";
+      querystring += "favorite="+ (!res[0].favorite);
+      querystring += " WHERE id="+bookmarx_id + " AND account_id="+account_id;
+      db.query(querystring, function(err, res) {
+        if (err) {
+          throw err;
+          response.redirect('/bookmarx');
+        }
+        if (res) {
+          response.redirect('/bookmarx');
+        }
+      });
+    }
+  });
 };
