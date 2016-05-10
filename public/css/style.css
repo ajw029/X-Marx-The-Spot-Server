@@ -783,7 +783,7 @@ form {
 	position:relative;
 	margin: 0 auto;
   margin-bottom:16px;
-	border-bottom: 1px solid grey;
+	/*border-bottom: 1px solid grey;*/
 }
 .settinggroup button{
 	width: 200px;

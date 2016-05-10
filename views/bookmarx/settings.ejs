@@ -13,20 +13,35 @@
 <body class="black-background">
   <nav>
     <ul>
-      <li><a href="index.html">BookMarx</a></li>
+      <li><a href="/index.html">BookMarx</a></li>
     </ul>
   </nav>
   <section class="slide">
 		<div class="formcontainer column-40">
 			<h1>Settings</h1>
-			<div class="settinggroup">
-				<h2>Import/Export BookMarx</h2>
-			</div>
-			<div class="inputgroup">
-				<button type='button' class="boxButton okayButton" onclick="window.location.replace('index.html')">Import</button>
-				<button type='button' class="boxButton cancelButton" onclick="window.location.replace('index.html')">Export</button>
-			</div>
 
+			<div class="settinggroup">
+				<h2>Change Password</h2>
+				<form action="updatepassword" method="POST">
+					<div class="inputgroup">
+						<input type="text" name="username" autofocus required/>
+						<span class="bar"></span>
+						<label>Original Password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="text" name="username" required/>
+						<span class="bar"></span>
+						<label>New Password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="text" name="username" required/>
+						<span class="bar"></span>
+						<label>Confirm New Password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="submit" class="boxButton okayButton" value="Change Password"/>
+					</div>
+				</form>
 		</div>
   </section>
 
