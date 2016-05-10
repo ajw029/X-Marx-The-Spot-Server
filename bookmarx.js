@@ -92,7 +92,9 @@ var list = module.exports.list = function(req, response) {
             }
             if (res) {
               response.render('bookmarx/list.ejs', {bookmarxList: res,
-                                                    folderList: folderRes});
+                                                    folderList: folderRes,
+                                                    search: req.query.search || '',
+                                                    ordering: req.query.ordering || ''});
             }
           });
         }
@@ -125,7 +127,9 @@ var list = module.exports.list = function(req, response) {
           }
           else {
             response.render('bookmarx/list.ejs', {bookmarxList: [],
-                                                  folderList: folderRes});
+                                                  folderList: folderRes,
+                                                  search: req.query.search || '',
+                                                  ordering: req.query.ordering || ''});
           }
 
         }
