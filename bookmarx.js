@@ -118,8 +118,8 @@ var list = module.exports.list = function(req, response) {
               if (res) {
                 response.render('bookmarx/list.ejs', {bookmarxList: res,
                                                       folderList: folderRes,
-                                                      search: req.query.search,
-                                                      ordering: req.query.ordering});
+                                                      search: req.query.search || '',
+                                                      ordering: req.query.ordering || ''});
               }
             });
           }
