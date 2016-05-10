@@ -6,7 +6,7 @@
 	<meta name="description" content="Bookmarx">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="/imgs/tp.png">
-
+  <script src="/js/jquery.js"></script>
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -27,16 +27,19 @@
 						<input type="text" name="oldPassword"  autofocus required/>
 						<span class="bar"></span>
 						<label>Original Password</label>
+          	<span class="errMsg hide" id="originalpwd_errlabel">Please input a password</label>
 					</div>
 					<div class="inputgroup">
 						<input type="text" name="newPassword" required/>
 						<span class="bar"></span>
 						<label>New Password</label>
+          	<span class="errMsg hide" id="newpwd_errlabel">Please input new password</label>
 					</div>
 					<div class="inputgroup">
 						<input type="text" name="reNewPassword" required/>
 						<span class="bar"></span>
 						<label>Confirm New Password</label>
+          	<span class="errMsg hide" id="renewpwd_errlabel">Please confirm new password</label>
 					</div>
 					<div class="inputgroup">
 						<input type="submit" class="boxButton okayButton" value="Change Password"/>

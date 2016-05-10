@@ -8,7 +8,7 @@
   <meta name="description" content="Bookmarx">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="/imgs/tp.png">
-
+  <script src="/js/jquery.js"></script>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -20,12 +20,13 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="/bookmarx/addfolder" method="POST">
+      <form action="/bookmarx/addfolder" onsubmit="return validateAddFolder()" method="POST">
         <h1>Add Folder</h1>
         <div class="inputgroup">
           <input type="text" name="folder_title" autofocus required/>
           <span class="bar"></span>
           <label>Title</label>
+          <span class="errMsg hide" id="folder_errlabel">Please enter a folder name</label>
         </div>
         <div class="inputgroup actionContainer">
           <input type="submit" class="boxButton okayButton" values="Create">
@@ -34,6 +35,19 @@
       </form>
     </div>
   </section>
-
+<script>
+  function validateFolderName() {
+    var folder =$('.inputgroup').find('input[name="folder_title"]').val();
+    if (!folder || !folder.trim()) {
+      $('#folder_errlabel').removeClass('hide');
+      return false;
+    }
+      $('#folder_errlabel').addClass('hide');
+    return true;
+  }
+  function validateAddFolder() {
+    return validateFolderName();
+  }
+</script>
 </body>
 </html>

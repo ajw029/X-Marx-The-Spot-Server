@@ -48,6 +48,10 @@ a:hover {
 	display:block;
 }
 
+span.errMsg {
+	color: #F44336;
+}
+
 /* Navbar */
 nav {
 	margin: 0;
@@ -70,20 +74,7 @@ nav ul li {
 	display: inline-block;
 	vertical-align: top;
 }
-/*
-.searchContainer input {
-	width: 33%;
-	padding: 8px;
-	margin: 0 auto;
-	font-size: 16px;
-	left: 0;
-	right: 0;
-	display: inline-block;
-	position: absolute;
-	vertical-align: top;
-	border-radius:2px;
-}
-*/
+
 .searchContainer {
 	width: 33%;
 	padding: 8px;
@@ -852,7 +843,6 @@ select:focus {
 .inputgroup input:focus ~ label, .inputgroup input:valid ~ label 		{
   top:-5px;
   font-size:14px;
-  color:#ED2553;
 }
 
 .inputgroup .bar 	{
@@ -867,7 +857,7 @@ select:focus {
   width:0;
   bottom:19px;
   position:absolute;
-  background:#ED2553;
+  background:#2196F3;
   transition:0.2s ease all;
   -moz-transition:0.2s ease all;
   -webkit-transition:0.2s ease all;
@@ -904,15 +894,15 @@ select:focus {
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 

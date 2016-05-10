@@ -127,8 +127,8 @@ module.exports.signupAuth = function(req, response) {
       }
    });
   }
-    else {
-    res.redirect('/signup');
+  else {
+    response.redirect('/signup');
   }
 };
 

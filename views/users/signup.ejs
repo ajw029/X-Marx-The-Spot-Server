@@ -8,7 +8,7 @@
   <meta name="description" content="signup">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="imgs/tp.png">
-
+  <script src="js/jquery.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -20,22 +20,25 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="/signup" method="POST" autocomplete="off">
+      <form action="/signup" method="POST" onsubmit="return validateSignUp()" autocomplete="off">
         <h1>Sign Up</h1>
         <div class="inputgroup">
           <input type="text" name="username" autofocus required/>
           <span class="bar"></span>
           <label>Username</label>
+          <span class="errMsg hide" id="username_errlabel">Please input a username</label>
         </div>
         <div class="inputgroup">
           <input type="password" name="pass" required/>
           <span class="bar"></span>
           <label>Password</label>
+          <span class="errMsg hide" id="pwd_errlabel">Please input a password</label>
         </div>
         <div class="inputgroup">
           <input type="password" name="repass" required/>
           <span class="bar"></span>
           <label>Reconfirm Password</label>
+          <span class="errMsg hide" id="repwd_errlabel">Please confirm password</label>
         </div>
         <div class="inputgroup">
           <input type="submit" class="boxButton okayButton" value="Sign Up">
@@ -44,6 +47,44 @@
       </form>
     </div>
   </section>
+  <script>
+    function validateUsername() {
+      var username =$('.inputgroup').find('input[name="username"]').val();
+      if (!username || !username.trim()) {
+        $('#username_errlabel').removeClass('hide');
+        return false;
+      }
+        $('#username_errlabel').addClass('hide');
+      return true;
+    }
+    function validatePassword() {
+      var pwd =$('.inputgroup').find('input[name="pass"]').val();
+      if (!pwd || !pwd.trim()) {
+        $('#pwd_errlabel').removeClass('hide');
+        $('#pwd_errlabel').text('Please input a password');
+        return false;
+      }
+      $('#pwd_errlabel').addClass('hide');
 
+      var repwd =$('.inputgroup').find('input[name="repass"]').val();
+      if (!repwd || !repwd.trim()) {
+        $('#repwd_errlabel').removeClass('hide');
+        return false;
+      }
+      $('#repwd_errlabel').addClass('hide');
+      if (pwd != repwd) {
+        $('#pwd_errlabel').text('Your Passwords do not match');
+        $('#pwd_errlabel').removeClass('hide');
+        $('#repwd_errlabel').addClass('hide');
+        return false;
+      }
+      return true;
+    }
+    function validateSignUp() {
+      var isValidUsername = validateUsername();
+      var isValidPwd = validatePassword();
+      return isValidUsername && isValidPwd;
+    }
+  </script>
 </body>
 </html>
