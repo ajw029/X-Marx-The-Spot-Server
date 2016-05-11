@@ -322,6 +322,9 @@ var addfolder = module.exports.addfolder =  function(req, res) {
 var addfolderauth = module.exports.addfolderauth =  function(req, response) {
   var folder_title = db.escape(req.body.folder_title);
   var account_id = req.body.account_id;
+  if (!folder_title.trim()) {
+    response.redirect('/bookmarx/addfolder');
+  }
 
   var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + account_id +"," + folder_title + ")";
   db.query(querystring, function(err, res2) {
