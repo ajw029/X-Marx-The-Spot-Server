@@ -7,6 +7,7 @@
 	border: 0;
 	margin: 0;
 	padding: 0;
+	-webkit-appearance: none;
 }
 button, input {
 	outline:none;
@@ -108,7 +109,9 @@ nav.nav-mobile ul li {
 	background-image: none;
 	float: left;
 }
-
+nav.nav-mobile ul li.active {
+	border-bottom: 3px solid white;
+}
 nav.nav-mobile ul li a {
 	color: black;
 	display: block;
@@ -167,7 +170,7 @@ nav.nav-mobile ul li a:hover {
 	width: 20%;
 	background-color: white;
 	border: 0;
-	height: 32px;
+	height: 36px;
 }
 
 
@@ -455,11 +458,11 @@ nav h2 {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0;
-	padding: 8px;
+	padding: 6px;
 }
 
 .mobileView .folderContainer input {
-	padding: 2px;
+	padding: 6px;
   margin: 0 auto;
   font-size: 16px;
   width: auto;
@@ -849,7 +852,16 @@ button.fab:hover, a.fab:hover {
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 	margin-top: 48px !important;
 }
-
+.formcontainer .form_backbutton {
+	display: inline-block;
+	position: absolute;
+	top: 16px;
+	left: 16px;
+}
+.formcontainer .form_backbutton img {
+	width: 24px;
+	height: 24px;
+}
 .formcontainer h2, .formcontainer h1 {
 	text-align: center;
 	margin-bottom: 16px;
@@ -1055,6 +1067,7 @@ select:focus {
 	text-align: left;
 	vertical-align: top;
 	margin: 0 auto;
+	position: relative;
 }
 
 h1,h2,h3,h4 {
@@ -1147,10 +1160,11 @@ h3 {
 		position: relative;
 		width: 100%;
 		margin: 0 auto;
+		padding-bottom: 80px;
 	}
 
 	.slide {
-		width: 80%;
+		width: 85%;
 	}
 	.navbar-hide {
 		display: none;

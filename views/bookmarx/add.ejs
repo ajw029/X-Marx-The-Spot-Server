@@ -21,6 +21,7 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
+      <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png"></a>
       <form action="/bookmarx/add" onsubmit="return validateAddBookmark()" method="POST">
         <h1>Create New BookMarx</h1>
         <div class="inputgroup">
@@ -64,6 +65,16 @@
       </form>
     </div>
   </section>
+
+  <nav class="nav-mobile mobileView">
+    <ul class="mobileView">
+      <li class="active"><a href="/bookmarx/add"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+      <li><a href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
+    </ul>
+  </nav>
 
 <script>
   function validateTitle() {
