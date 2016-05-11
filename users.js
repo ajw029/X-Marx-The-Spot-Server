@@ -60,9 +60,13 @@ module.exports.loginAuth = function(req, response) {
   var password = req.body.pass;
 
   if (username && password) {
-    var queryString="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
-    db.query(queryString,function(err,res){
+    var queryString = db.squel
+        .select()
+        .from(user_table)
+        .where('username = \'' + username + '\'')
+        .toString();
 
+    db.query(queryString,function(err,res){
       if(err){
         response.redirect('/login');
       }else if(res){
@@ -71,9 +75,8 @@ module.exports.loginAuth = function(req, response) {
           response.redirect('/login');
         }
         else {
-
           var queryP = res[0].password;
-          if(encryption.encrypt(password.toString())==queryP.toString()){
+          if(encryption.encrypt(password.toString())===queryP.toString()){
             req.session.username = encryption.encrypt(res[0].id.toString());
             response.redirect('/bookmarx');
           }
@@ -101,36 +104,54 @@ module.exports.signupAuth = function(req, response) {
 
   if(password==repassword && password.trim()){
 
-     var queryString="SELECT username from "+ user_table +" WHERE username="+ "\"" + username+ "\"";
+    var queryString = db.squel
+        .select()
+        .from(user_table)
+        .where('username = \'' + username + '\'')
+        .toString();
 
       db.query(queryString,function(err,res){
 
       // Redirect back to Sign Up if Account Exists
-      if(err || res[0]){
+      if (err || res[0]){
         response.redirect('/signup');
-      }if(res && !res[0]){
+      } if (res && !res[0]) {
         // not exists create new one
 
         // Encrypt Pwd
         var encryptedPwd = encryption.encrypt(password);
-        var createUserQueryString="INSERT INTO "+ user_table+" (username,password) values ("+ "\"" +username+"\"" +","+"\"" +encryptedPwd+"\"" +");"
+
+          var createUserQueryString = db.squel
+              .insert()
+              .into(user_table)
+              .setFields({
+                'username': username,
+                'password': encryptedPwd
+              })
+              .toString();
+
         db.query(createUserQueryString,function(err,res){
-          if(err){
-          }else if(res){
-            var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
-            db.query(getAccountId,function(err, accountId){
-              var createDefaultFolder = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" +db.escape(accountId[0].id.toString()) +", 'Default' )";
+          if (err) {
+          } else if (res && res.insertId){
+
+            var createDefaultFolder = db.squel
+                .insert()
+                .into(folder_table)
+                .setFields({
+                  'account_id': res.insertId,
+                  'name': 'Default'
+                })
+                .toString();
               db.query(createDefaultFolder,function(err, folderRes){
                 if (err) {
                   throw err;
                 }
                 if (folderRes) {
-                  req.session.username = encryption.encrypt(accountId[0].id.toString());
+                  req.session.username = encryption.encrypt(res.insertId.toString());
                   response.redirect('/login');
                 }
               });
 
-            });
 
           }
         });
@@ -153,7 +174,13 @@ module.exports.updatepassword=function(req,res){
 
   if(oldPassword&&newPassword&&reNewPassword){
     if(newPassword==reNewPassword){
-        var queryPasswordString="SELECT password from "+ user_table +" WHERE id="+  account_id;
+
+      var queryPasswordString = db.squel
+          .select()
+          .from(user_table)
+          .where('id=' + db.escape(account_id) + '')
+          .toString();
+
         db.query(queryPasswordString,function(err,res1){
           if(err){
             throw err;
@@ -162,7 +189,13 @@ module.exports.updatepassword=function(req,res){
 
           if(res1[0] && res1[0].password==encryption.encrypt(oldPassword)){
 
-            var updatePasswordQuery="UPDATE "+ user_table+" set password=" + db.escape(encryption.encrypt(newPassword))+ " where id="+account_id;
+            var updatePasswordQuery = db.squel
+                .update()
+                .table(user_table)
+                .set('password', encryption.encrypt(newPassword))
+                .where('id=' + db.escape(account_id))
+                .toString();
+
             db.query(updatePasswordQuery,function(err,res2){
               if(err){
                 throw err;
