@@ -343,7 +343,7 @@ var settings = module.exports.settings =  function(req, res) {
 var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
-
+  
   var select_queryString = "SELECT * FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
   db.query(select_queryString, function(err, res) {
     if (err) {
@@ -351,6 +351,7 @@ var staraction = module.exports.staraction =  function(req, response) {
       response.redirect('/bookmarx');
     }
     if (res) {
+      var folder_id=res[0].folder_id;
       var querystring = "UPDATE " + bookmarx_table + " SET ";
       querystring += "favorite="+ (!res[0].favorite);
       querystring += " WHERE id="+bookmarx_id + " AND account_id="+account_id;
@@ -360,9 +361,35 @@ var staraction = module.exports.staraction =  function(req, response) {
           response.redirect('/bookmarx');
         }
         if (res) {
-          response.redirect('/bookmarx');
+          
+          response.redirect('/bookmarx/'+folder_id);
         }
       });
     }
   });
+};
+
+
+var openFavoritesView=module.exports.openFavoritesView=function(req,response){
+    
+    var account_id=req.body.account_id;
+
+     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1" ;
+
+    var ordering = '';
+    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
+      ordering = ' ORDER BY name ' + req.query.ordering;
+    }
+
+          db.query(queryString + ordering, function(err, res) {
+            if (err){
+              throw err;
+            }
+            if (res) {
+
+              response.render('bookmarx/liststared.ejs', {bookmarxList: res,
+                                                    search: req.query.search || '',
+                                                    ordering: req.query.ordering || ''});
+            }
+          });
 };

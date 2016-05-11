@@ -54,39 +54,6 @@
         <li><a>Articles</a></li>
       </ul>
     </section>
-    <section class="slide-container">
-      <div class="slide desktopView">
-        <!-- Need to make templates TODO -->
-        <% folderList.forEach(function(folder) { %>
-        <div class="column- folderContainer">
-          <div class="folder">
-            <h2><%= folder.name %></h2>
-            <a class="folderToggle openFolder" href="/bookmarx/<%= folder.id %>"><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"/></a>
-            <% if (folder.name!='Default') { %>
-            <a href="/foldersetting/<%= folder.id %>"><img class="cog" src="/img/ic_settings_black_48px.svg" alt="settings"/></a>
-            <% } %>
-          </div>
-        </div>
-        <% }); %>
-      </div>
-      <div class="slide mobileView">
-        <div class="column- folderContainer">
-          <form action="/bookmarx/" method="GET">
-            <span>Folder: </span>
-            <select name="folder_id">
-              <% folderList.forEach(function(folder) { %>
-                <% if (selectedFolder.selectedFolder == folder.id) { %>
-                  <option value="<%= folder.id %>" selected><%= folder.name %></option>
-                <% } else { %>
-                  <option value="<%= folder.id %>"><%= folder.name %></option>
-                <% }%>
-              <% }); %>
-            </select>
-            <input type="submit" value="Change">
-          </form>
-        </div>
-      </div>
-    </section>
 
     <section class="right-container">
       <div class="slide">
