@@ -66,8 +66,13 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
  * Selects all books and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function(req, response) {
+
   var folder_id =  req.params.folder_id;
+  if (!folder_id ) {
+    folder_id=req.query.folder_id
+  }
   var account_id = req.body.account_id;
+  var selectedFolder = {selectedFolder: folder_id};
 
   var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id +" AND deleted=0";
 
@@ -91,8 +96,10 @@ var list = module.exports.list = function(req, response) {
               throw err;
             }
             if (res) {
+
               response.render('bookmarx/list.ejs', {bookmarxList: res,
                                                     folderList: folderRes,
+                                                    selectedFolder: selectedFolder,
                                                     search: req.query.search || '',
                                                     ordering: req.query.ordering || ''});
             }
@@ -112,7 +119,7 @@ var list = module.exports.list = function(req, response) {
               queryString += ' AND (name ' + pattern +' OR url '+ pattern +' OR description '+ pattern +')';
 
             }
-
+            selectedFolder = {selectedFolder: folderRes[0].id};
             db.query(queryString + ordering, function(err, res) {
               if (err){
                 throw err;
@@ -120,6 +127,7 @@ var list = module.exports.list = function(req, response) {
               if (res) {
                 response.render('bookmarx/list.ejs', {bookmarxList: res,
                                                       folderList: folderRes,
+                                                      selectedFolder: selectedFolder,
                                                       search: req.query.search || '',
                                                       ordering: req.query.ordering || ''});
               }
@@ -128,6 +136,7 @@ var list = module.exports.list = function(req, response) {
           else {
             response.render('bookmarx/list.ejs', {bookmarxList: [],
                                                   folderList: folderRes,
+                                                  selectedFolder: selectedFolder,
                                                   search: req.query.search || '',
                                                   ordering: req.query.ordering || ''});
           }

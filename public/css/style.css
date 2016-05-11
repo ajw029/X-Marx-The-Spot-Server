@@ -392,7 +392,7 @@ nav h2 {
 	box-shadow: 0 1px 2px #aaa;
 }
 .mobileView .folderContainer form {
-	padding: 16px 8px 16px 8px;
+	padding: 16px;
 	vertical-align: top;
 }
 .mobileView .folderContainer  select {
@@ -771,7 +771,10 @@ button.fab img{
 }
  a.fab img {
 	 height: 65%;
-	 margin-left: 8.5px;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 margin: 0 auto;
 	 margin-top: 8.5px;
  }
 
@@ -1112,6 +1115,10 @@ h3 {
 	}
 	.searchContainer  {
 		width: 85%;
+		text-align: left;
+	}
+	.folderSearchBar input[type="text"] {
+		width: 50%;
 	}
 }
 
