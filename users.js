@@ -31,7 +31,7 @@ module.exports.login = function(req, res) {
     res.redirect('/bookmarx');
   }
   else {
-    res.render('users/login.ejs');
+    res.render('users/login.ejs',{errmsg: {hasError: false}});
   }
 };
 
@@ -46,7 +46,7 @@ module.exports.auth = function(req, res, next) {
     return next();
   }
   else {
-    res.redirect('/login');
+    res.render('/login',{errmsg: {hasError: false}});
   }
 };
 
@@ -64,11 +64,11 @@ module.exports.loginAuth = function(req, response) {
     db.query(queryString,function(err,res){
 
       if(err){
-        response.redirect('/login');
+        response.render('users/login.ejs',{errmsg: {message:"can not be null ", hasError: true} });
       }else if(res){
         // If Null
         if (!res || !res[0]) {
-          response.redirect('/login');
+          response.render('users/login.ejs',{errmsg: {message:"not exit", hasError: true}});
         }
         else {
 
@@ -78,14 +78,14 @@ module.exports.loginAuth = function(req, response) {
             response.redirect('/bookmarx');
           }
           else {
-            response.redirect('/login');
+            response.render('users/login.ejs', {errmsg: {hasError: true,message:"password not match " }});
           }
         }
       }
     });
   }
   else {
-    response.redirect('/login');
+    response.render('users/login.ejs',{errmsg: {message:"can not be null ", hasError: true}});
   }
 };
 
