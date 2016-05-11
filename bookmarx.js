@@ -32,7 +32,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
   var bookmarx_title = db.escape(req.body.title);
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = db.escape(req.body.keywords);
+  var bookmarx_keywords = req.body.keywords;
   var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
 
@@ -52,6 +52,25 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
           }
           if (res) {
             // Insert Keywords
+            var words = bookmarx_keywords.split(" ");
+            var bookmark_id = res.insertId;
+
+            words.forEach(function insertKeyword(word, index) {
+              var queryStringKeyword = "INSERT INTO " + keywords_table + "(account_id, bookmark_id, name)";
+              queryStringKeyword += " VALUES(" + account_id + "," + bookmark_id + "," + db.escape(word) + ")";
+
+              db.query(queryStringKeyword, function(err2, res2) {
+                if (err2){
+                  //throw err;
+                  //response.redirect('/bookmarx/add');
+                  console.log(err2);
+                }
+                if (res2) {
+                  //Do nothing, insert success
+                }
+              });
+            });
+
             response.redirect('/bookmarx');
           }
         });
