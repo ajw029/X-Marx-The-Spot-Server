@@ -19,7 +19,7 @@
   <section class="slide">
 		<div class="formcontainer column-40">
 			<h1>Settings</h1>
-
+      <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png"></a>
 			<div class="settinggroup">
 				<h2>Change Password</h2>
 				<form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
@@ -45,8 +45,32 @@
 						<input type="submit" class="boxButton okayButton" value="Change Password"/>
 					</div>
 				</form>
+			</div>
+			<div class="settinggroup">
+				<h2>Import/Export Bookmarks</h2>
+				<form >
+					<div class="inputgroup">
+						<input type="submit" class="boxButton okayButton" value="Import Bookmarks"/>
+					</div>
+				</form>
+				<form >
+					<div class="inputgroup">
+						<input type="submit" class="boxButton cancelButton" value="Export Bookmarks"/>
+					</div>
+				</form>
+			</div>
 		</div>
   </section>
+	<nav class="nav-mobile mobileView">
+    <ul class="mobileView">
+      <li><a href="/bookmarx/add"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+      <li class="active"><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+      <li><a href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
+    </ul>
+  </nav>
+
 	<script>
 	  function validateOGPwd() {
 	    var folder =$('.inputgroup').find('input[name="oldPassword"]').val();
