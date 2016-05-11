@@ -189,7 +189,6 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
           throw err;
         }
         else {
-          console.log(res[0])
           response.render('bookmarx/edit.ejs', {bookmarx: res[0],
                                                 foldersList: folderList});
           }
@@ -248,7 +247,6 @@ var foldersettings = module.exports.foldersettings =  function(req, response) {
       throw err;
     }
     if (res) {
-      console.log(res[0])
       response.render('bookmarx/foldersettings.ejs', {folder: res[0]});
     }
   });
@@ -291,7 +289,10 @@ var updatefolder = module.exports.updatefolder = function(req, res) {
   var folder_id  = req.params.folder_id;
   var account_id = req.body.account_id;
   if (isNaN(folder_id)|| isNaN(account_id)) {
-      res.redirect("/foldersettings");
+    res.redirect("/bookmarx");
+  }
+  if (!req.body.newname.trim()) {
+    res.redirect("/foldersetting/"+folder_id);
   }
   else {
     folder_id = db.escape(folder_id);
