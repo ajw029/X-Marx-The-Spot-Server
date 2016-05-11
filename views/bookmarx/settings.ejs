@@ -22,21 +22,21 @@
 
 			<div class="settinggroup">
 				<h2>Change Password</h2>
-				<form action="updatepassword" method="POST">
+				<form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
 					<div class="inputgroup">
-						<input type="text" name="oldPassword"  autofocus required/>
+						<input type="password" name="oldPassword"  autofocus required/>
 						<span class="bar"></span>
 						<label>Original Password</label>
           	<span class="errMsg hide" id="originalpwd_errlabel">Please input a password</label>
 					</div>
 					<div class="inputgroup">
-						<input type="text" name="newPassword" required/>
+						<input type="password" name="newPassword" required/>
 						<span class="bar"></span>
 						<label>New Password</label>
           	<span class="errMsg hide" id="newpwd_errlabel">Please input new password</label>
 					</div>
 					<div class="inputgroup">
-						<input type="text" name="reNewPassword" required/>
+						<input type="password" name="reNewPassword" required/>
 						<span class="bar"></span>
 						<label>Confirm New Password</label>
           	<span class="errMsg hide" id="renewpwd_errlabel">Please confirm new password</label>
@@ -47,6 +47,45 @@
 				</form>
 		</div>
   </section>
+	<script>
+	  function validateOGPwd() {
+	    var folder =$('.inputgroup').find('input[name="oldPassword"]').val();
+	    if (!folder || !folder.trim()) {
+	      $('#originalpwd_errlabel').removeClass('hide');
+	      return false;
+	    }
+	      $('#originalpwd_errlabel').addClass('hide');
+	    return true;
+	  }
+		function validateNewPwd() {
+	    var newpwd =$('.inputgroup').find('input[name="newPassword"]').val();
+	    if (!newpwd || !newpwd.trim()) {
+	      $('#newpwd_errlabel').removeClass('hide');
+				$('#newpwd_errlabel').text('Please input a password');
+	      return false;
+	    }
 
+      $('#newpwd_errlabel').addClass('hide');
+			var repwd =$('.inputgroup').find('input[name="reNewPassword"]').val();
+	    if (!repwd || !repwd.trim()) {
+	      $('#renewpwd_errlabel').removeClass('hide');
+	      return false;
+	    }
+			$('#renewpwd_errlabel').addClass('hide');
+			if (newpwd != repwd) {
+				$('#newpwd_errlabel').removeClass('hide');
+				$('#newpwd_errlabel').text('Your Passwords do not match');
+				return false;
+			}
+
+	    return true;
+	  }
+
+	  function validateUpdatePwd() {
+			var isValidPwd = validateOGPwd();
+			var isValidNewPwd = validateNewPwd();
+	    return isValidPwd && isValidNewPwd;
+	  }
+	</script>
   </body>
 </html>
