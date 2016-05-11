@@ -28,26 +28,43 @@
             <input type="text" name="title" value="<%= bookmarx.name %>" required/>
             <span class="bar"></span>
             <label>Title</label>
-          <span class="errMsg hide" id="title_errlabel">Please add a title</label>
+          <span class="errMsg hide" id="title_errlabel">Please add a title</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="url" value="<%= bookmarx.url %>"  required/>
             <span class="bar"></span>
             <label>URL</label>
-          <span class="errMsg hide" id="url_errlabel">Please add a URL</label>
+          <span class="errMsg hide" id="url_errlabel">Please add a URL</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="desc" value="<%= bookmarx.description %>" required/>
             <span class="bar"></span>
             <label>Description</label>
-          <span class="errMsg hide" id="descr_errlabel">Please add a description</label>
+          <span class="errMsg hide" id="descr_errlabel">Please add a description</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="keywords" required/>
             <span class="bar"></span>
-            <label>Keywords</label>
-          <span class="errMsg hide" id="keywords_errlabel">Please add keywords</label>
+            <label>New Keywords</label>
+          <span class="errMsg hide" id="keywords_errlabel">Please add keywords</span>
+          <span class="inputtext_hint">(Please seperate keywords with hashtags)</span>
           </div>
+          <div class="hashtagcontainer">
+            <label><i>Click to Delete Keyword</i></label>
+            <div class="hashtaggroup">
+              <input type="checkbox" checked="true" name="keywords" value="deeznuts"/>
+              <p>deeznuts</p>
+            </div>
+            <div class="hashtaggroup">
+              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
+              <p>sopretty</p>
+            </div>
+            <div class="hashtaggroup">
+              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
+              <p>bored</p>
+            </div>
+          </div>
+
           <div class="labelgroup">
             <label>Folder</label>
           </div>
@@ -98,6 +115,18 @@
         return true;
       }
       function validateKeywords() {
+
+        // Check if there are any existing keywords
+        var keyword_exists = false;
+        $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
+          console.log($(this).find('input[type=checkbox]').is(':checked'))
+          if ($(this).find('input[type=checkbox]').is(':checked') == true) {
+            keyword_exists = true;
+            return true;
+          }
+        });
+        if (keyword_exists) return true;
+
         var keywords =$('.inputgroup').find('input[name="keywords"]').val();
         if (!keywords || !keywords.trim()) {
           $('#keywords_errlabel').removeClass('hide');

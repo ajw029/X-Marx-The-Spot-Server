@@ -51,6 +51,7 @@ a:hover {
 
 span.errMsg {
 	color: #F44336;
+	display: block;
 }
 
 /* Navbar */
@@ -875,6 +876,54 @@ form {
   position:relative;
 	margin: 0 auto;
   margin-bottom:16px;
+}
+
+.inputgroup span.inputtext_hint {
+	font-size: 10px;
+}
+.hashtagcontainer {
+	width: 200px;
+  position:relative;
+	margin: 0 auto;
+  margin-bottom:16px;
+}
+.hashtagcontainer label {
+	display: block;
+}
+.hashtaggroup {
+	margin-top: 4px;
+	margin-bottom: 4px;
+	display: inline-block;
+}
+
+.hashtaggroup input[type=checkbox] {
+	border: 0;
+	width: 96px;
+	height: 32px;
+	position: absolute;
+	padding: 0;
+	margin: 0;
+
+}
+.hashtaggroup input[type=checkbox]:unchecked {
+	display: none;
+}
+.hashtaggroup input[type=checkbox] + p {
+	display: none;
+	width: 96px;
+	height: 32px;
+	color: black;
+}
+.hashtaggroup input[type=checkbox] + p:before {
+	content: "#";
+}
+.hashtaggroup:hover {
+	text-decoration: line-through;
+	cursor: pointer;
+}
+
+.hashtaggroup input[type=checkbox]:checked + p {
+  display: block;
 }
 
 .settinggroup {
