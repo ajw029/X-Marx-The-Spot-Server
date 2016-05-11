@@ -8,7 +8,7 @@
     <meta name="description" content="The Team Page">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/imgs/tp.png">
-
+    <script src="/js/jquery.js"></script>
     <link rel="stylesheet" href="/css/style.css">
   </head>
 
@@ -21,27 +21,31 @@
 
     <section class="slide">
       <div class="formcontainer column-40">
-        <form action="/bookmarx/edit" method="POST">
+        <form action="/bookmarx/edit" onsubmit="return validateAddBookmark()" method="POST">
           <h1>Edit <%= bookmarx.name %> </h1>
           <div class="inputgroup">
             <input type="text" name="title" value="<%= bookmarx.name %>" required/>
             <span class="bar"></span>
             <label>Title</label>
+          <span class="errMsg hide" id="title_errlabel">Please add a title</label>
           </div>
           <div class="inputgroup">
             <input type="text" name="url" value="<%= bookmarx.url %>"  required/>
             <span class="bar"></span>
             <label>URL</label>
+          <span class="errMsg hide" id="url_errlabel">Please add a URL</label>
           </div>
           <div class="inputgroup">
             <input type="text" name="desc" value="<%= bookmarx.description %>" required/>
             <span class="bar"></span>
             <label>Description</label>
+          <span class="errMsg hide" id="descr_errlabel">Please add a description</label>
           </div>
           <div class="inputgroup">
             <input type="text" name="keywords" required/>
             <span class="bar"></span>
             <label>Keywords</label>
+          <span class="errMsg hide" id="keywords_errlabel">Please add keywords</label>
           </div>
           <div class="labelgroup">
             <label>Folder</label>
@@ -64,5 +68,53 @@
         </form>
       </div>
     </section>
-  </body>
-  </html>
+    <script>
+      function validateTitle() {
+        var username =$('.inputgroup').find('input[name="title"]').val();
+        if (!username || !username.trim()) {
+          $('#title_errlabel').removeClass('hide');
+          return false;
+        }
+        $('#title_errlabel').addClass('hide');
+        return true;
+      }
+      function validateURL() {
+        var url =$('.inputgroup').find('input[name="url"]').val();
+        if (!url || !url.trim()) {
+          $('#url_errlabel').removeClass('hide');
+          return false;
+        }
+        $('#url_errlabel').addClass('hide');
+        return true;
+      }
+      function validateDescription() {
+        var descr =$('.inputgroup').find('input[name="desc"]').val();
+        if (!descr || !descr.trim()) {
+          $('#descr_errlabel').removeClass('hide');
+          return false;
+        }
+          $('#descr_errlabel').addClass('hide');
+        return true;
+      }
+      function validateKeywords() {
+        var keywords =$('.inputgroup').find('input[name="keywords"]').val();
+        if (!keywords || !keywords.trim()) {
+          $('#keywords_errlabel').removeClass('hide');
+          return false;
+        }
+          $('#keywords_errlabel').addClass('hide');
+        return true;
+      }
+
+      function validateAddBookmark() {
+          var isValidTitle = validateTitle();
+          var isValidURL = validateURL();
+          var isValidDescr = validateDescription();
+          var isValidKeywords = validateKeywords();
+          //var isValidTitle = validateTitle();
+          return isValidTitle && isValidURL && isValidDescr && isValidKeywords;
+      }
+    </script>
+
+</body>
+</html>

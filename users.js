@@ -5,6 +5,7 @@ var db = require('./db');
 
 var user_table = tables.user_table;
 var account_table = tables.user_table;
+var folder_table = tables.folder_table;
 
 /**
  *
@@ -70,8 +71,9 @@ module.exports.loginAuth = function(req, response) {
           response.redirect('/login');
         }
         else {
+
           var queryP = res[0].password;
-          if(password.toString()==queryP.toString()){
+          if(encryption.encrypt(password.toString())==queryP.toString()){
             req.session.username = encryption.encrypt(res[0].id.toString());
             response.redirect('/bookmarx');
           }
@@ -97,40 +99,93 @@ module.exports.signupAuth = function(req, response) {
   var password = req.body.pass;
   var repassword = req.body.repass;
 
-  if(password==repassword){
+  if(password==repassword && password.trim()){
 
      var queryString="SELECT username from "+ user_table +" WHERE username="+ "\"" + username+ "\"";
 
       db.query(queryString,function(err,res){
 
-      if(err){
+      // Redirect back to Sign Up if Account Exists
+      if(err || res[0]){
         response.redirect('/signup');
-      }if(res){
-        // Redirect back to Sign Up if Account Exists
-        if(res[0]){
-          response.redirect('/signup');
-        }else {
-          // not exists create new one
-          var createUserQueryString="INSERT INTO "+ user_table+" (username,password) values ("+ "\"" +username+"\"" +","+"\"" +password+"\"" +");"
-          db.query(createUserQueryString,function(err,res){
-            if(err){
-            }else if(res){
-              var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
-              db.query(getAccountId,function(err, accountId){
-                req.session.username = encryption.encrypt(accountId[0].id.toString());
-                response.redirect('/login');
+      }if(res && !res[0]){
+        // not exists create new one
+
+        // Encrypt Pwd
+        var encryptedPwd = encryption.encrypt(password);
+        var createUserQueryString="INSERT INTO "+ user_table+" (username,password) values ("+ "\"" +username+"\"" +","+"\"" +encryptedPwd+"\"" +");"
+        db.query(createUserQueryString,function(err,res){
+          if(err){
+          }else if(res){
+            var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
+            db.query(getAccountId,function(err, accountId){
+              var createDefaultFolder = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" +db.escape(accountId[0].id.toString()) +", 'Default' )";
+              db.query(createDefaultFolder,function(err, folderRes){
+                if (err) {
+                  throw err;
+                }
+                if (folderRes) {
+                  req.session.username = encryption.encrypt(accountId[0].id.toString());
+                  response.redirect('/login');
+                }
               });
-            }
-          });
-        }
+
+            });
+
+          }
+        });
 
       }
    });
   }
-    else {
-    res.redirect('/signup');
+  else {
+    response.redirect('/signup');
   }
 };
+
+
+module.exports.updatepassword=function(req,res){
+  var account_id = db.escape(req.body.account_id);
+
+  var oldPassword=req.body.oldPassword;
+  var newPassword=req.body.newPassword;
+  var reNewPassword=req.body.reNewPassword;
+
+  if(oldPassword&&newPassword&&reNewPassword){
+    if(newPassword==reNewPassword){
+        var queryPasswordString="SELECT password from "+ user_table +" WHERE id="+  account_id;
+        db.query(queryPasswordString,function(err,res1){
+          if(err){
+            throw err;
+            res.redirect('/bookmarx/settings');
+          }
+
+          if(res1[0] && res1[0].password==encryption.encrypt(oldPassword)){
+
+            var updatePasswordQuery="UPDATE "+ user_table+" set password=" + db.escape(encryption.encrypt(newPassword))+ " where id="+account_id;
+            db.query(updatePasswordQuery,function(err,res2){
+              if(err){
+                throw err;
+                res.redirect('/bookmarx/settings');
+              }
+              if(res2){
+                res.redirect('/bookmarx');
+              }
+            });
+          }
+          else {
+            res.redirect('/bookmarx/settings');
+          }
+
+        });
+
+    }else{
+      res.redirect('/bookmarx/settings');
+    }
+  }
+
+};
+
 
 module.exports.logout = function(req, res) {
   req.session.destroy();

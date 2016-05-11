@@ -6,29 +6,86 @@
 	<meta name="description" content="Bookmarx">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="/imgs/tp.png">
-
+  <script src="/js/jquery.js"></script>
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body class="black-background">
   <nav>
     <ul>
-      <li><a href="index.html">BookMarx</a></li>
+      <li><a href="/index.html">BookMarx</a></li>
     </ul>
   </nav>
   <section class="slide">
 		<div class="formcontainer column-40">
 			<h1>Settings</h1>
-			<div class="settinggroup">
-				<h2>Import/Export BookMarx</h2>
-			</div>
-			<div class="inputgroup">
-				<button type='button' class="boxButton okayButton" onclick="window.location.replace('index.html')">Import</button>
-				<button type='button' class="boxButton cancelButton" onclick="window.location.replace('index.html')">Export</button>
-			</div>
 
+			<div class="settinggroup">
+				<h2>Change Password</h2>
+				<form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
+					<div class="inputgroup">
+						<input type="password" name="oldPassword"  autofocus required/>
+						<span class="bar"></span>
+						<label>Original Password</label>
+          	<span class="errMsg hide" id="originalpwd_errlabel">Please input a password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="password" name="newPassword" required/>
+						<span class="bar"></span>
+						<label>New Password</label>
+          	<span class="errMsg hide" id="newpwd_errlabel">Please input new password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="password" name="reNewPassword" required/>
+						<span class="bar"></span>
+						<label>Confirm New Password</label>
+          	<span class="errMsg hide" id="renewpwd_errlabel">Please confirm new password</label>
+					</div>
+					<div class="inputgroup">
+						<input type="submit" class="boxButton okayButton" value="Change Password"/>
+					</div>
+				</form>
 		</div>
   </section>
+	<script>
+	  function validateOGPwd() {
+	    var folder =$('.inputgroup').find('input[name="oldPassword"]').val();
+	    if (!folder || !folder.trim()) {
+	      $('#originalpwd_errlabel').removeClass('hide');
+	      return false;
+	    }
+	      $('#originalpwd_errlabel').addClass('hide');
+	    return true;
+	  }
+		function validateNewPwd() {
+	    var newpwd =$('.inputgroup').find('input[name="newPassword"]').val();
+	    if (!newpwd || !newpwd.trim()) {
+	      $('#newpwd_errlabel').removeClass('hide');
+				$('#newpwd_errlabel').text('Please input a password');
+	      return false;
+	    }
 
+      $('#newpwd_errlabel').addClass('hide');
+			var repwd =$('.inputgroup').find('input[name="reNewPassword"]').val();
+	    if (!repwd || !repwd.trim()) {
+	      $('#renewpwd_errlabel').removeClass('hide');
+	      return false;
+	    }
+			$('#renewpwd_errlabel').addClass('hide');
+			if (newpwd != repwd) {
+				$('#newpwd_errlabel').removeClass('hide');
+				$('#newpwd_errlabel').text('Your Passwords do not match');
+				return false;
+			}
+
+	    return true;
+	  }
+
+	  function validateUpdatePwd() {
+			var isValidPwd = validateOGPwd();
+			var isValidNewPwd = validateNewPwd();
+	    return isValidPwd && isValidNewPwd;
+	  }
+	</script>
   </body>
 </html>

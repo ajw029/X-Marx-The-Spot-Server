@@ -1,7 +1,7 @@
 {
-  "name": "wowsuchawesome",
+  "name": "XMarxTheSpotServer",
   "version": "1.0.0",
-  "description": "Express CRUD using EJS",
+  "description": "CSE136 group 8",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.15.0",
@@ -16,6 +16,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Christie Sorenson",
+  "author": "Group 18 CSE 136 UCSD",
   "license": "MIT"
 }

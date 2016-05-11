@@ -48,6 +48,10 @@ a:hover {
 	display:block;
 }
 
+span.errMsg {
+	color: #F44336;
+}
+
 /* Navbar */
 nav {
 	margin: 0;
@@ -70,22 +74,64 @@ nav ul li {
 	display: inline-block;
 	vertical-align: top;
 }
-/*
-.searchContainer input {
-	width: 33%;
-	padding: 8px;
-	margin: 0 auto;
-	font-size: 16px;
-	left: 0;
-	right: 0;
-	display: inline-block;
-	position: absolute;
-	vertical-align: top;
-	border-radius:2px;
+
+nav.nav-mobile {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	bottom: 0;
+	top: auto;
+	width: 100%;
+	height: 48px;
+	z-index: 9999;
+	background-color: #2196F3;
+	position: fixed;
 }
-*/
+nav.nav-mobile ul {
+	display: inline-block;
+	padding: 0;
+	list-style: none;
+	margin: 0;
+	height: 100%;
+	position: relative;
+}
+nav.nav-mobile ul > li {
+	width: 20%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+	padding: 0;
+	height: 100%;
+}
+nav.nav-mobile ul li {
+	margin: 0;
+	padding-left: 0;
+	background-image: none;
+	float: left;
+}
+
+nav.nav-mobile ul li a {
+	color: black;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position:relative
+}
+nav.nav-mobile ul li a img {
+	height: 70%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	display: block;
+  margin: 0 auto;
+}
+nav.nav-mobile ul li a:hover {
+	-webkit-transform: scale(1.15);
+    -moz-transform: scale(1.15);
+    -o-transform: scale(1.15);
+    animation: scale(1.15);
+}
 .searchContainer {
-	width: 33%;
+	width: 40%;
 	padding: 8px;
 	margin: 0 auto;
 	font-size: 16px;
@@ -118,21 +164,25 @@ nav ul li {
 	font-size: 16px;
 	display: inline-block;
 	border-radius:0;
-	width: 15%;
+	width: 20%;
 	background-color: white;
 	border: 0;
 	height: 32px;
 }
 
-.folderSearchBar select option {
 
+.folderSearchBar div {
+	display: inline-block;
+	vertical-align: top;
+	width: 15%;
+	padding: 0;
+	margin: 0;
+	position: relative;
 }
-
 .folderSearchBar input[type="submit"]:hover {
 	cursor: pointer;
 }
 .folderSearchBar input[type="submit"] {
-	padding: 8px;
 	margin: 0 auto;
 	font-size: 16px;
 	width: 15%;
@@ -140,6 +190,18 @@ nav ul li {
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
+	border-radius: 4px;
+	z-index: 9996;
+	height: 36px;
+}
+
+.folderSearchBar div img {
+	position: absolute;
+	height: 32px;
+	top: 4px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
 }
 
 nav ul li a {
@@ -172,7 +234,7 @@ nav a {
     transform: rotate(360deg) ;
   }
 }
-nav button img:hover {
+nav a img:hover {
 	-webkit-transform: scale(1.15);
     -moz-transform: scale(1.15);
     -o-transform: scale(1.15);
@@ -225,7 +287,9 @@ nav a:hover {
   padding: 0 8px;
   color: #FF1744;
 }
-
+.card__button:hover {
+  color: #2196F3;
+}
 .dropdown-container {
 	position: relative;
 	z-index: 9999;
@@ -377,6 +441,41 @@ nav h2 {
 	margin-bottom: 16px !important;
 	text-align: center;
 }
+
+.mobileView .folderContainer {
+	background-color: white;
+	box-shadow: 0 1px 2px #aaa;
+}
+.mobileView .folderContainer form {
+	padding: 16px;
+	vertical-align: top;
+}
+.mobileView .folderContainer  select {
+	width: 40%;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+	padding: 8px;
+}
+
+.mobileView .folderContainer input {
+	padding: 2px;
+  margin: 0 auto;
+  font-size: 16px;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #FF9800;
+  color: white;
+  border-radius: 4px;
+  z-index: 9996;
+	float: right;
+	cursor: pointer;
+}
+.mobileView .folderContainer input:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
 .folder:hover {
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
@@ -716,7 +815,8 @@ img, button {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .favorite {
-	background-color: #FFC107 !important;
+	/*background-color: #FFC107 !important;*/
+	background-color: #FF9800 !important;
 }
 button.fab img{
 	position: relative;
@@ -726,7 +826,10 @@ button.fab img{
 }
  a.fab img {
 	 height: 65%;
-	 margin-left: 8.5px;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 margin: 0 auto;
 	 margin-top: 8.5px;
  }
 
@@ -737,22 +840,6 @@ button.fab:hover, a.fab:hover {
 	position: absolute !important;
 	top: -9999px !important;
 	left: -9999px !important;
-}
-
-/* Ripple */
-
-/*.ink styles - the elements which will create the ripple effect. The size and position of these elements will be set by the JS code. Initially these elements will be scaled down to 0% and later animated to large fading circles on user click.*/
-.ink {
-	display: block; position: absolute;
-	background: hsl(180, 40%, 80%);
-	border-radius: 100%;
-	transform: scale(0);
-}
-/*animation effect*/
-.ink.animate {animation: ripple 0.65s linear;}
-@keyframes ripple {
-	/*scale the element to 250% to safely cover the entire link and fade it out*/
-	100% {opacity: 0; transform: scale(2.5);}
 }
 
 /* Form */
@@ -783,7 +870,7 @@ form {
 	position:relative;
 	margin: 0 auto;
   margin-bottom:16px;
-	border-bottom: 1px solid grey;
+	/*border-bottom: 1px solid grey;*/
 }
 .settinggroup button{
 	width: 200px;
@@ -852,7 +939,6 @@ select:focus {
 .inputgroup input:focus ~ label, .inputgroup input:valid ~ label 		{
   top:-5px;
   font-size:14px;
-  color:#ED2553;
 }
 
 .inputgroup .bar 	{
@@ -867,7 +953,7 @@ select:focus {
   width:0;
   bottom:19px;
   position:absolute;
-  background:#ED2553;
+  background:#2196F3;
   transition:0.2s ease all;
   -moz-transition:0.2s ease all;
   -webkit-transition:0.2s ease all;
@@ -904,15 +990,15 @@ select:focus {
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-	from { background:#ED2553; }
+	from { background:#2196F3; }
   to 	{ width:0; background:transparent; }
 }
 
@@ -994,7 +1080,7 @@ h3 {
 		width: 49%;
 	}
 	.bookmark {
-		width: 90%;
+		width: 100%;
 	}
 }
 
@@ -1008,6 +1094,23 @@ h3 {
 }
 
 @media screen and (max-width : 680px){
+	.overlayContainer a.fab {
+    position: fixed;
+    bottom: 64px;
+    right: 16px;
+    width: 54px;
+    height: 54px;
+    background-color: #2196F3;
+    border-radius: 100%;
+    box-shadow: 0 1px 2px #aaa;
+    z-index: 9999;
+	}
+	.slide.mobileView {
+		padding: 20px 0 0 0;
+	}
+	.folderContainer {
+		margin: 0;
+	}
 	@keyframes openFolderFrames{
 	  0% {
 	    transform: rotate(0deg) ;
@@ -1060,8 +1163,17 @@ h3 {
 		top: -9999px !important;
 		left: -9999px !important;
 	}
+	.nav-hamburger {
+		display: inline-block !important;
+	}
+	.nav-hamburger ul a img {
+
+	}
 	.searchContainer  {
-		width: 90%;
+		width: 100%;
+	}
+	.folderSearchBar input[type="text"] {
+		width: 50%;
 	}
 }
 
