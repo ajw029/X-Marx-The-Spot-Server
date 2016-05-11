@@ -25,7 +25,9 @@
           <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
           <option value="desc" <% if (ordering === 'desc') {%> selected <%} %>>Z-A</option>
         </select>
-        <input type="submit" value="Search">
+        <div>
+          <input type="submit" value="Find">
+        </div>
       </form>
       </div>
     </div>
@@ -52,11 +54,11 @@
       </ul>
     </section>
     <section class="slide-container">
-      <div class="slide">
+      <div class="slide desktopView">
         <!-- Need to make templates TODO -->
         <% folderList.forEach(function(folder) { %>
         <div class="column- folderContainer">
-          <div class="folder" id="folder1">
+          <div class="folder">
             <h2><%= folder.name %></h2>
             <a class="folderToggle openFolder" href="/bookmarx/<%= folder.id %>"><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"/></a>
             <a href="/foldersetting/<%= folder.id %>"><img class="cog" src="/img/ic_settings_black_48px.svg" alt="settings"/></a>
@@ -64,9 +66,21 @@
         </div>
         <% }); %>
       </div>
+      <div class="slide mobileView">
+        <!-- Need to make templates TODO -->
+        <div class="column- folderContainer">
+          <form>
+            <span>Folder: </span>
+            <select>
+              <option>1</option>
+            </select>
+            <input type="submit" value="Change">
+          </form>
+        </div>
+      </div>
     </section>
 
-    <section class="right-container desktopView">
+    <section class="right-container">
       <div class="slide">
 
         <div class="folderContent">

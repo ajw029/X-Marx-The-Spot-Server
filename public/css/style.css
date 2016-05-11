@@ -76,7 +76,7 @@ nav ul li {
 }
 
 .searchContainer {
-	width: 33%;
+	width: 40%;
 	padding: 8px;
 	margin: 0 auto;
 	font-size: 16px;
@@ -101,6 +101,7 @@ nav ul li {
 	display: inline-block;
 	border-radius:2px;
 	width: 60%;
+
 }
 
 .folderSearchBar select {
@@ -115,22 +116,39 @@ nav ul li {
 	height: 32px;
 }
 
-.folderSearchBar select option {
 
+.folderSearchBar div {
+	display: inline-block;
+	vertical-align: top;
+	width: 15%;
+	padding: 0;
+	margin: 0;
+	position: relative;
 }
-
-.folderSearchBar input[type="submit"]:hover {
+.folderSearchBar div:hover {
 	cursor: pointer;
 }
-.folderSearchBar input[type="submit"] {
+.folderSearchBar div input[type="submit"] {
 	padding: 8px;
 	margin: 0 auto;
 	font-size: 16px;
-	width: 15%;
+	width: 100%;
 	display: inline-block;
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
+	border-radius: 4px;
+	z-index: 9996;
+	cursor: pointer;
+}
+
+.folderSearchBar div img {
+	position: absolute;
+	height: 32px;
+	top: 4px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
 }
 
 nav ul li a {
@@ -368,6 +386,41 @@ nav h2 {
 	margin-bottom: 16px !important;
 	text-align: center;
 }
+
+.mobileView .folderContainer {
+	background-color: white;
+	box-shadow: 0 1px 2px #aaa;
+}
+.mobileView .folderContainer form {
+	padding: 16px 8px 16px 8px;
+	vertical-align: top;
+}
+.mobileView .folderContainer  select {
+	width: 40%;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+	padding: 8px;
+}
+
+.mobileView .folderContainer input {
+	padding: 2px;
+  margin: 0 auto;
+  font-size: 16px;
+  width: 20%;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #FF9800;
+  color: white;
+  border-radius: 4px;
+  z-index: 9996;
+	float: right;
+	cursor: pointer;
+}
+.mobileView .folderContainer input:hover {
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
 .folder:hover {
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
@@ -707,7 +760,8 @@ img, button {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .favorite {
-	background-color: #FFC107 !important;
+	/*background-color: #FFC107 !important;*/
+	background-color: #FF9800 !important;
 }
 button.fab img{
 	position: relative;
@@ -984,7 +1038,7 @@ h3 {
 		width: 49%;
 	}
 	.bookmark {
-		width: 90%;
+		width: 100%;
 	}
 }
 
@@ -997,7 +1051,13 @@ h3 {
 	}
 }
 
-@media screen and (max-width : 680px){
+@media screen and (max-width : 740px){
+	.slide.mobileView {
+		padding: 20px 0 0 0;
+	}
+	.folderContainer {
+		margin: 0;
+	}
 	@keyframes openFolderFrames{
 	  0% {
 	    transform: rotate(0deg) ;
@@ -1051,7 +1111,7 @@ h3 {
 		left: -9999px !important;
 	}
 	.searchContainer  {
-		width: 90%;
+		width: 85%;
 	}
 }
 
