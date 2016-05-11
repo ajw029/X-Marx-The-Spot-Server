@@ -86,6 +86,15 @@
         </form>
       </div>
     </section>
+    <nav class="nav-mobile mobileView">
+      <ul class="mobileView">
+        <li class="active"><a href="/bookmarx/add"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+        <li><a href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
+      </ul>
+    </nav>
     <script>
       function validateTitle() {
         var username =$('.inputgroup').find('input[name="title"]').val();
@@ -119,7 +128,6 @@
         // Check if there are any existing keywords
         var keyword_exists = false;
         $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
-          console.log($(this).find('input[type=checkbox]').is(':checked'))
           if ($(this).find('input[type=checkbox]').is(':checked') == true) {
             keyword_exists = true;
             return true;

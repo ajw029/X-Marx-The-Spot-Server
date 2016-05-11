@@ -852,6 +852,7 @@ button.fab:hover, a.fab:hover {
 	padding: 32px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 	margin-top: 48px !important;
+	margin-bottom: 48px !important;
 }
 .formcontainer .form_backbutton {
 	display: inline-block;
