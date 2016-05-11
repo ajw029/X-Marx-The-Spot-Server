@@ -75,6 +75,61 @@ nav ul li {
 	vertical-align: top;
 }
 
+nav.nav-mobile {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	bottom: 0;
+	top: auto;
+	width: 100%;
+	height: 48px;
+	z-index: 9999;
+	background-color: #2196F3;
+	position: fixed;
+}
+nav.nav-mobile ul {
+	display: inline-block;
+	padding: 0;
+	list-style: none;
+	margin: 0;
+	height: 100%;
+	position: relative;
+}
+nav.nav-mobile ul > li {
+	width: 20%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+	padding: 0;
+	height: 100%;
+}
+nav.nav-mobile ul li {
+	margin: 0;
+	padding-left: 0;
+	background-image: none;
+	float: left;
+}
+
+nav.nav-mobile ul li a {
+	color: black;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position:relative
+}
+nav.nav-mobile ul li a img {
+	height: 70%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	display: block;
+  margin: 0 auto;
+}
+nav.nav-mobile ul li a:hover {
+	-webkit-transform: scale(1.15);
+    -moz-transform: scale(1.15);
+    -o-transform: scale(1.15);
+    animation: scale(1.15);
+}
 .searchContainer {
 	width: 40%;
 	padding: 8px;
@@ -101,7 +156,6 @@ nav ul li {
 	display: inline-block;
 	border-radius:2px;
 	width: 60%;
-
 }
 
 .folderSearchBar select {
@@ -110,7 +164,7 @@ nav ul li {
 	font-size: 16px;
 	display: inline-block;
 	border-radius:0;
-	width: 15%;
+	width: 20%;
 	background-color: white;
 	border: 0;
 	height: 32px;
@@ -125,21 +179,20 @@ nav ul li {
 	margin: 0;
 	position: relative;
 }
-.folderSearchBar div:hover {
+.folderSearchBar input[type="submit"]:hover {
 	cursor: pointer;
 }
-.folderSearchBar div input[type="submit"] {
-	padding: 8px;
+.folderSearchBar input[type="submit"] {
 	margin: 0 auto;
 	font-size: 16px;
-	width: 100%;
+	width: 15%;
 	display: inline-block;
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
 	border-radius: 4px;
 	z-index: 9996;
-	cursor: pointer;
+	height: 36px;
 }
 
 .folderSearchBar div img {
@@ -181,7 +234,7 @@ nav a {
     transform: rotate(360deg) ;
   }
 }
-nav button img:hover {
+nav a img:hover {
 	-webkit-transform: scale(1.15);
     -moz-transform: scale(1.15);
     -o-transform: scale(1.15);
@@ -234,7 +287,9 @@ nav a:hover {
   padding: 0 8px;
   color: #FF1744;
 }
-
+.card__button:hover {
+  color: #2196F3;
+}
 .dropdown-container {
 	position: relative;
 	z-index: 9999;
@@ -407,7 +462,7 @@ nav h2 {
 	padding: 2px;
   margin: 0 auto;
   font-size: 16px;
-  width: 20%;
+  width: auto;
   display: inline-block;
   vertical-align: middle;
   background-color: #FF9800;
@@ -787,22 +842,6 @@ button.fab:hover, a.fab:hover {
 	left: -9999px !important;
 }
 
-/* Ripple */
-
-/*.ink styles - the elements which will create the ripple effect. The size and position of these elements will be set by the JS code. Initially these elements will be scaled down to 0% and later animated to large fading circles on user click.*/
-.ink {
-	display: block; position: absolute;
-	background: hsl(180, 40%, 80%);
-	border-radius: 100%;
-	transform: scale(0);
-}
-/*animation effect*/
-.ink.animate {animation: ripple 0.65s linear;}
-@keyframes ripple {
-	/*scale the element to 250% to safely cover the entire link and fade it out*/
-	100% {opacity: 0; transform: scale(2.5);}
-}
-
 /* Form */
 .formcontainer {
 	background-color: white;
@@ -1055,6 +1094,17 @@ h3 {
 }
 
 @media screen and (max-width : 680px){
+	.overlayContainer a.fab {
+    position: fixed;
+    bottom: 64px;
+    right: 16px;
+    width: 54px;
+    height: 54px;
+    background-color: #2196F3;
+    border-radius: 100%;
+    box-shadow: 0 1px 2px #aaa;
+    z-index: 9999;
+	}
 	.slide.mobileView {
 		padding: 20px 0 0 0;
 	}
@@ -1113,9 +1163,14 @@ h3 {
 		top: -9999px !important;
 		left: -9999px !important;
 	}
+	.nav-hamburger {
+		display: inline-block !important;
+	}
+	.nav-hamburger ul a img {
+
+	}
 	.searchContainer  {
-		width: 85%;
-		text-align: left;
+		width: 100%;
 	}
 	.folderSearchBar input[type="text"] {
 		width: 50%;
