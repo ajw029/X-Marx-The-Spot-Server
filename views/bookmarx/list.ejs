@@ -61,7 +61,9 @@
           <div class="folder">
             <h2><%= folder.name %></h2>
             <a class="folderToggle openFolder" href="/bookmarx/<%= folder.id %>"><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"/></a>
+            <% if (folder.name!='Default') { %>
             <a href="/foldersetting/<%= folder.id %>"><img class="cog" src="/img/ic_settings_black_48px.svg" alt="settings"/></a>
+            <% } %>
           </div>
         </div>
         <% }); %>

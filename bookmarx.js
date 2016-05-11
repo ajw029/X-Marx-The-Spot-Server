@@ -214,7 +214,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
       bookmarx_folder_id) {
         var querystring = "UPDATE " + bookmarx_table + " SET ";
         querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
-        querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id;
+        querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id ;
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -257,12 +257,12 @@ var deletefolder=module.exports.deletefolder=function(req,response){
   var folder_id= db.escape(req.body.folder_id);
   var account_id = db.escape(req.body.account_id);
 
-  var deleteFolderQuery="UPDATE " + folder_table +" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
+  var deleteFolderQuery="UPDATE " + folder_table +" set deleted=1 where id="+folder_id+" AND account_id="+account_id + " and name<>'Default'";
 
   db.query(deleteFolderQuery,function(err,res){
     if(err){
       throw err;
-      response.redirect('/bookmarx/deletefolder');
+      response.redirect('/bookmarx');
     }if(res){
 
       var deleteChildBookmarksQuery="update "+bookmarx_table+" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
@@ -281,8 +281,6 @@ var deletefolder=module.exports.deletefolder=function(req,response){
   });
 };
 
-
-
 var updatefolder = module.exports.updatefolder = function(req, res) {
   //TODO Make query to update the folder name
 
@@ -299,7 +297,7 @@ var updatefolder = module.exports.updatefolder = function(req, res) {
     account_id = db.escape(account_id);
     var newName = db.escape(req.body.newname);
 
-    var updateFolderQuery="update "+folder_table+" set name="+ newName +" where id="+folder_id+" AND account_id="+account_id;
+    var updateFolderQuery="update "+folder_table+" set name="+ newName +" where id="+folder_id+" AND account_id="+account_id + " AND name<>'Default'";
 
     db.query(updateFolderQuery,function(err,res1){
       if(err){
