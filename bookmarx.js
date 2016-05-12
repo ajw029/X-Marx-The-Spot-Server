@@ -427,7 +427,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
 var mostvisited=module.exports.mostvisited=function(req,response){
   var account_id=req.body.account_id;
   var topN=5;
-  var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id+" ORDER BY visit_count DESC  LIMIT "+ topN;
+  var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id + " and deleted=0 " +" ORDER BY visit_count DESC  LIMIT "+ topN;
 
   db.query(queryString,function(err,res){
     if(err){
