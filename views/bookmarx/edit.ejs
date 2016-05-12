@@ -53,7 +53,7 @@
             <label><i>Click to Delete Keyword</i></label>
             <% keywordList.forEach(function(keyword) {%>
               <div class="hashtaggroup">
-                <input type="checkbox" checked="true" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
+                <input type="checkbox" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
                 <p> <%=keyword.word%></p>
               </div>
             <% } );%>

@@ -76,6 +76,8 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
                var queryStringKeyword = "INSERT INTO " + keywords_table + "(account_id, bookmark_id, name)";
                queryStringKeyword += " VALUES(" + account_id + "," + bookmark_id + "," + db.escape(word) + ")";
 
+
+
                db.query(queryStringKeyword, function(err2, res2) {
                  if (err2){
                    //throw err;
@@ -228,7 +230,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .where("b.account_id="+account_id)
       .where("k.bookmark_id="+bookmarx_id)
       .toString()
-
+      console.log(queryString)
   db.query(queryString, function(err, res) {
     if (err) {
       response.redirect('/bookmarx');
@@ -250,7 +252,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
             keyword.word = word;
             keywordList.push(keyword)
           });
-
+          console.log(res)
           response.render('bookmarx/edit.ejs', {keywordList: keywordList,
                                                 bookmarx: res[0],
                                                 foldersList: folderList});
@@ -271,7 +273,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var account_id = db.escape(req.body.account_id);
 
   var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
-
+  console.log(bookmarx_old_keywords_id)
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
