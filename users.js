@@ -104,71 +104,73 @@ module.exports.signupAuth = function(req, response) {
   var password = req.body.pass;
   var repassword = req.body.repass;
 
-  if(password==repassword && password.trim()){
+  if(password==repassword && password.trim()) {
 
-    var queryString = db.squel
-        .select()
-        .from(user_table)
-        .where('username = \'' + username + '\'')
-        .toString();
+      var queryString = db.squel
+          .select()
+          .from(user_table)
+          .where('username = \'' + username + '\'')
+          .toString();
 
-      db.query(queryString,function(err,res){
+      db.query(queryString, function (err, res) {
 
-      // Redirect back to Sign Up if Account Exists
-      if(err || res[0]){
-        response.render('users/signup.ejs',{errmsg: {message:"User already exists ", hasError: true}});
-      }if(res && !res[0]){
-        // not exists create new one
-
-        // Encrypt Pwd
-        var encryptedPwd = encryption.encrypt(password);
-
-          var createUserQueryString = db.squel
-              .insert()
-              .into(user_table)
-              .setFields({
-                'username': username,
-                'password': encryptedPwd
-              })
-              .toString();
-
-        db.query(createUserQueryString,function(err,res){
-          if(err){
-            //server side failure
-          response.render('users/signup.ejs',{errmsg: {message:"server error ", hasError: true}});
-          }else if(res){
-            var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
-            db.query(getAccountId,function(err, accountId){
-              var createDefaultFolder = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" +db.escape(accountId[0].id.toString()) +", 'Default' )";
-          if (err) {
-          } else if (res && res.insertId){
-
-            var createDefaultFolder = db.squel
-                .insert()
-                .into(folder_table)
-                .setFields({
-                  'account_id': res.insertId,
-                  'name': 'Default'
-                })
-                .toString();
-              db.query(createDefaultFolder,function(err, folderRes){
-                if (err) {
-                  throw err;
-                  response.render('users/signup.ejs',{errmsg: {message:"server error ", hasError: true}});
-                }
-                if (folderRes) {
-                  req.session.username = encryption.encrypt(accountId[0].id.toString());
-                  response.redirect('/bookmarx');
-                }
-              });
-
-            });
-
+          // Redirect back to Sign Up if Account Exists
+          if (err || res[0]) {
+              response.render('users/signup.ejs', {errmsg: {message: "User already exists ", hasError: true}});
           }
-        });
+          if (res && !res[0]) {
+              // not exists create new one
 
-      }
-   });
+              // Encrypt Pwd
+              var encryptedPwd = encryption.encrypt(password);
+
+              var createUserQueryString = db.squel
+                  .insert()
+                  .into(user_table)
+                  .setFields({
+                      'username': username,
+                      'password': encryptedPwd
+                  })
+                  .toString();
+
+              db.query(createUserQueryString, function (err, res) {
+                  if (err) {
+                      //server side failure
+                      response.render('users/signup.ejs', {errmsg: {message: "server error ", hasError: true}});
+                  } else if (res) {
+                      if (err) {
+                      } else if (res && res.insertId) {
+
+                          var createDefaultFolder = db.squel
+                              .insert()
+                              .into(folder_table)
+                              .setFields({
+                                  'account_id': res.insertId,
+                                  'name': 'Default'
+                              })
+                              .toString();
+                          db.query(createDefaultFolder, function (err, folderRes) {
+                              if (err) {
+                                  throw err;
+                                  response.render('users/signup.ejs', {
+                                      errmsg: {
+                                          message: "server error ",
+                                          hasError: true
+                                      }
+                                  });
+                              }
+                              if (folderRes) {
+                                  req.session.username = encryption.encrypt(accountId[0].id.toString());
+                                  response.redirect('/bookmarx');
+                              }
+                          });
+
+                      }
+
+                  }
+              });
+          }
+      });
   }
   else {
     response.render('users/signup.ejs',{errmsg: {message:"Password and comfirm password not match", hasError: true}});
