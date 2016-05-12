@@ -158,8 +158,8 @@ nav.nav-mobile ul li a:hover {
 	left: 0;
 	right: 0;
 	display: inline-block;
-	border-radius:2px;
 	width: 60%;
+	height: 36px;
 }
 
 .folderSearchBar select {
@@ -167,11 +167,12 @@ nav.nav-mobile ul li a:hover {
 	margin: 0 auto;
 	font-size: 16px;
 	display: inline-block;
-	border-radius:0;
 	width: 20%;
 	background-color: white;
 	border: 0;
 	height: 36px;
+	vertical-align: top;
+	border-radius: 0;
 }
 
 
@@ -194,7 +195,6 @@ nav.nav-mobile ul li a:hover {
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
-	border-radius: 4px;
 	z-index: 9996;
 	height: 36px;
 }
