@@ -273,7 +273,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var account_id = db.escape(req.body.account_id);
 
   var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
-  console.log(bookmarx_old_keywords_id)
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&

@@ -923,9 +923,7 @@ form {
 .hashtaggroup input[type=checkbox]:checked + p:before {
 	display: none;
 }
-.hashtaggroup input[type=checkbox]:unchecked + p:before {
-	content: "#";
-}
+
 .hashtaggroup:hover {
 	text-decoration: line-through;
 	cursor: pointer;

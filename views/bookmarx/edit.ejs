@@ -43,11 +43,11 @@
           <span class="errMsg hide" id="descr_errlabel">Please add a description</span>
           </div>
           <div class="inputgroup">
-            <input type="text" name="keywords" required/>
+            <input type="text" name="keywords"/>
             <span class="bar"></span>
             <label>New Keywords</label>
           <span class="errMsg hide" id="keywords_errlabel">Please add keywords</span>
-          <span class="inputtext_hint">(Please seperate keywords with hashtags)</span>
+          <span class="inputtext_hint">(Please seperate keywords with a space)</span>
           </div>
           <div class="hashtagcontainer">
             <label><i>Click to Delete Keyword</i></label>
@@ -90,6 +90,7 @@
       </ul>
     </nav>
     <script>
+
       function validateTitle() {
         var username =$('.inputgroup').find('input[name="title"]').val();
         if (!username || !username.trim()) {
@@ -108,6 +109,7 @@
         $('#url_errlabel').addClass('hide');
         return true;
       }
+
       function validateDescription() {
         var descr =$('.inputgroup').find('input[name="desc"]').val();
         if (!descr || !descr.trim()) {
@@ -117,18 +119,17 @@
           $('#descr_errlabel').addClass('hide');
         return true;
       }
+
       function validateKeywords() {
 
         // Check if there are any existing keywords
         var keyword_exists = false;
-        $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
-
-          if ($(this).find('input[type=checkbox]').is(':checked') == true) {
+        $('.hashtagcontainer').find('.hashtaggroup').each(function() {
+          if (!$(this).is(':checked')) {
             keyword_exists = true;
-            return true;
           }
-
         });
+
         if (keyword_exists) {
           return true;
         }
@@ -139,6 +140,7 @@
           return false;
         }
           $('#keywords_errlabel').addClass('hide');
+
         return true;
       }
 
@@ -147,7 +149,7 @@
           var isValidURL = validateURL();
           var isValidDescr = validateDescription();
           var isValidKeywords = validateKeywords();
-          return  isValidTitle && isValidURL && isValidDescr && isValidKeywords;
+          return isValidTitle && isValidURL && isValidDescr && isValidKeywords;
       }
     </script>
 
