@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
-
 <body>
   <nav>
     <ul class="nav-title">
@@ -21,7 +20,7 @@
 
     <div class="searchContainer">
       <div class="folderSearchBar">
-        <form action="/bookmarx" method="GET">
+        <form action="" method="GET">
         <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
         <select name="ordering">
           <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
@@ -42,7 +41,6 @@
 
   <div class="container">
     <section class="side-nav-container desktopView">
-  
       <h2>Quicklinks</h2>
       <ul>
         <li><a href="/bookmarx">My BookMarx</a></li>

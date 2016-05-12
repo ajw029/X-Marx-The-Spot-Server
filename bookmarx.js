@@ -12,7 +12,13 @@ var account_table = tables.user_table;
  */
 var add = module.exports.add = function(req, response) {
   var account_id = req.body.account_id;
-  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id + " AND deleted=0";
+
+  var queryFolderListString = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('deleted=0')
+      .toString();
 
   db.query(queryFolderListString, function(err, folderRes) {
     if (err) {
@@ -32,7 +38,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
   var bookmarx_title = db.escape(req.body.title);
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = req.body.keywords;
+  var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
 
@@ -42,8 +48,18 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
       bookmarx_keywords &&
       bookmarx_folder_id) {
 
-        var queryString = "INSERT INTO " + bookmarx_table + " (folder_id, account_id, name, url, description, favorite)";
-        queryString += " VALUES(" + bookmarx_folder_id + "," + account_id + "," + bookmarx_title + "," + bookmarx_url + "," + bookmarx_desc + "," + false +")";
+    var queryString = db.squel
+        .insert()
+        .into(bookmarx_table)
+        .setFields({
+          'folder_id': bookmarx_folder_id.slice(1, -1),
+          'account_id': account_id,
+          'name': bookmarx_title.slice(1, -1),
+          'url': bookmarx_url.slice(1, -1),
+          'description': bookmarx_desc.slice(1, -1),
+          'favorite': false
+        })
+        .toString();
 
         db.query(queryString, function(err, res) {
           if (err){
@@ -93,75 +109,65 @@ var list = module.exports.list = function(req, response) {
   var account_id = req.body.account_id;
   var selectedFolder = {selectedFolder: folder_id};
 
-  var queryFolderListString = "SELECT * FROM " + folder_table+" WHERE account_id="+account_id +" AND deleted=0";
+  var queryFolderListString = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('deleted=0')
+      .toString();
+
 
   db.query(queryFolderListString, function(err, folderRes) {
-      if (err){
-        throw err;
+    if (err) {
+      throw err;
+    }
+
+    var queryBookmarks = db.squel.select()
+        .from(bookmarx_table)
+        .where('account_id=' + db.escape(account_id))
+        .where('deleted=0');
+    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
+      queryBookmarks.order('name', req.query.ordering === 'asc');
+    }
+
+    if (folderRes) {
+      if (folder_id) {
+        queryBookmarks.where('folder_id=' + folder_id)
+      }
+      else {
+        if (folderRes[0] && !req.query.search) {
+          queryBookmarks.where('folder_id=' + folderRes[0].id);
+          selectedFolder = {selectedFolder: folderRes[0].id};
+        }
       }
 
-    var ordering = '';
-    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
-      ordering = ' ORDER BY name ' + req.query.ordering;
-    }
-      if (folderRes) {
-        if (folder_id) {
-          // TODO
-          var queryString = "SELECT * FROM " + bookmarx_table + " WHERE folder_id=" + folder_id+" AND deleted=0";
+      if (req.query.search && req.query.search.length > 0) {
+        req.query.search = db.escape(req.query.search);
+        req.query.search = req.query.search.slice(1, req.query.search.length - 1);
+        queryBookmarks.where(
+            db.squel.expr()
+                .or('name LIKE \'%' + req.query.search + '%\'')
+                .or('url LIKE \'%' + req.query.search + '%\'')
+                .or('description LIKE \'%' + req.query.search + '%\'')
+        );
+      }
 
-          db.query(queryString + ordering, function(err, res) {
-            if (err){
-              throw err;
-            }
-            if (res) {
-
-              response.render('bookmarx/list.ejs', {bookmarxList: res,
-                                                    folderList: folderRes,
-                                                    selectedFolder: selectedFolder,
-                                                    search: req.query.search || '',
-                                                    ordering: req.query.ordering || ''});
-            }
+      db.query(queryBookmarks.toString(), function (err, res) {
+        if (err) {
+          throw err;
+        }
+        if (res) {
+          response.render('bookmarx/list.ejs', {
+            bookmarxList: res,
+            folderList: folderRes,
+            selectedFolder: selectedFolder,
+            search: req.query.search || '',
+            ordering: req.query.ordering || ''
           });
         }
-        else {
-          // TODO
-          var queryString;
-          if (folderRes[0]) {
-
-            queryString = "SELECT * FROM " + bookmarx_table + " b where b.folder_id=" +folderRes[0].id+" AND deleted=0";
-
-            if (req.query.search && req.query.search.length > 0) {
-              req.query.search = db.escape(req.query.search);
-              req.query.search = req.query.search.slice(1, req.query.search.length - 1);
-              var pattern = 'LIKE \'%' + req.query.search + '%\'';
-              queryString += ' AND (name ' + pattern +' OR url '+ pattern +' OR description '+ pattern +')';
-
-            }
-            selectedFolder = {selectedFolder: folderRes[0].id};
-            db.query(queryString + ordering, function(err, res) {
-              if (err){
-                throw err;
-              }
-              if (res) {
-                response.render('bookmarx/list.ejs', {bookmarxList: res,
-                                                      folderList: folderRes,
-                                                      selectedFolder: selectedFolder,
-                                                      search: req.query.search || '',
-                                                      ordering: req.query.ordering || ''});
-              }
-            });
-          }
-          else {
-            response.render('bookmarx/list.ejs', {bookmarxList: [],
-                                                  folderList: folderRes,
-                                                  selectedFolder: selectedFolder,
-                                                  search: req.query.search || '',
-                                                  ordering: req.query.ordering || ''});
-          }
-
-        }
-      }
-    });
+      });
+    }
+  });
 };
 
 /**
@@ -171,7 +177,14 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
   var bookmarx_id = db.escape(req.params.bookmarx_id);
   var account_id = req.body.account_id;
   //Not deleted but hidden
-  var deleteBookMarksQuery= "update " +bookmarx_table+ " set deleted=1 where account_id="+account_id+" AND id="+bookmarx_id;
+  var deleteBookMarksQuery = db.squel
+      .update()
+      .table(bookmarx_table)
+      .set('deleted=1')
+      .where('account_id=' + db.escape(account_id))
+      .where('id=' + bookmarx_id)
+      .toString();
+
   db.query(deleteBookMarksQuery, function(err, res) {
     if (err){
       response.redirect('/bookmarx/delete');
@@ -192,8 +205,20 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
-  var queryString = "SELECT k.name as keyword, b.id as id, b.folder_id, b.name as name, b.favorite, b.url, b.deleted, b.description, k.id as k_id FROM " + bookmarx_table + " b JOIN " + keywords_table + " k ON k.bookmark_id=b.id "+ " WHERE b.account_id="+account_id + " AND k.bookmark_id="+bookmarx_id;
-  var folderQuery = "SELECT * FROM " + folder_table + " WHERE account_id="+account_id + " AND deleted=0";
+
+  var folderQuery = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + account_id)
+      .where('deleted=0')
+      .toString();
+
+  var queryString = db.squel
+      .select()
+      .from(bookmarx_table)
+      .where('account_id=' + account_id)
+      .where('id=' + bookmarx_id)
+      .toString();
 
   db.query(queryString, function(err, res) {
     if (err) {
@@ -233,6 +258,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var bookmarx_id = db.escape(req.body.bookmarx_id);
+
   var account_id = db.escape(req.body.account_id);
 
   var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
@@ -242,9 +268,19 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
       bookmarx_desc  &&
       bookmarx_keywords &&
       bookmarx_folder_id) {
-        var querystring = "UPDATE " + bookmarx_table + " SET ";
-        querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
-        querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id ;
+    var querystring = db.squel
+        .update()
+        .table(bookmarx_table)
+        .setFields({
+          'folder_id': bookmarx_folder_id.slice(1, -1),
+          'name': bookmarx_title.slice(1, -1),
+          'description': bookmarx_desc.slice(1, -1),
+          'url': bookmarx_url.slice(1, -1)
+        })
+        .where('id=' + bookmarx_id)
+        .where('account_id=' + account_id)
+        .toString();
+
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -270,7 +306,13 @@ var foldersettings = module.exports.foldersettings =  function(req, response) {
   var folder_id= db.escape(req.params.folder_id);
   var account_id = db.escape(req.body.account_id);
 
-  var queryString = "SELECT * from " +folder_table + " where id="+folder_id + " and account_id="+account_id;
+  var queryString = db.squel
+      .select()
+      .from(folder_table)
+      .where('id=' + folder_id)
+      .where('account_id=' + account_id)
+      .toString();
+
   db.query(queryString, function(err, res) {
     if (err){
       response.redirect('/bookmarx');
@@ -287,7 +329,14 @@ var deletefolder=module.exports.deletefolder=function(req,response){
   var folder_id= db.escape(req.body.folder_id);
   var account_id = db.escape(req.body.account_id);
 
-  var deleteFolderQuery="UPDATE " + folder_table +" set deleted=1 where id="+folder_id+" AND account_id="+account_id + " and name<>'Default'";
+  var deleteFolderQuery = db.squel
+      .update()
+      .table(folder_table)
+      .set('deleted=1')
+      .where('id=' + folder_id)
+      .where('account_id=' + account_id)
+      .where('name<>\'Default\'')
+      .toString();
 
   db.query(deleteFolderQuery,function(err,res){
     if(err){
@@ -295,7 +344,13 @@ var deletefolder=module.exports.deletefolder=function(req,response){
       response.redirect('/bookmarx');
     }if(res){
 
-      var deleteChildBookmarksQuery="update "+bookmarx_table+" set deleted=1 where id="+folder_id+" AND account_id="+account_id;
+      var deleteChildBookmarksQuery = db.squel
+          .update()
+          .table(bookmarx_table)
+          .set('deleted=1')
+          .where('folder_id=' + folder_id)
+          .where('account_id=' + account_id)
+          .toString();
 
       db.query(deleteChildBookmarksQuery,function(err,res2){
         if(err){
@@ -312,7 +367,6 @@ var deletefolder=module.exports.deletefolder=function(req,response){
 };
 
 var updatefolder = module.exports.updatefolder = function(req, res) {
-  //TODO Make query to update the folder name
 
   var folder_id  = req.params.folder_id;
   var account_id = req.body.account_id;
@@ -327,7 +381,14 @@ var updatefolder = module.exports.updatefolder = function(req, res) {
     account_id = db.escape(account_id);
     var newName = db.escape(req.body.newname);
 
-    var updateFolderQuery="update "+folder_table+" set name="+ newName +" where id="+folder_id+" AND account_id="+account_id + " AND name<>'Default'";
+    var updateFolderQuery = db.squel
+        .update()
+        .table(folder_table)
+        .set('name=' + newName)
+        .where('id=' + folder_id)
+        .where('account_id=' + account_id)
+        .where('name<>\'Default\'')
+        .toString();
 
     db.query(updateFolderQuery,function(err,res1){
       if(err){
@@ -354,7 +415,15 @@ var addfolderauth = module.exports.addfolderauth =  function(req, response) {
     response.redirect('/bookmarx/addfolder');
   }
 
-  var querystring = "INSERT INTO " + folder_table + " (account_id, name) VALUES(" + account_id +"," + folder_title + ")";
+  var querystring = db.squel
+      .insert()
+      .into(folder_table)
+      .setFields({
+        'account_id': account_id,
+        'name': folder_title.slice(1, -1)
+      })
+      .toString();
+
   db.query(querystring, function(err, res2) {
     if(err) {
       throw err;
@@ -374,72 +443,37 @@ var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
 
-  var select_queryString = "SELECT * FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
+  var select_queryString = db.squel
+      .select()
+      .from(bookmarx_table)
+      .where('id=' + bookmarx_id)
+      .where('account_id=' + account_id)
+      .toString();
+
   db.query(select_queryString, function(err, res) {
     if (err) {
       throw err;
       response.redirect('/bookmarx');
     }
     if (res) {
-      var folder_id=res[0].folder_id;
-      var querystring = "UPDATE " + bookmarx_table + " SET ";
-      querystring += "favorite="+ (!res[0].favorite);
-      querystring += " WHERE id="+bookmarx_id + " AND account_id="+account_id;
-      db.query(querystring, function(err, res) {
+      var querystring = db.squel
+          .update()
+          .table(bookmarx_table)
+          .set('favorite=' + (!res[0].favorite))
+          .where('id=' + bookmarx_id)
+          .where('account_id=' + account_id)
+          .toString();
+
+      db.query(querystring, function(err, result) {
         if (err) {
           throw err;
           response.redirect('/bookmarx');
         }
-        if (res) {
-
-          response.redirect('/bookmarx/'+folder_id);
+        if (result) {
+          // TODO: find a way to go back where we were (eg search)
+          response.redirect('/bookmarx/' + res[0].folder_id);
         }
       });
     }
   });
-};
-
-
-var openFavoritesView=module.exports.openFavoritesView=function(req,response){
-
-    var account_id=req.body.account_id;
-
-     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1 AND account_id="+account_id + " and deleted=0";
-
-    var ordering = '';
-    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
-      ordering = ' ORDER BY name ' + req.query.ordering;
-    }
-
-          db.query(queryString + ordering, function(err, res) {
-            if (err){
-              throw err;
-            }
-            if (res) {
-
-              response.render('bookmarx/liststared.ejs', {bookmarxList: res,
-                                                    search: req.query.search || '',
-                                                    ordering: req.query.ordering || ''});
-            }
-          });
-};
-
-var mostvisited=module.exports.mostvisited=function(req,response){
-  var account_id=req.body.account_id;
-  var topN=5;
-  var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id + " and deleted=0 " +" ORDER BY visit_count DESC  LIMIT "+ topN;
-
-  db.query(queryString,function(err,res){
-    if(err){
-      throw err;
-      response.redirect('/bookmarx');
-    }
-    if(res){
-      response.render("bookmarx/mostvisited", {bookmarxList: res,
-                                            search: req.query.search || '',
-                                            ordering: req.query.ordering || ''});
-
-    }
-  });
-
 };
