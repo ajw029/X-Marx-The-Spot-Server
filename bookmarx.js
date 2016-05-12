@@ -236,14 +236,12 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .where("k.bookmark_id="+bookmarx_id)
       .toString();
 
-      console.log(queryString)
-
   db.query(queryString, function(err, res) {
     if (err) {
       response.redirect('/bookmarx');
       throw err;
     }
-    else {
+    if (res[0]) {
       db.query(folderQuery, function(err, folderList) {
         if (err) {
           response.redirect('/bookmarx');
@@ -265,6 +263,9 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
                                                 foldersList: folderList});
           }
         });
+      }
+      else {
+        response.redirect('/bookmarx');
       }
   });
 };
