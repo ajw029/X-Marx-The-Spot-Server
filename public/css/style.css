@@ -905,7 +905,6 @@ form {
 	position: absolute;
 	padding: 0;
 	margin: 0;
-
 }
 
 .hashtaggroup input[type=checkbox]:checked + p {
@@ -920,17 +919,10 @@ form {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.hashtaggroup input[type=checkbox]:checked + p:before {
-	display: none;
-}
 
 .hashtaggroup:hover {
 	text-decoration: line-through;
 	cursor: pointer;
-}
-
-.hashtaggroup input[type=checkbox]:unchecked + p {
-  display: block;
 }
 
 .settinggroup {

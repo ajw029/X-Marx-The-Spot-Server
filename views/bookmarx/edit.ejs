@@ -124,22 +124,25 @@
 
         // Check if there are any existing keywords
         var keyword_exists = false;
-        $('.hashtagcontainer').find('.hashtaggroup').each(function() {
-          if (!$(this).is(':checked')) {
-            keyword_exists = true;
-          }
-        });
 
+        // Check if keyword still exists
+        var container = document.getElementsByClassName('hashtagcontainer')[0];
+        var hashtags = container.getElementsByClassName('hashtaggroup');
+        for (var i = 0; i < hashtags.length; i++) {
+          if (!hashtags[i].querySelector('input').checked) {
+            keyword_exists = true;
+            break;
+          }
+        }
         if (keyword_exists) {
           return true;
         }
-
-        var keywords =$('.inputgroup').find('input[name="keywords"]').val();
+        var keywords = $('.inputgroup').find('input[name="keywords"]').val();
         if (!keywords || !keywords.trim()) {
           $('#keywords_errlabel').removeClass('hide');
           return false;
         }
-          $('#keywords_errlabel').addClass('hide');
+        $('#keywords_errlabel').addClass('hide');
 
         return true;
       }
