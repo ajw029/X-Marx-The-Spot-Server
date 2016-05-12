@@ -213,12 +213,21 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .where('deleted=0')
       .toString();
 
-  var queryString = db.squel
-      .select()
-      .from(bookmarx_table)
-      .where('account_id=' + account_id)
-      .where('id=' + bookmarx_id)
-      .toString();
+  var queryString = db.squel.select()
+      .from(bookmarx_table, "b")
+      .field("k.name", "keyword")
+      .field("b.id", "id")
+      .field("b.name", "name")
+      .field("b.folder_id")
+      .field("b.favorite")
+      .field("b.url")
+      .field("b.deleted")
+      .field("b.description")
+      .field("k.id", "k_id")
+      .left_join(keywords_table, "k", "k.bookmark_id=b.id")
+      .where("b.account_id="+account_id)
+      .where("k.bookmark_id="+bookmarx_id)
+      .toString()
 
   db.query(queryString, function(err, res) {
     if (err) {
@@ -477,3 +486,5 @@ var staraction = module.exports.staraction =  function(req, response) {
     }
   });
 };
+
+// TODO add back the most fav stuff

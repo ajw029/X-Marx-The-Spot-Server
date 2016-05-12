@@ -895,6 +895,7 @@ form {
 	margin-top: 4px;
 	margin-bottom: 4px;
 	display: inline-block;
+	width: auto;
 }
 
 .hashtaggroup input[type=checkbox] {
@@ -906,7 +907,8 @@ form {
 	margin: 0;
 
 }
-.hashtaggroup input[type=checkbox]:unchecked {
+
+.hashtaggroup input[type=checkbox]:unchecked + p {
 	display: none;
 }
 .hashtaggroup input[type=checkbox] + p {
@@ -917,6 +919,9 @@ form {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.hashtaggroup input[type=checkbox]:unchecked + p:before {
+	display: none;
 }
 .hashtaggroup input[type=checkbox] + p:before {
 	content: "#";
