@@ -32,7 +32,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
   var bookmarx_title = db.escape(req.body.title);
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = req.body.keywords;
+  var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var account_id = db.escape(req.body.account_id);
 
@@ -52,25 +52,6 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
           }
           if (res) {
             // Insert Keywords
-            var words = bookmarx_keywords.split(" ");
-            var bookmark_id = res.insertId;
-
-            words.forEach(function insertKeyword(word, index) {
-              var queryStringKeyword = "INSERT INTO " + keywords_table + "(account_id, bookmark_id, name)";
-              queryStringKeyword += " VALUES(" + account_id + "," + bookmark_id + "," + db.escape(word) + ")";
-
-              db.query(queryStringKeyword, function(err2, res2) {
-                if (err2){
-                  //throw err;
-                  //response.redirect('/bookmarx/add');
-                  console.log(err2);
-                }
-                if (res2) {
-                  //Do nothing, insert success
-                }
-              });
-            });
-
             response.redirect('/bookmarx');
           }
         });
@@ -193,8 +174,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
-  console.log(req.body)
-  var queryString = "SELECT k.name as keyword, b.id as id, b.folder_id, b.name as name, b.favorite, b.url, b.deleted, b.description, k.id as k_id FROM " + bookmarx_table + " b JOIN " + keywords_table + " k ON k.bookmark_id=b.id "+ " WHERE b.account_id="+account_id + " AND k.bookmark_id="+bookmarx_id;
+  var queryString = "SELECT * FROM " + bookmarx_table + " WHERE account_id="+account_id + " AND id="+bookmarx_id;
   var folderQuery = "SELECT * FROM " + folder_table + " WHERE account_id="+account_id + " AND deleted=0";
 
   db.query(queryString, function(err, res) {
@@ -209,18 +189,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
           throw err;
         }
         else {
-          var keywordList = [];
-          res.forEach(function getKeyword(entry) {
-            var k_id = entry.k_id;
-            var word = entry.keyword;
-            var keyword = {};
-            keyword.k_id = k_id;
-            keyword.word = word;
-            keywordList.push(keyword)
-          });
-
-          response.render('bookmarx/edit.ejs', {keywordList: keywordList,
-                                                bookmarx: res[0],
+          response.render('bookmarx/edit.ejs', {bookmarx: res[0],
                                                 foldersList: folderList});
           }
         });
@@ -233,7 +202,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = db.escape(req.body.account_id);
@@ -241,14 +209,11 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
-      //bookmarx_keywords &&
+      bookmarx_keywords &&
       bookmarx_folder_id) {
-
-
         var querystring = "UPDATE " + bookmarx_table + " SET ";
         querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
         querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id ;
-        console.log(querystring)
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -256,6 +221,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
           }
           if (res) {
             // TODO update keywords if changed?
+
             response.redirect('/bookmarx');
           }
         });
@@ -376,7 +342,7 @@ var settings = module.exports.settings =  function(req, res) {
 var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
-
+  
   var select_queryString = "SELECT * FROM " + bookmarx_table + " WHERE id="+bookmarx_id + " AND account_id="+account_id;
   db.query(select_queryString, function(err, res) {
     if (err) {
@@ -384,6 +350,7 @@ var staraction = module.exports.staraction =  function(req, response) {
       response.redirect('/bookmarx');
     }
     if (res) {
+      var folder_id=res[0].folder_id;
       var querystring = "UPDATE " + bookmarx_table + " SET ";
       querystring += "favorite="+ (!res[0].favorite);
       querystring += " WHERE id="+bookmarx_id + " AND account_id="+account_id;
@@ -393,9 +360,55 @@ var staraction = module.exports.staraction =  function(req, response) {
           response.redirect('/bookmarx');
         }
         if (res) {
-          response.redirect('/bookmarx');
+          
+          response.redirect('/bookmarx/'+folder_id);
         }
       });
     }
   });
+};
+
+
+var openFavoritesView=module.exports.openFavoritesView=function(req,response){
+    
+    var account_id=req.body.account_id;
+
+     var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1 AND account_id="+account_id ;
+
+    var ordering = '';
+    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
+      ordering = ' ORDER BY name ' + req.query.ordering;
+    }
+
+          db.query(queryString + ordering, function(err, res) {
+            if (err){
+              throw err;
+            }
+            if (res) {
+
+              response.render('bookmarx/liststared.ejs', {bookmarxList: res,
+                                                    search: req.query.search || '',
+                                                    ordering: req.query.ordering || ''});
+            }
+          });
+};
+
+var mostvisited=module.exports.mostvisited=function(req,response){
+  var account_id=req.body.account_id;
+  var topN=5;
+  var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id+" ORDER BY visit_count DESC  LIMIT "+ topN; 
+
+  db.query(queryString,function(err,res){
+    if(err){
+      throw err;
+      response.redirect('/bookmarx');
+    }
+    if(res){
+      response.render("bookmarx/mostvisited", {bookmarxList: res,
+                                            search: req.query.search || '',
+                                            ordering: req.query.ordering || ''});
+
+    }
+  });
+
 };

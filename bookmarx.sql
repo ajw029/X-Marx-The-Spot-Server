@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `bookmarx`.`bookmarks` (
   `url` VARCHAR(45) NOT NULL,
   `description` VARCHAR(1000) NOT NULL,
   `deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `visit_count` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `id_idx` (`folder_id` ASC),
   INDEX `id_idx1` (`account_id` ASC),

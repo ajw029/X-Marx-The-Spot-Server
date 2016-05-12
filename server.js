@@ -65,6 +65,11 @@ app.post('/bookmarx/deletefolder',bookmarx.deletefolder);
 
 app.post('/bookmarx/updatepassword',users.updatepassword);
 
+app.get('/bookmarx/favorites',bookmarx.openFavoritesView);
+
+app.get('/bookmarx/mostvisited',bookmarx.mostvisited)
+
+
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');
 });

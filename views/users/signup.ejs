@@ -22,6 +22,12 @@
     <div class="formcontainer column-40">
       <form action="/signup" method="POST" onsubmit="return validateSignUp()" autocomplete="off">
         <h1>Sign Up</h1>
+        <% if (errmsg){%>
+        <% if (errmsg.hasError) {%>
+        <div class="inputgroup">
+          <span class="errMsg"><%=  errmsg.message%></span>
+        </div>
+        <%}%><%}%>
         <div class="inputgroup">
           <input type="text" name="username" autofocus required/>
           <span class="bar"></span>

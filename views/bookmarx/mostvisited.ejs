@@ -12,13 +12,14 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
-
 <body>
   <nav>
     <ul class="nav-title">
       <li><a href="index.html">BookMarx</a></li>
     </ul>
-
+    <!--ul class="nav-hamburger mobileView">
+      <li><a href="index.html"><img src="img/ic_menu_white_48dp_2x.png"></a></li>
+    </ul-->
     <div class="searchContainer">
       <div class="folderSearchBar">
         <form action="/bookmarx" method="GET">
@@ -34,7 +35,7 @@
     <ul class="navbar-right">
       <li class="navbar-hide"><a href="/bookmarx/add" class="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Add a BookMarx</span></a></li>
       <li class="navbar-hide"><a href="/bookmarx/addfolder" class="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"><span class="tooltiptext">Add a Folder</span></a></li>
-      <!--li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li-->
+      <li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li>
       <li class="navbar-hide"><a href="/bookmarx/settings" class="tooltip"><img class="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Settings</span></a></li>
       <li class="navbar-hide"><a class="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
     </ul>
@@ -42,7 +43,6 @@
 
   <div class="container">
     <section class="side-nav-container desktopView">
-  
       <h2>Quicklinks</h2>
       <ul>
         <li><a href="/bookmarx">My BookMarx</a></li>
@@ -53,39 +53,6 @@
         <li><a>Images</a></li>
         <li><a>Articles</a></li>
       </ul>
-    </section>
-    <section class="slide-container">
-      <div class="slide desktopView">
-        <!-- Need to make templates TODO -->
-        <% folderList.forEach(function(folder) { %>
-        <div class="column- folderContainer">
-          <div class="folder">
-            <h2><%= folder.name %></h2>
-            <a class="folderToggle openFolder" href="/bookmarx/<%= folder.id %>"><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"/></a>
-            <% if (folder.name!='Default') { %>
-            <a href="/foldersetting/<%= folder.id %>"><img class="cog" src="/img/ic_settings_black_48px.svg" alt="settings"/></a>
-            <% } %>
-          </div>
-        </div>
-        <% }); %>
-      </div>
-      <div class="slide mobileView">
-        <div class="column- folderContainer">
-          <form action="/bookmarx/" method="GET">
-            <span>Folder: </span>
-            <select name="folder_id">
-              <% folderList.forEach(function(folder) { %>
-                <% if (selectedFolder.selectedFolder == folder.id) { %>
-                  <option value="<%= folder.id %>" selected><%= folder.name %></option>
-                <% } else { %>
-                  <option value="<%= folder.id %>"><%= folder.name %></option>
-                <% }%>
-              <% }); %>
-            </select>
-            <input type="submit" value="Change">
-          </form>
-        </div>
-      </div>
     </section>
 
     <section class="right-container">
@@ -135,11 +102,11 @@
 
   <nav class="nav-mobile mobileView">
     <ul class="mobileView">
-      <li><a href="/bookmarx/add"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
-      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
-      <li class="active"><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
-      <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
-      <li><a href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
+      <li><a href="/"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
+      <li><a href="/"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+      <li><a href="/"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+      <li><a href="/"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+      <li><a href="/"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
     </ul>
   </nav>
 </body>
