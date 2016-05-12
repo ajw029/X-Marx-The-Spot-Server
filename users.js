@@ -56,14 +56,14 @@ module.exports.auth = function(req, res, next) {
 */
 module.exports.loginAuth = function(req, response) {
 
-  var username = req.body.username;
+  var username = db.escape(req.body.username);
   var password = req.body.pass;
 
   if (username && password) {
     var queryString = db.squel
     .select()
     .from(user_table)
-    .where('username = \'' + username + '\'')
+    .where('username=' + username)
     .toString();
 
     db.query(queryString,function(err,res){
@@ -100,7 +100,7 @@ module.exports.loginAuth = function(req, response) {
 */
 module.exports.signupAuth = function(req, response) {
 
-  var username = req.body.username;
+  var username = db.escape(req.body.username);
   var password = req.body.pass;
   var repassword = req.body.repass;
 
@@ -112,7 +112,7 @@ module.exports.signupAuth = function(req, response) {
     .insert()
     .into(user_table)
     .setFields({
-      'username': username,
+      'username': username.slice(1, -1),
       'password': encryptedPwd
     })
     .toString();
@@ -151,7 +151,6 @@ module.exports.signupAuth = function(req, response) {
               .toString();
               db.query(queryString, function (err, res) {
                 if (err) {
-                  console.log(err)
                   response.redirect('/login');
                 }
                 if (res) {
