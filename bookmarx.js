@@ -72,20 +72,27 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
             var words = bookmarx_keywords.split(" ");
             var bookmark_id = res.insertId;
 
-             words.forEach(function insertKeyword(word, index) {
-               var queryStringKeyword = "INSERT INTO " + keywords_table + "(account_id, bookmark_id, name)";
-               queryStringKeyword += " VALUES(" + account_id + "," + bookmark_id + "," + db.escape(word) + ")";
+            words.forEach(function insertKeyword(word, index) {
+              var queryStringKeyword = db.squel
+                .insert()
+                .into(keywords_table)
+                .setFields({
+                  'account_id': account_id,
+                  'bookmark_id': bookmark_id,
+                  'name': db.escape(word).slice(1, -1),
+                })
+                .toString();
 
-               db.query(queryStringKeyword, function(err2, res2) {
-                 if (err2){
-                   //throw err;
-                   console.log(err2);
-                 }
-                 if (res2) {
-                   //Do nothing, insert success
-                 }
-               });
-             });
+              db.query(queryStringKeyword, function(err2, res2) {
+              if (err2){
+                //throw err;
+                console.log(err2);
+              }
+                if (res2) {
+                 //Do nothing, insert success
+                }
+              });
+            });
 
             response.redirect('/bookmarx');
           }
@@ -213,11 +220,20 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .where('deleted=0')
       .toString();
 
-  var queryString = db.squel
-      .select()
-      .from(bookmarx_table)
-      .where('account_id=' + account_id)
-      .where('id=' + bookmarx_id)
+  var queryString = db.squel.select()
+      .from(bookmarx_table, "b")
+      .field("k.name", "keyword")
+      .field("b.id", "id")
+      .field("b.name", "name")
+      .field("b.folder_id")
+      .field("b.favorite")
+      .field("b.url")
+      .field("b.deleted")
+      .field("b.description")
+      .field("k.id", "k_id")
+      .left_outer_join(keywords_table, "k", "k.bookmark_id=b.id")
+      .where("b.account_id="+account_id)
+      .where("k.bookmark_id="+bookmarx_id)
       .toString();
 
   db.query(queryString, function(err, res) {
@@ -225,7 +241,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       response.redirect('/bookmarx');
       throw err;
     }
-    else {
+    if (res[0]) {
       db.query(folderQuery, function(err, folderList) {
         if (err) {
           response.redirect('/bookmarx');
@@ -241,12 +257,15 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
             keyword.word = word;
             keywordList.push(keyword)
           });
-
+          //console.log(res)
           response.render('bookmarx/edit.ejs', {keywordList: keywordList,
                                                 bookmarx: res[0],
                                                 foldersList: folderList});
           }
         });
+      }
+      else {
+        response.redirect('/bookmarx');
       }
   });
 };
@@ -260,9 +279,8 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var bookmarx_id = db.escape(req.body.bookmarx_id);
 
   var account_id = db.escape(req.body.account_id);
-
-  var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
-
+  var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
+  console.log(bookmarx_keywords)
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
@@ -287,7 +305,57 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
             throw err;
           }
           if (res) {
-            // TODO update keywords if changed?
+            //Delete old keywords
+            function deleteKeywordOnServer(word_id) {
+              var queryStringDelete = db.squel.delete()
+                 .from(keywords_table)
+                 .where("id = ?", word_id)
+                 .toString();
+               db.query(queryStringDelete, function(err3, res3) {
+               if (err3){
+                 //throw err;
+                 console.log(err3);
+               }
+                 if (res3) {
+                  //Do nothing, insert success
+                 }
+               });
+            };
+
+            if (bookmarx_old_keywords_id instanceof Array) {
+              bookmarx_old_keywords_id.forEach(function deleteKeyword(word_id, index) {
+                deleteKeywordOnServer(word_id);
+              });
+            }
+            else if (bookmarx_old_keywords_id){
+                deleteKeywordOnServer(bookmarx_old_keywords_id);
+            }
+
+            // Insert Keywords
+            var words = bookmarx_keywords.slice(1, -1).split(" ");
+            words.forEach(function insertKeyword(word, index) {
+              if (word !='') {
+                var queryStringKeyword = db.squel
+                  .insert()
+                  .into(keywords_table)
+                  .setFields({
+                    'account_id': account_id,
+                    'bookmark_id': bookmarx_id.slice(1, -1),
+                    'name': db.escape(word).slice(1, -1),
+                  })
+                  .toString();
+
+                db.query(queryStringKeyword, function(err2, res2) {
+                if (err2){
+                  //throw err;
+                  console.log(err2);
+                }
+                  if (res2) {
+                   //Do nothing, insert success
+                  }
+                });
+              }
+            });
 
             response.redirect('/bookmarx');
           }
@@ -476,9 +544,9 @@ var staraction = module.exports.staraction =  function(req, response) {
           if(page==1){
             response.redirect('/bookmarx/' + res[0].folder_id);
           }
-          if(page==2){
+          else if(page==2){
             response.redirect('/bookmarx/mostvisited');
-          }if(page==3){
+          }else if(page==3){
             response.redirect('/bookmarx/favorites');
           }else{
             response.redirect('/bookmarx');
@@ -558,9 +626,11 @@ var staraction = module.exports.staraction =  function(req, response) {
         if(res){
           if(page==1){
             response.redirect('/bookmarx/'+folder_id);
-          }if(page==2){
+          }
+          else if(page==2){
             response.redirect('/bookmarx/mostvisited');
-          }if(page==3){
+          }
+          else if(page==3){
             response.redirect('/bookmarx/favorites');
           }else{
             response.redirect('/bookmarx');
@@ -569,3 +639,4 @@ var staraction = module.exports.staraction =  function(req, response) {
         }
       });
   };
+

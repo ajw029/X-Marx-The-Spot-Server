@@ -158,8 +158,8 @@ nav.nav-mobile ul li a:hover {
 	left: 0;
 	right: 0;
 	display: inline-block;
-	border-radius:2px;
 	width: 60%;
+	height: 36px;
 }
 
 .folderSearchBar select {
@@ -167,11 +167,12 @@ nav.nav-mobile ul li a:hover {
 	margin: 0 auto;
 	font-size: 16px;
 	display: inline-block;
-	border-radius:0;
 	width: 20%;
 	background-color: white;
 	border: 0;
 	height: 36px;
+	vertical-align: top;
+	border-radius: 0;
 }
 
 
@@ -194,7 +195,6 @@ nav.nav-mobile ul li a:hover {
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
-	border-radius: 4px;
 	z-index: 9996;
 	height: 36px;
 }
@@ -895,6 +895,7 @@ form {
 	margin-top: 4px;
 	margin-bottom: 4px;
 	display: inline-block;
+	width: auto;
 }
 
 .hashtaggroup input[type=checkbox] {
@@ -904,13 +905,14 @@ form {
 	position: absolute;
 	padding: 0;
 	margin: 0;
-
 }
-.hashtaggroup input[type=checkbox]:unchecked {
+.hashtaggroup input[type=checkbox]:checked {
+	display: none;
+}
+.hashtaggroup input[type=checkbox]:checked + p {
 	display: none;
 }
 .hashtaggroup input[type=checkbox] + p {
-	display: none;
 	width: 96px;
 	height: 32px;
 	color: black;
@@ -918,16 +920,10 @@ form {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.hashtaggroup input[type=checkbox] + p:before {
-	content: "#";
-}
+
 .hashtaggroup:hover {
 	text-decoration: line-through;
 	cursor: pointer;
-}
-
-.hashtaggroup input[type=checkbox]:checked + p {
-  display: block;
 }
 
 .settinggroup {
