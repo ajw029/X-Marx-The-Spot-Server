@@ -69,7 +69,7 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
           if (res) {
             // Insert Keywords
 
-            var words = bookmarx_keywords.split(" ");
+            var words = bookmarx_keywords.slice(1, -1).split(" ");
             var bookmark_id = res.insertId;
 
             words.forEach(function insertKeyword(word, index) {
@@ -551,9 +551,9 @@ var staraction = module.exports.staraction =  function(req, response) {
           }else{
             response.redirect('/bookmarx');
           }
-          
 
-          
+
+
         }
       });
     }
@@ -562,23 +562,23 @@ var staraction = module.exports.staraction =  function(req, response) {
 
 
       var openFavoritesView=module.exports.openFavoritesView=function(req,response){
-    
+
       var account_id=req.body.account_id;
-      
+
 
       var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1" ;
- 
+
      var ordering = '';
      if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
        ordering = ' ORDER BY name ' + req.query.ordering;
      }
- 
+
            db.query(queryString + ordering, function(err, res) {
              if (err){
                throw err;
              }
              if (res) {
- 
+
                response.render('bookmarx/liststared.ejs', {bookmarxList: res,
                                                      search: req.query.search || '',
                                                      ordering: req.query.ordering || ''});
@@ -592,7 +592,7 @@ var staraction = module.exports.staraction =  function(req, response) {
    var mostvisited=module.exports.mostvisited=function(req,response){
    var account_id=req.body.account_id;
    var topN=5;
-   var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id+" ORDER BY visit_count DESC  LIMIT "+ topN; 
+   var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id+" ORDER BY visit_count DESC  LIMIT "+ topN;
 
    db.query(queryString,function(err,res){
      if(err){
@@ -611,7 +611,7 @@ var staraction = module.exports.staraction =  function(req, response) {
 
 
   var clickCount=module.exports.clickCount=function(req,response){
-  
+
       var account_id=req.body.account_id;
       var bookmark_id=db.escape(req.params.bookmarx_id);
       var folder_id=req.params.folder_id;
@@ -635,7 +635,7 @@ var staraction = module.exports.staraction =  function(req, response) {
           }else{
             response.redirect('/bookmarx');
           }
-          
+
         }
       });
   };

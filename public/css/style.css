@@ -76,7 +76,10 @@ nav ul li {
 	display: inline-block;
 	vertical-align: top;
 }
-
+span.folder_label_mobile {
+	vertical-align: middle;
+	padding: 8px;
+}
 nav.nav-mobile {
 	margin: 0;
 	padding: 0;
@@ -917,6 +920,10 @@ form {
 }
 .hashtaggroup input[type=checkbox]:checked {
 	display: none;
+}
+
+.hashtaggroup input[type=checkbox]:hover {
+	cursor: pointer;
 }
 .hashtaggroup input[type=checkbox]:checked + p {
 	display: none;
