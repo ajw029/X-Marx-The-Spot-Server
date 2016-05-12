@@ -906,12 +906,13 @@ form {
 	padding: 0;
 	margin: 0;
 }
-
+.hashtaggroup input[type=checkbox]:checked {
+	display: none;
+}
 .hashtaggroup input[type=checkbox]:checked + p {
 	display: none;
 }
-.hashtaggroup input[type=checkbox]:unchecked + p {
-	display: none;
+.hashtaggroup input[type=checkbox] + p {
 	width: 96px;
 	height: 32px;
 	color: black;
