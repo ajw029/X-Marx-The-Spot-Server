@@ -310,7 +310,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
                  .from(keywords_table)
                  .where("id = ?", word_id)
                  .toString();
-                 console.log(queryStringDelete)
                db.query(queryStringDelete, function(err3, res3) {
                if (err3){
                  //throw err;
@@ -332,8 +331,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
             }
 
             // Insert Keywords
-            var words = bookmarx_keywords.split(" ");
-
+            var words = bookmarx_keywords.slice(1, -1).split(" ");
             words.forEach(function insertKeyword(word, index) {
               if (word !='') {
                 var queryStringKeyword = db.squel
