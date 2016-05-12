@@ -279,7 +279,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
-
+  console.log(bookmarx_keywords)
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
@@ -304,47 +304,58 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
             throw err;
           }
           if (res) {
-            // TODO update keywords if changed?
             //Delete old keywords
-            bookmarx_old_keywords_id.forEach(function deleteKeyword(word_id, index) {
-             var queryStringDelete = db.squel.delete()
-                .from(keywords_table)
-                .where("id = ?", word_id)
-                .toString();
-              db.query(queryStringDelete, function(err3, res3) {
-              if (err3){
-                //throw err;
-                console.log(err3);
-              }
-                if (res3) {
-                 //Do nothing, insert success
-                }
+            function deleteKeywordOnServer(word_id) {
+              var queryStringDelete = db.squel.delete()
+                 .from(keywords_table)
+                 .where("id = ?", word_id)
+                 .toString();
+                 console.log(queryStringDelete)
+               db.query(queryStringDelete, function(err3, res3) {
+               if (err3){
+                 //throw err;
+                 console.log(err3);
+               }
+                 if (res3) {
+                  //Do nothing, insert success
+                 }
+               });
+            };
+
+            if (bookmarx_old_keywords_id instanceof Array) {
+              bookmarx_old_keywords_id.forEach(function deleteKeyword(word_id, index) {
+                deleteKeywordOnServer(word_id);
               });
-            });
+            }
+            else if (bookmarx_old_keywords_id){
+                deleteKeywordOnServer(bookmarx_old_keywords_id);
+            }
 
             // Insert Keywords
             var words = bookmarx_keywords.split(" ");
 
             words.forEach(function insertKeyword(word, index) {
-              var queryStringKeyword = db.squel
-                .insert()
-                .into(keywords_table)
-                .setFields({
-                  'account_id': account_id,
-                  'bookmark_id': bookmarx_id.slice(1, -1),
-                  'name': db.escape(word).slice(1, -1),
-                })
-                .toString();
+              if (word !='') {
+                var queryStringKeyword = db.squel
+                  .insert()
+                  .into(keywords_table)
+                  .setFields({
+                    'account_id': account_id,
+                    'bookmark_id': bookmarx_id.slice(1, -1),
+                    'name': db.escape(word).slice(1, -1),
+                  })
+                  .toString();
 
-              db.query(queryStringKeyword, function(err2, res2) {
-              if (err2){
-                //throw err;
-                console.log(err2);
-              }
-                if (res2) {
-                 //Do nothing, insert success
+                db.query(queryStringKeyword, function(err2, res2) {
+                if (err2){
+                  //throw err;
+                  console.log(err2);
                 }
-              });
+                  if (res2) {
+                   //Do nothing, insert success
+                  }
+                });
+              }
             });
 
             response.redirect('/bookmarx');
