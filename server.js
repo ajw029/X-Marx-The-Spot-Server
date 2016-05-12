@@ -48,7 +48,7 @@ app.get('/bookmarx/settings', bookmarx.settings);
 app.get('/bookmarx/add', bookmarx.add);
 app.post('/bookmarx/add', bookmarx.addBookmarxAuth);
 
-app.post('/bookmarx/staraction', bookmarx.staraction);
+app.post('/bookmarx/staraction/:page(\\d)', bookmarx.staraction);
 
 app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.editBookmarx);
 app.post('/bookmarx/edit', bookmarx.editBookmarxAuth);
@@ -65,10 +65,11 @@ app.post('/bookmarx/deletefolder',bookmarx.deletefolder);
 
 app.post('/bookmarx/updatepassword',users.updatepassword);
 
-app.get('/bookmarx/favorites',bookmarx.openFavoritesView);
-
+//open the views
+app.get('/bookmarx/favorites/',bookmarx.openFavoritesView);
 app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 
+app.get('/bookmarx/click/:folder_id(\\d)/:bookmarx_id(\\d)/:page(\\d)',bookmarx.clickCount);
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');

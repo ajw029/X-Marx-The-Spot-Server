@@ -442,6 +442,7 @@ var settings = module.exports.settings =  function(req, res) {
 var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
+  var page=req.params.page;
 
   var select_queryString = db.squel
       .select()
@@ -471,7 +472,20 @@ var staraction = module.exports.staraction =  function(req, response) {
         }
         if (result) {
           // TODO: find a way to go back where we were (eg search)
-          response.redirect('/bookmarx/' + res[0].folder_id);
+
+          if(page==1){
+            response.redirect('/bookmarx/' + res[0].folder_id);
+          }
+          if(page==2){
+            response.redirect('/bookmarx/mostvisited');
+          }if(page==3){
+            response.redirect('/bookmarx/favorites');
+          }else{
+            response.redirect('/bookmarx');
+          }
+          
+
+          
         }
       });
     }
@@ -482,7 +496,8 @@ var staraction = module.exports.staraction =  function(req, response) {
       var openFavoritesView=module.exports.openFavoritesView=function(req,response){
     
       var account_id=req.body.account_id;
- 
+      
+
       var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1" ;
  
      var ordering = '';
@@ -524,3 +539,33 @@ var staraction = module.exports.staraction =  function(req, response) {
   });
 
 };
+
+
+
+  var clickCount=module.exports.clickCount=function(req,response){
+  
+      var account_id=req.body.account_id;
+      var bookmark_id=db.escape(req.params.bookmarx_id);
+      var folder_id=req.params.folder_id;
+      var page=req.params.page;
+
+      var queryString="update "+bookmarx_table+" set visit_count=visit_count+1 where id="+bookmark_id +" AND account_id="+account_id ;
+      db.query(queryString,function(err,res){
+        if(err){
+          throw err;
+          response.redirect('/bookmarx');
+        }
+        if(res){
+          if(page==1){
+            response.redirect('/bookmarx/'+folder_id);
+          }if(page==2){
+            response.redirect('/bookmarx/mostvisited');
+          }if(page==3){
+            response.redirect('/bookmarx/favorites');
+          }else{
+            response.redirect('/bookmarx');
+          }
+          
+        }
+      });
+  };
