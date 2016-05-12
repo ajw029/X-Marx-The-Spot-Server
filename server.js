@@ -89,6 +89,10 @@ app.post('/bookmarx/updatepassword',users.updatepassword);
 
 //app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 
+app.use(function (req, res, next) {
+    res.redirect('/');
+});
+
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');
