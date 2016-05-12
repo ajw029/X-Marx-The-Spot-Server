@@ -230,6 +230,9 @@ nav a {
    -o-animation:      rotateCog 2.5s infinite;
    animation:         rotateCog 2.5s infinite;
 }
+.verticalmenu {
+    transform: rotate(90deg) ;	
+}
 @keyframes rotateCog{
   0% {
     transform: rotate(0deg) ;
@@ -427,6 +430,12 @@ nav h2 {
 	float:left;
  	width: 55%;
 	/*margin-top: 48px;*/
+}
+
+.center-container{
+	display: inline;
+	float:left;
+ 	width: 85% !important;
 }
 
 .slide-container {

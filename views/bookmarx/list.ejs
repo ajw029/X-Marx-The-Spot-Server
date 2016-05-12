@@ -66,7 +66,7 @@
             <%}%>
 
             <% if (folder.name!='Default') { %>
-            <a href="/foldersetting/<%= folder.id %>"><img class="cog" src="/img/ic_settings_black_48px.svg" alt="settings"/></a>
+            <a href="/foldersetting/<%= folder.id %>"><img class="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"/></a>
             <% } %>
           </div>
         </div>
@@ -99,14 +99,14 @@
             <% bookmarxList.forEach(function(bookmarx) { %>
               <li>
               <!--count the click -->
-              
+
                 <div class="bookmark"  >
                   <a href=# onclick="window.open('<%= bookmarx.url %>');
                                     window.open('/bookmarx/click/<%= bookmarx.folder_id%>/<%= bookmarx.id %>/1');" >
-  
+
                     <h2><%= bookmarx.name %></h2>
                     <h3><%= bookmarx.url %></h3>
-  
+
                   </a>
                   <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
                   <div class="card__action-bar">
@@ -122,7 +122,7 @@
                   </div>
 
                 </div>
-                
+
               </li>
             <% }); %>
           </ul>
