@@ -72,22 +72,27 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
             var words = bookmarx_keywords.split(" ");
             var bookmark_id = res.insertId;
 
-             words.forEach(function insertKeyword(word, index) {
-               var queryStringKeyword = "INSERT INTO " + keywords_table + "(account_id, bookmark_id, name)";
-               queryStringKeyword += " VALUES(" + account_id + "," + bookmark_id + "," + db.escape(word) + ")";
+            words.forEach(function insertKeyword(word, index) {
+              var queryStringKeyword = db.squel
+                .insert()
+                .into(keywords_table)
+                .setFields({
+                  'account_id': account_id,
+                  'bookmark_id': bookmark_id,
+                  'name': db.escape(word).slice(1, -1),
+                })
+                .toString();
 
-
-
-               db.query(queryStringKeyword, function(err2, res2) {
-                 if (err2){
-                   //throw err;
-                   console.log(err2);
-                 }
-                 if (res2) {
-                   //Do nothing, insert success
-                 }
-               });
-             });
+              db.query(queryStringKeyword, function(err2, res2) {
+              if (err2){
+                //throw err;
+                console.log(err2);
+              }
+                if (res2) {
+                 //Do nothing, insert success
+                }
+              });
+            });
 
             response.redirect('/bookmarx');
           }
@@ -230,7 +235,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .where("b.account_id="+account_id)
       .where("k.bookmark_id="+bookmarx_id)
       .toString()
-      console.log(queryString)
+      //console.log(queryString)
   db.query(queryString, function(err, res) {
     if (err) {
       response.redirect('/bookmarx');
@@ -252,7 +257,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
             keyword.word = word;
             keywordList.push(keyword)
           });
-          console.log(res)
+          //console.log(res)
           response.render('bookmarx/edit.ejs', {keywordList: keywordList,
                                                 bookmarx: res[0],
                                                 foldersList: folderList});
@@ -272,8 +277,8 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 
   var account_id = db.escape(req.body.account_id);
 
-  var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
-  console.log(bookmarx_old_keywords_id)
+  var bookmarx_old_keywords_id = req.body.oldkeyword_ids;
+
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
@@ -299,6 +304,47 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
           }
           if (res) {
             // TODO update keywords if changed?
+            //Delete old keywords
+            bookmarx_old_keywords_id.forEach(function deleteKeyword(word_id, index) {
+             var queryStringDelete = db.squel.delete()
+                .from(keywords_table)
+                .where("id = ?", word_id)
+                .toString();
+              db.query(queryStringDelete, function(err3, res3) {
+              if (err3){
+                //throw err;
+                console.log(err3);
+              }
+                if (res3) {
+                 //Do nothing, insert success
+                }
+              });
+            });
+
+            // Insert Keywords
+            var words = bookmarx_keywords.split(" ");
+
+            words.forEach(function insertKeyword(word, index) {
+              var queryStringKeyword = db.squel
+                .insert()
+                .into(keywords_table)
+                .setFields({
+                  'account_id': account_id,
+                  'bookmark_id': bookmarx_id.slice(1, -1),
+                  'name': db.escape(word).slice(1, -1),
+                })
+                .toString();
+
+              db.query(queryStringKeyword, function(err2, res2) {
+              if (err2){
+                //throw err;
+                console.log(err2);
+              }
+                if (res2) {
+                 //Do nothing, insert success
+                }
+              });
+            });
 
             response.redirect('/bookmarx');
           }
