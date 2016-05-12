@@ -17,7 +17,7 @@ module.exports.signup = function(req, res) {
     res.redirect('/bookmarx');
   }
   else {
-    res.render('users/signup.ejs');
+    res.render('users/signup.ejs',{errmsg: {hasError: false}});
   }
 
 };
@@ -68,7 +68,7 @@ module.exports.loginAuth = function(req, response) {
       }else if(res){
         // If Null
         if (!res || !res[0]) {
-          response.render('users/login.ejs',{errmsg: {message:"not exit", hasError: true}});
+          response.render('users/login.ejs',{errmsg: {message:"User doesn't exist", hasError: true}});
         }
         else {
 
@@ -78,7 +78,7 @@ module.exports.loginAuth = function(req, response) {
             response.redirect('/bookmarx');
           }
           else {
-            response.render('users/login.ejs', {errmsg: {hasError: true,message:"password not match " }});
+            response.render('users/login.ejs', {errmsg: {hasError: true,message:"User name and password not match " }});
           }
         }
       }
@@ -107,15 +107,17 @@ module.exports.signupAuth = function(req, response) {
 
       // Redirect back to Sign Up if Account Exists
       if(err || res[0]){
-        response.redirect('/signup');
+        response.render('users/signup.ejs',{errmsg: {message:"User already exists ", hasError: true}});
       }if(res && !res[0]){
         // not exists create new one
-
+      
         // Encrypt Pwd
         var encryptedPwd = encryption.encrypt(password);
         var createUserQueryString="INSERT INTO "+ user_table+" (username,password) values ("+ "\"" +username+"\"" +","+"\"" +encryptedPwd+"\"" +");"
         db.query(createUserQueryString,function(err,res){
           if(err){
+            //server side failure 
+          response.render('users/signup.ejs',{errmsg: {message:"server error ", hasError: true}});
           }else if(res){
             var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
             db.query(getAccountId,function(err, accountId){
@@ -123,10 +125,12 @@ module.exports.signupAuth = function(req, response) {
               db.query(createDefaultFolder,function(err, folderRes){
                 if (err) {
                   throw err;
+                  response.render('users/signup.ejs',{errmsg: {message:"server error ", hasError: true}});
                 }
                 if (folderRes) {
+
                   req.session.username = encryption.encrypt(accountId[0].id.toString());
-                  response.redirect('/login');
+                  response.render('users/login.ejs',{errmsg: {hasError: false}});
                 }
               });
 
@@ -139,7 +143,7 @@ module.exports.signupAuth = function(req, response) {
    });
   }
   else {
-    response.redirect('/signup');
+    response.render('users/signup.ejs',{errmsg: {message:"Password and comfirm password not match", hasError: true}});
   }
 };
 
