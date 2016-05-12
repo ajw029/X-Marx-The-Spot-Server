@@ -22,7 +22,7 @@
     <section class="slide">
       <div class="formcontainer column-40">
         <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png"></a>
-        <form action="/bookmarx/edit" onsubmit="return validateAddBookmark()" method="POST">
+        <form action="/bookmarx/edit" onsubmit="return validateEditBookmark()" method="POST">
           <h1>Edit <%= bookmarx.name %> </h1>
           <div class="inputgroup">
             <input type="text" name="title" value="<%= bookmarx.name %>" required/>
@@ -51,18 +51,12 @@
           </div>
           <div class="hashtagcontainer">
             <label><i>Click to Delete Keyword</i></label>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="deeznuts"/>
-              <p>deeznuts</p>
-            </div>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
-              <p>sopretty</p>
-            </div>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
-              <p>bored</p>
-            </div>
+            <% keywordList.forEach(function(keyword) {%>
+              <div class="hashtaggroup">
+                <input type="checkbox" checked="true" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
+                <p> <%=keyword.word%></p>
+              </div>
+            <% } );%>
           </div>
 
           <div class="labelgroup">
@@ -128,12 +122,16 @@
         // Check if there are any existing keywords
         var keyword_exists = false;
         $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
+
           if ($(this).find('input[type=checkbox]').is(':checked') == true) {
             keyword_exists = true;
             return true;
           }
+
         });
-        if (keyword_exists) return true;
+        if (keyword_exists) {
+          return true;
+        }
 
         var keywords =$('.inputgroup').find('input[name="keywords"]').val();
         if (!keywords || !keywords.trim()) {
@@ -144,13 +142,12 @@
         return true;
       }
 
-      function validateAddBookmark() {
+      function validateEditBookmark() {
           var isValidTitle = validateTitle();
           var isValidURL = validateURL();
           var isValidDescr = validateDescription();
           var isValidKeywords = validateKeywords();
-          //var isValidTitle = validateTitle();
-          return isValidTitle && isValidURL && isValidDescr && isValidKeywords;
+          return  isValidTitle && isValidURL && isValidDescr && isValidKeywords;
       }
     </script>
 

@@ -193,7 +193,8 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
-  var queryString = "SELECT * FROM " + bookmarx_table + " WHERE account_id="+account_id + " AND id="+bookmarx_id;
+  console.log(req.body)
+  var queryString = "SELECT k.name as keyword, b.id as id, b.folder_id, b.name as name, b.favorite, b.url, b.deleted, b.description, k.id as k_id FROM " + bookmarx_table + " b JOIN " + keywords_table + " k ON k.bookmark_id=b.id "+ " WHERE b.account_id="+account_id + " AND k.bookmark_id="+bookmarx_id;
   var folderQuery = "SELECT * FROM " + folder_table + " WHERE account_id="+account_id + " AND deleted=0";
 
   db.query(queryString, function(err, res) {
@@ -208,7 +209,18 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
           throw err;
         }
         else {
-          response.render('bookmarx/edit.ejs', {bookmarx: res[0],
+          var keywordList = [];
+          res.forEach(function getKeyword(entry) {
+            var k_id = entry.k_id;
+            var word = entry.keyword;
+            var keyword = {};
+            keyword.k_id = k_id;
+            keyword.word = word;
+            keywordList.push(keyword)
+          });
+
+          response.render('bookmarx/edit.ejs', {keywordList: keywordList,
+                                                bookmarx: res[0],
                                                 foldersList: folderList});
           }
         });
@@ -221,6 +233,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
+  var bookmarx_old_keywords_id = db.escape(req.body.oldkeyword_ids);
   var bookmarx_folder_id = db.escape(req.body.folder);
   var bookmarx_id = db.escape(req.body.bookmarx_id);
 
@@ -229,11 +242,14 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
-      bookmarx_keywords &&
+      //bookmarx_keywords &&
       bookmarx_folder_id) {
+
+
         var querystring = "UPDATE " + bookmarx_table + " SET ";
         querystring += "folder_id="+bookmarx_folder_id+ ", name="+ bookmarx_title +", description=" +bookmarx_desc + ", url=" + bookmarx_url;
         querystring += " WHERE id="+bookmarx_id+" AND account_id="+account_id ;
+        console.log(querystring)
         db.query(querystring, function(err, res) {
           if (err) {
             response.redirect('/bookmarx');
@@ -241,7 +257,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
           }
           if (res) {
             // TODO update keywords if changed?
-
             response.redirect('/bookmarx');
           }
         });

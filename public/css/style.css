@@ -914,6 +914,9 @@ form {
 	width: 96px;
 	height: 32px;
 	color: black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .hashtaggroup input[type=checkbox] + p:before {
 	content: "#";
