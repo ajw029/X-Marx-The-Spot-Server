@@ -46,7 +46,7 @@ module.exports.auth = function(req, res, next) {
     return next();
   }
   else {
-    res.render('/login',{errmsg: {hasError: false}});
+    res.render('users/login.ejs', {errmsg: {hasError: false}});
   }
 };
 
@@ -110,13 +110,13 @@ module.exports.signupAuth = function(req, response) {
         response.render('users/signup.ejs',{errmsg: {message:"User already exists ", hasError: true}});
       }if(res && !res[0]){
         // not exists create new one
-      
+
         // Encrypt Pwd
         var encryptedPwd = encryption.encrypt(password);
         var createUserQueryString="INSERT INTO "+ user_table+" (username,password) values ("+ "\"" +username+"\"" +","+"\"" +encryptedPwd+"\"" +");"
         db.query(createUserQueryString,function(err,res){
           if(err){
-            //server side failure 
+            //server side failure
           response.render('users/signup.ejs',{errmsg: {message:"server error ", hasError: true}});
           }else if(res){
             var getAccountId="SELECT * from "+ user_table +" WHERE username="+ "\"" + username + "\"";
@@ -130,7 +130,7 @@ module.exports.signupAuth = function(req, response) {
                 if (folderRes) {
 
                   req.session.username = encryption.encrypt(accountId[0].id.toString());
-                  response.render('users/login.ejs',{errmsg: {hasError: false}});
+                  response.redirect('/bookmarx');
                 }
               });
 
