@@ -231,7 +231,7 @@ nav a {
    animation:         rotateCog 2.5s infinite;
 }
 .verticalmenu {
-    transform: rotate(90deg) ;	
+    transform: rotate(90deg) ;
 }
 @keyframes rotateCog{
   0% {
@@ -1218,6 +1218,9 @@ h3 {
 		width: 100%;
 		margin: 0 auto;
 		padding-bottom: 80px;
+	}
+	.center-container {
+		width: 100% !important;
 	}
 
 	.slide {
