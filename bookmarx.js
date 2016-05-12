@@ -640,3 +640,9 @@ var staraction = module.exports.staraction =  function(req, response) {
       });
   };
 
+
+
+var mostusedtags = module.exports.mostusedtags = function(req, response) {
+
+  // SELECT COUNT(*) 'count', k.name 'keyword_name' FROM keywords k LEFT JOIN bookmarks b ON k.bookmark_id=b.id GROUP BY k.name ORDER BY 1 DESC LIMIT 5;
+};
