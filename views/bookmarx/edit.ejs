@@ -22,32 +22,43 @@
     <section class="slide">
       <div class="formcontainer column-40">
         <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png"></a>
-        <form action="/bookmarx/edit" onsubmit="return validateAddBookmark()" method="POST">
+        <form action="/bookmarx/edit" onsubmit="return validateEditBookmark()" method="POST">
           <h1>Edit <%= bookmarx.name %> </h1>
           <div class="inputgroup">
             <input type="text" name="title" value="<%= bookmarx.name %>" required/>
             <span class="bar"></span>
             <label>Title</label>
-          <span class="errMsg hide" id="title_errlabel">Please add a title</label>
+          <span class="errMsg hide" id="title_errlabel">Please add a title</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="url" value="<%= bookmarx.url %>"  required/>
             <span class="bar"></span>
             <label>URL</label>
-          <span class="errMsg hide" id="url_errlabel">Please add a URL</label>
+          <span class="errMsg hide" id="url_errlabel">Please add a URL</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="desc" value="<%= bookmarx.description %>" required/>
             <span class="bar"></span>
             <label>Description</label>
-          <span class="errMsg hide" id="descr_errlabel">Please add a description</label>
+          <span class="errMsg hide" id="descr_errlabel">Please add a description</span>
           </div>
           <div class="inputgroup">
             <input type="text" name="keywords" required/>
             <span class="bar"></span>
-            <label>Keywords</label>
-          <span class="errMsg hide" id="keywords_errlabel">Please add keywords</label>
+            <label>New Keywords</label>
+          <span class="errMsg hide" id="keywords_errlabel">Please add keywords</span>
+          <span class="inputtext_hint">(Please seperate keywords with hashtags)</span>
           </div>
+          <div class="hashtagcontainer">
+            <label><i>Click to Delete Keyword</i></label>
+            <% keywordList.forEach(function(keyword) {%>
+              <div class="hashtaggroup">
+                <input type="checkbox" checked="true" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
+                <p> <%=keyword.word%></p>
+              </div>
+            <% } );%>
+          </div>
+
           <div class="labelgroup">
             <label>Folder</label>
           </div>
@@ -69,6 +80,15 @@
         </form>
       </div>
     </section>
+    <nav class="nav-mobile mobileView">
+      <ul class="mobileView">
+        <li class="active"><a href="/bookmarx/add"><img src="/img/ic_bookmark_border_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+        <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+        <li><a href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png"></a></li>
+      </ul>
+    </nav>
     <script>
       function validateTitle() {
         var username =$('.inputgroup').find('input[name="title"]').val();
@@ -98,6 +118,21 @@
         return true;
       }
       function validateKeywords() {
+
+        // Check if there are any existing keywords
+        var keyword_exists = false;
+        $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
+
+          if ($(this).find('input[type=checkbox]').is(':checked') == true) {
+            keyword_exists = true;
+            return true;
+          }
+
+        });
+        if (keyword_exists) {
+          return true;
+        }
+
         var keywords =$('.inputgroup').find('input[name="keywords"]').val();
         if (!keywords || !keywords.trim()) {
           $('#keywords_errlabel').removeClass('hide');
@@ -107,13 +142,12 @@
         return true;
       }
 
-      function validateAddBookmark() {
+      function validateEditBookmark() {
           var isValidTitle = validateTitle();
           var isValidURL = validateURL();
           var isValidDescr = validateDescription();
           var isValidKeywords = validateKeywords();
-          //var isValidTitle = validateTitle();
-          return isValidTitle && isValidURL && isValidDescr && isValidKeywords;
+          return  isValidTitle && isValidURL && isValidDescr && isValidKeywords;
       }
     </script>
 
