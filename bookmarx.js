@@ -226,10 +226,11 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
       .field("b.deleted")
       .field("b.description")
       .field("k.id", "k_id")
-      .left_join(keywords_table, "k", "k.bookmark_id=b.id")
+      .left_outer_join(keywords_table, "k", "k.bookmark_id=b.id")
       .where("b.account_id="+account_id)
       .where("k.bookmark_id="+bookmarx_id)
-      .toString()
+      .toString();
+
       console.log(queryString)
   db.query(queryString, function(err, res) {
     if (err) {

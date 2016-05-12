@@ -159,8 +159,6 @@ module.exports.signupAuth = function(req, response) {
                   response.redirect('/bookmarx');
                 }
               });
-
-
             }
           });
         }
