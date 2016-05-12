@@ -64,7 +64,7 @@ nav {
 	height: 48px;
 	z-index: 9999;
 	background-color: #2196F3;
-	position: fixed;
+	/*position: fixed;*/
 }
 nav ul {
 	padding: 8px;
@@ -387,7 +387,7 @@ nav h2 {
 	display: inline;
 	float: left;
 	width: 15%;
-	margin-top: 70px;
+    margin-top: 16px;
 }
 
 .side-nav-container ul,
@@ -426,7 +426,7 @@ nav h2 {
 	display: inline;
 	float:left;
  	width: 55%;
-	margin-top: 48px;
+	/*margin-top: 48px;*/
 }
 
 .slide-container {
@@ -434,7 +434,7 @@ nav h2 {
 	float:left;
  	width: 30%;
 	margin: 0 auto;
-	margin-top: 48px;
+	/*margin-top: 48px;*/
 }
 .folderSearchBar {
 	margin: 0 auto;
@@ -851,7 +851,7 @@ button.fab:hover, a.fab:hover {
 	background-color: white;
 	padding: 32px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-	margin-top: 48px !important;
+	/* margin-top: 48px !important; */
 	margin-bottom: 48px !important;
 }
 .formcontainer .form_backbutton {
@@ -1204,7 +1204,6 @@ h3 {
 		display: inline;
 		width: 100%;
 		margin: 0 auto;
-		margin-top: 48px;
 	}
 	.right-container {
 		position: relative;
