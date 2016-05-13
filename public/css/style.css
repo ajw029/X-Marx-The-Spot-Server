@@ -76,7 +76,10 @@ nav ul li {
 	display: inline-block;
 	vertical-align: top;
 }
-
+span.folder_label_mobile {
+	vertical-align: middle;
+	padding: 8px;
+}
 nav.nav-mobile {
 	margin: 0;
 	padding: 0;
@@ -158,8 +161,8 @@ nav.nav-mobile ul li a:hover {
 	left: 0;
 	right: 0;
 	display: inline-block;
-	border-radius:2px;
 	width: 60%;
+	height: 36px;
 }
 
 .folderSearchBar select {
@@ -167,11 +170,12 @@ nav.nav-mobile ul li a:hover {
 	margin: 0 auto;
 	font-size: 16px;
 	display: inline-block;
-	border-radius:0;
 	width: 20%;
 	background-color: white;
 	border: 0;
 	height: 36px;
+	vertical-align: top;
+	border-radius: 0;
 }
 
 
@@ -194,7 +198,6 @@ nav.nav-mobile ul li a:hover {
 	vertical-align: top;
 	background-color: #FF9800;
 	color: white;
-	border-radius: 4px;
 	z-index: 9996;
 	height: 36px;
 }
@@ -229,6 +232,9 @@ nav a {
    -moz-animation:    rotateCog 2.5s infinite;
    -o-animation:      rotateCog 2.5s infinite;
    animation:         rotateCog 2.5s infinite;
+}
+.verticalmenu {
+    transform: rotate(90deg) ;
 }
 @keyframes rotateCog{
   0% {
@@ -427,6 +433,12 @@ nav h2 {
 	float:left;
  	width: 55%;
 	/*margin-top: 48px;*/
+}
+
+.center-container{
+	display: inline;
+	float:left;
+ 	width: 85% !important;
 }
 
 .slide-container {
@@ -895,6 +907,7 @@ form {
 	margin-top: 4px;
 	margin-bottom: 4px;
 	display: inline-block;
+	width: auto;
 }
 
 .hashtaggroup input[type=checkbox] {
@@ -904,27 +917,29 @@ form {
 	position: absolute;
 	padding: 0;
 	margin: 0;
-
 }
-.hashtaggroup input[type=checkbox]:unchecked {
+.hashtaggroup input[type=checkbox]:checked {
+	display: none;
+}
+
+.hashtaggroup input[type=checkbox]:hover {
+	cursor: pointer;
+}
+.hashtaggroup input[type=checkbox]:checked + p {
 	display: none;
 }
 .hashtaggroup input[type=checkbox] + p {
-	display: none;
 	width: 96px;
 	height: 32px;
 	color: black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-.hashtaggroup input[type=checkbox] + p:before {
-	content: "#";
-}
+
 .hashtaggroup:hover {
 	text-decoration: line-through;
 	cursor: pointer;
-}
-
-.hashtaggroup input[type=checkbox]:checked + p {
-  display: block;
 }
 
 .settinggroup {
@@ -1210,6 +1225,9 @@ h3 {
 		width: 100%;
 		margin: 0 auto;
 		padding-bottom: 80px;
+	}
+	.center-container {
+		width: 100% !important;
 	}
 
 	.slide {

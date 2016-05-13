@@ -5,11 +5,15 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
     "express": "^4.13.4",
+    "express-minify": "^0.2.0",
+    "express-minify-html": "^0.4.0",
     "express-session": "^1.13.0",
     "install": "^0.7.3",
     "mysql": "^2.10.2",
-    "npm": "^3.8.8"
+    "npm": "^3.8.8",
+    "squel": "^5.0.4"
   },
   "devDependencies": {},
   "scripts": {

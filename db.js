@@ -1,5 +1,6 @@
 var mysql  = require('mysql');
 var config = require('./my_configs');
+var squel = require('squel').useFlavour('mysql');
 
 var MySQL = function() {
     var connection;
@@ -19,7 +20,8 @@ var MySQL = function() {
         query: function(querystring, callback){
             MySQL.connection.query(querystring, callback);
         },
-        escape: mysql.escape
+        escape: mysql.escape,
+        squel: squel
     };
 }();
 

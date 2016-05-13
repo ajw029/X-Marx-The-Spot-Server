@@ -15,14 +15,14 @@
   <body class="black-background">
     <nav>
       <ul>
-        <li><a href="index.html">BookMarx</a></li>
+        <li><a href="/index.html">BookMarx</a></li>
       </ul>
     </nav>
 
     <section class="slide">
       <div class="formcontainer column-40">
         <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png"></a>
-        <form action="/bookmarx/edit" onsubmit="return validateAddBookmark()" method="POST">
+        <form action="/bookmarx/edit" onsubmit="return validateEditBookmark()" method="POST">
           <h1>Edit <%= bookmarx.name %> </h1>
           <div class="inputgroup">
             <input type="text" name="title" value="<%= bookmarx.name %>" required/>
@@ -43,26 +43,20 @@
           <span class="errMsg hide" id="descr_errlabel">Please add a description</span>
           </div>
           <div class="inputgroup">
-            <input type="text" name="keywords" required/>
+            <input type="text" name="keywords"/>
             <span class="bar"></span>
             <label>New Keywords</label>
           <span class="errMsg hide" id="keywords_errlabel">Please add keywords</span>
-          <span class="inputtext_hint">(Please seperate keywords with hashtags)</span>
+          <span class="inputtext_hint">(Please seperate keywords with a space)</span>
           </div>
           <div class="hashtagcontainer">
             <label><i>Click to Delete Keyword</i></label>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="deeznuts"/>
-              <p>deeznuts</p>
-            </div>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
-              <p>sopretty</p>
-            </div>
-            <div class="hashtaggroup">
-              <input type="checkbox" checked="true" name="keywords" value="sopretty"/>
-              <p>bored</p>
-            </div>
+            <% keywordList.forEach(function(keyword) {%>
+              <div class="hashtaggroup">
+                <input type="checkbox" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
+                <p> <%=keyword.word%></p>
+              </div>
+            <% } );%>
           </div>
 
           <div class="labelgroup">
@@ -96,6 +90,7 @@
       </ul>
     </nav>
     <script>
+
       function validateTitle() {
         var username =$('.inputgroup').find('input[name="title"]').val();
         if (!username || !username.trim()) {
@@ -114,6 +109,7 @@
         $('#url_errlabel').addClass('hide');
         return true;
       }
+
       function validateDescription() {
         var descr =$('.inputgroup').find('input[name="desc"]').val();
         if (!descr || !descr.trim()) {
@@ -123,33 +119,39 @@
           $('#descr_errlabel').addClass('hide');
         return true;
       }
+
       function validateKeywords() {
 
         // Check if there are any existing keywords
         var keyword_exists = false;
-        $('.hashtagcontainer').find('.hashtaggroup').each(function(index){
-          if ($(this).find('input[type=checkbox]').is(':checked') == true) {
-            keyword_exists = true;
-            return true;
-          }
-        });
-        if (keyword_exists) return true;
 
-        var keywords =$('.inputgroup').find('input[name="keywords"]').val();
+        // Check if keyword still exists
+        var container = document.getElementsByClassName('hashtagcontainer')[0];
+        var hashtags = container.getElementsByClassName('hashtaggroup');
+        for (var i = 0; i < hashtags.length; i++) {
+          if (!hashtags[i].querySelector('input').checked) {
+            keyword_exists = true;
+            break;
+          }
+        }
+        if (keyword_exists) {
+          return true;
+        }
+        var keywords = $('.inputgroup').find('input[name="keywords"]').val();
         if (!keywords || !keywords.trim()) {
           $('#keywords_errlabel').removeClass('hide');
           return false;
         }
-          $('#keywords_errlabel').addClass('hide');
+        $('#keywords_errlabel').addClass('hide');
+
         return true;
       }
 
-      function validateAddBookmark() {
+      function validateEditBookmark() {
           var isValidTitle = validateTitle();
           var isValidURL = validateURL();
           var isValidDescr = validateDescription();
           var isValidKeywords = validateKeywords();
-          //var isValidTitle = validateTitle();
           return isValidTitle && isValidURL && isValidDescr && isValidKeywords;
       }
     </script>
