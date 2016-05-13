@@ -6,6 +6,8 @@ var users = require('./users');
 db.init();
 
 var express = require('express');
+var fs = require('fs');
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 var minify = require('express-minify');
@@ -46,6 +48,15 @@ app.use(minifyHTML({
 app.use(express.static('./public', { maxAge: 86400000 })); // One day caching
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Set up logging file
+var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
+
+// Set up logging to detect only "suspicious" requests
+app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', {
+	skip: function(req, res) { return !(req.method === 'PUT' || req.method === 'DELETE'); },
+	stream: accessLogStream}
+));
+
 // Login And Signup
 app.get('/', users.login);
 
@@ -55,7 +66,7 @@ app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
 
-//Robots.txt file 
+// Robots.txt file 
 app.get('/robots.txt', bookmarx.robots);
 
 /*  This must go between the users routes and the books routes */

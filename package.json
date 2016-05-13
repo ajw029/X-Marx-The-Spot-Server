@@ -11,9 +11,11 @@
     "express-minify-html": "^0.4.0",
     "express-session": "^1.13.0",
     "install": "^0.7.3",
+    "morgan": "^1.7.0",
     "mysql": "^2.10.2",
     "npm": "^3.8.8",
-    "squel": "^5.0.4"
+    "squel": "^5.0.4",
+    "winston": "^2.2.0"
   },
   "devDependencies": {},
   "scripts": {

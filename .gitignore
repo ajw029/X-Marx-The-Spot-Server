@@ -2,3 +2,4 @@ db.js
 node_modules/*
 cache/*
 .DS_Store
+my_configs.js
