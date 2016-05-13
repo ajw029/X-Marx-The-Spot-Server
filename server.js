@@ -35,6 +35,9 @@ app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
 
+//Robots.txt file 
+app.get('/robots.txt', bookmarx.robots);
+
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 

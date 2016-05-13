@@ -385,3 +385,8 @@ var staraction = module.exports.staraction =  function(req, response) {
     }
   });
 };
+
+var robots = module.exports.robots = function(req, res) {
+  res.type('text/plain');
+  res.render('bookmarx/robots.ejs');
+};
