@@ -205,7 +205,6 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
 
 /*
  * Updates a bookmark
- *
  */
 var editBookmarx = module.exports.editBookmarx =  function(req, response) {
 
@@ -368,7 +367,6 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 /*
  *
  */
-
 var foldersettings = module.exports.foldersettings =  function(req, response) {
   var folder_id= db.escape(req.params.folder_id);
   var account_id = db.escape(req.body.account_id);
