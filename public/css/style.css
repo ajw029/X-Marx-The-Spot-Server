@@ -178,6 +178,17 @@ nav.nav-mobile ul li a:hover {
 	border-radius: 0;
 }
 
+.searchresultheader {
+	height: 36px;
+	padding: 16px;
+	background-color: white;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.searchresultheader h1 {
+	font-weight: 100;
+	color: black;
+	line-height: 36px;
+}
 
 .folderSearchBar div {
 	display: inline-block;
