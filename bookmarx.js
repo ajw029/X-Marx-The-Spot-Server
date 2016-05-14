@@ -648,7 +648,15 @@ var clickCount=module.exports.clickCount=function(req,response){
             var redirectURL = res2[0].url;
             if (redirectURL.indexOf('https://') > -1 || redirectURL.indexOf('http://')>-1){
 
-  // SELECT COUNT(*) 'count', k.name 'keyword_name' FROM keywords k LEFT JOIN bookmarks b ON k.bookmark_id=b.id GROUP BY k.name ORDER BY 1 DESC LIMIT 5;
+            }
+            else {
+              redirectURL='http://'+ redirectURL;
+            }
+            response.redirect(redirectURL);
+          }
+        });
+      }
+    });
 };
 
 var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
@@ -712,4 +720,3 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
 var importBookmarks = module.exports.importBookmarks = function(req, response) {
   console.log('>>>>>');
 };
-
