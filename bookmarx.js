@@ -176,6 +176,64 @@ var list = module.exports.list = function(req, response) {
   });
 };
 
+//search 
+var search=module.exports.search=function(req,response){
+ 
+  var account_id = req.body.account_id;
+  var keyword = req.query.search;
+  var ordering = req.query.ordering;
+  console.log(keyword);
+  var keywordList = [];
+  if (keyword)
+    keywordList = (keyword.trim()).split(' ');
+
+  // All existing bookmarks
+  var queryBookmarks = db.squel.select()
+      .field("b.id", "id")
+      .field("b.name", "name")
+      .field("b.folder_id")
+      .field("b.favorite")
+      .field("b.url")
+      .field("b.deleted")
+      .field("b.description")
+      .from(bookmarx_table, 'b')
+      .join(keywords_table, 'k', 'k.bookmark_id=b.id')
+      .where('b.account_id=' + db.escape(account_id))
+      .where('deleted=0');
+
+    if (ordering&& (ordering === 'asc' || req.query.ordering === 'desc')) {
+      queryBookmarks.order('b.name', req.query.ordering === 'asc');
+    }
+    var whereExpr = db.squel.expr();
+    for (var j = 0; j < keywordList.length; j++) {
+      var searchTerm = db.escape(keywordList[j]);
+      console.log(searchTerm)
+      searchTerm = searchTerm.slice(1, searchTerm.length - 1);
+            whereExpr
+            .or('b.name LIKE \'%' + searchTerm + '%\'')
+            .or('b.url LIKE \'%' + searchTerm + '%\'')
+            .or('b.description LIKE \'%' + searchTerm + '%\'')
+            .or('k.name LIKE\'%' + searchTerm + '%\'')
+    }
+
+    queryBookmarks.where(whereExpr);
+    console.log(queryBookmarks.toString())
+    db.query(queryBookmarks.toString(), function (err, res) {
+      if (err) {
+        throw err;
+      }
+      if (res) {
+        console.log(res);
+        response.render('bookmarx/list.ejs', {
+          bookmarxList: res,
+          search: req.query.search || '',
+          ordering: req.query.ordering || ''
+        });
+      }
+    });
+
+};
+
 /**
  * Renders page to delete a bookmarx
  */
@@ -657,4 +715,66 @@ var clickCount=module.exports.clickCount=function(req,response){
         });
       }
     });
+};
+
+var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
+  console.log('>>>>>');
+
+  var backup = {};
+  backup['folders'] = new Array();
+  var account_id = req.body.account_id;
+
+  var queryFolderListString = db.squel
+    .select()
+    .from(folder_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryBookmarksListString = db.squel
+    .select()
+    .from(bookmarx_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryKeywordsListString = db.squel
+    .select()
+    .from(keywords_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+    
+
+  db.query(queryFolderListString, function(err, resObj) {
+    if (err) { throw err; }
+    if (resObj) {
+      backup['folders'] = resObj;
+
+      db.query(queryBookmarksListString, function(err, resObj) {
+        if (err) { throw err; }
+        if (resObj) {
+          backup['bookmarks'] = resObj;
+          db.query(queryBookmarksListString, function(err, resObj) {
+            if (err) { throw err; }
+            if (resObj) {
+              backup['keywords'] = resObj;
+              //console.log(backup);
+
+              var today = new Date();
+              var fileName = 'backup_'+today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'.json';
+              /** sends file to client **/
+              fs.writeFile(fileName, JSON.stringify(backup, null, 2) , 'utf-8', function () {
+                  response.download(fileName);
+              });                
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+var importBookmarks = module.exports.importBookmarks = function(req, response) {
+  console.log('>>>>>');
 };
