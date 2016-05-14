@@ -626,6 +626,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .from(bookmarx_table)
       .where('favorite=1')
       .where('account_id=' + account_id)
+      .where('deleted=0')
       .toString();
 
 
@@ -655,6 +656,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .select()
       .from(bookmarx_table)
       .where('account_id=' + account_id)
+      .where('deleted=0')
       .toString();
    queryString=queryString+" ORDER BY visit_count ASC limit "+ topN;
    db.query(queryString,function(err,res){
@@ -695,6 +697,7 @@ var clickCount=module.exports.clickCount=function(req,response){
                             .from(bookmarx_table)
                             .where('id='+bookmark_id)
                             .where('account_id=' + account_id)
+                            .where('deleted=0')
                             .toString();
 
         db.query(redirectString,function(err2,res2){
