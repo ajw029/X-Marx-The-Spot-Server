@@ -36,7 +36,7 @@ module.exports.login = function(req, res) {
 };
 
 /**
-* Verify a user is logged in.  This middleware will be called before every request to the books directory.
+* Verify a user is logged in.  This middleware will be called before every request to the bookmarx directory.
 */
 module.exports.auth = function(req, res, next) {
   var session = req.session.username;
