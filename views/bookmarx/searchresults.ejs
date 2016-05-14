@@ -1,0 +1,110 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>BookMarx</title>
+  <meta name="description" content="The Home Page of BookMarx">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.ico">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <nav>
+    <ul class="nav-title">
+      <li><a href="index.html">BookMarx</a></li>
+    </ul>
+
+    <div class="searchContainer">
+      <div class="folderSearchBar">
+        <form action="" method="GET">
+        <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
+        <select name="ordering">
+          <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
+          <option value="desc" <% if (ordering === 'desc') {%> selected <%} %>>Z-A</option>
+        </select>
+          <input type="submit" value="Find">
+      </form>
+      </div>
+    </div>
+    <ul class="navbar-right">
+      <li class="navbar-hide"><a href="/bookmarx/add" class="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Add a BookMarx</span></a></li>
+      <li class="navbar-hide"><a href="/bookmarx/addfolder" class="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"><span class="tooltiptext">Add a Folder</span></a></li>
+      <!--li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li-->
+      <li class="navbar-hide"><a href="/bookmarx/settings" class="tooltip"><img class="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Settings</span></a></li>
+      <li><a class="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <section class="side-nav-container desktopView">
+      <h2>Quicklinks</h2>
+      <ul>
+        <li class="side-nav-divider"></li>
+        <li><a href="/bookmarx">My BookMarx</a></li>
+        <li><a href="/bookmarx/mostvisited">Most Visited</a></li>
+        <li><a href="/bookmarx/favorites">Favorites</a></li>
+      </ul>
+    </section>
+
+    <section class="right-container center-container">
+
+      <div class="slide">
+
+        <div class="folderContent">
+  
+          <ul>
+            <% bookmarxList.forEach(function(bookmarx) { %>
+              <li>
+              <!--count the click -->
+
+                <div class="bookmark"  >
+                  <a href='/bookmarx/click/<%= bookmarx.id %>'>
+
+                    <h2><%= bookmarx.name %></h2>
+                    <h3><%= bookmarx.url %></h3>
+
+                  </a>
+                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
+                  <div class="card__action-bar">
+                    <form action="/bookmarx/staraction/1" method="POST">
+                      <input type="hidden" name="bookmarx_id" value="<%= bookmarx.id %>">
+                      <% if (bookmarx.favorite==1) { %>
+                        <button class="fab favorite"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
+                      <% } else { %>
+                        <button class="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
+                    <% } %>
+                    </form>
+                    <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>">EDIT</a>
+                  </div>
+
+                </div>
+
+              </li>
+            <% }); %>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <div class="overlayContainer">
+    <a class="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></a>
+  </div>
+
+  <nav class="nav-mobile mobileView">
+    <ul class="mobileView">
+      <li><a href="/bookmarx/favorites"><img src="/img/ic_star_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/mostvisited"><img src="/img/ic_pets_white_48dp_2x.png"></a></li>
+      <li class="active"><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png"></a></li>
+      <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png"></a></li>
+    </ul>
+  </nav>
+</body>
+
+</html>
