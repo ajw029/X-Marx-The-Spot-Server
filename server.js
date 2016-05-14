@@ -48,13 +48,20 @@ app.use(minifyHTML({
 app.use(express.static('./public', { maxAge: 86400000 })); // One day caching
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Set up logging file
+// Set up logging files (accessLog for suspicious requests, errorLog for errors)
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
+var errorLogStream = fs.createWriteStream(__dirname + '/error.log', {falgs: 'a'});
 
-// Set up logging to detect only "suspicious" requests
-app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', {
-	skip: function(req, res) { return !(req.method === 'PUT' || req.method === 'DELETE'); },
-	stream: accessLogStream}
+// Set up logging to detect only "suspicious" requests (any requests we haven't defined)
+app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', 
+{ skip: function(req, res) { return (req.method === 'GET' || req.method === 'POST'); },
+	stream: accessLogStream }
+));
+
+// Set up error logging
+app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}',
+  { skip: function(req,res) { return res.statusCode < 400; },
+  stream: errorLogStream } 
 ));
 
 // Login And Signup
