@@ -101,8 +101,7 @@
               <!--count the click -->
 
                 <div class="bookmark"  >
-                  <a href=# onclick="window.open('<%= bookmarx.url %>');
-                                    window.open('/bookmarx/click/<%= bookmarx.folder_id%>/<%= bookmarx.id %>/1');" >
+                  <a href='/bookmarx/click/<%= bookmarx.id %>'>
 
                     <h2><%= bookmarx.name %></h2>
                     <h3><%= bookmarx.url %></h3>
@@ -132,14 +131,7 @@
     </section>
   </div>
 
-  <div class="overlay hide" onclick="closeOverlay(this)">
-  </div>
-
   <div class="overlayContainer">
-    <div class="mini-fab-container hide">
-      <button class="mini-fab" onclick="window.location.replace('add.html')"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></button>
-      <button class="mini-fab" onclick="window.location.replace('folder.html')"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></button>
-    </div>
     <a class="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></a>
   </div>
 

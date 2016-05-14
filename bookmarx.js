@@ -562,7 +562,6 @@ var robots = module.exports.robots = function(req, res) {
 
 var openFavoritesView=module.exports.openFavoritesView=function(req,response){
 
-
   var account_id=req.body.account_id;
   var select_queryString = db.squel
       .select()
@@ -570,7 +569,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .where('favorite=1')
       .where('account_id=' + account_id)
       .toString();
-  
+
 
   var ordering = '';
   if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
@@ -600,7 +599,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .where('account_id=' + account_id)
       //.field("ORDER BY visit_count DESC limit "+ topN)
       .toString();
-   queryString=queryString+"ORDER BY visit_count DESC limit "+ topN;
+   queryString=queryString+" ORDER BY visit_count DESC limit "+ topN;
    db.query(queryString,function(err,res){
      if(err){
       throw err;
@@ -615,45 +614,48 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
 
 };
 
+var clickCount=module.exports.clickCount=function(req,response){
+    var account_id=req.body.account_id;
+    var bookmark_id=db.escape(req.params.bookmarx_id);
+    var folder_id=req.params.folder_id;
+    var page=req.params.page;
+    var queryString = db.squel
+        .update()
+        .table(bookmarx_table)
+        .set('visit_count=visit_count+1')
+        .where('id='+bookmark_id)
+        .where('account_id=' + account_id)
+        .toString();
+    db.query(queryString,function(err,res){
+      if(err){
+        throw err;
+        console.log(err);
+        response.redirect('/bookmarx');
+      }
+      if(res){
+        var redirectString = db.squel
+                            .select()
+                            .from(bookmarx_table)
+                            .where('id='+bookmark_id)
+                            .where('account_id=' + account_id)
+                            .toString();
 
-
-  var clickCount=module.exports.clickCount=function(req,response){
-
-      var account_id=req.body.account_id;
-      var bookmark_id=db.escape(req.params.bookmarx_id);
-      var folder_id=req.params.folder_id;
-      var page=req.params.page;
-      var queryString = db.squel
-          .update()
-          .table(bookmarx_table)
-          .set('visit_count=visit_count+1')
-          .where('id='+bookmark_id)
-          .where('account_id=' + account_id)
-          .toString();
-      
-      db.query(queryString,function(err,res){
-        if(err){
-          throw err;
-          response.redirect('/bookmarx');
-        }
-        if(res){
-          if(page==1){
+        db.query(redirectString,function(err2,res2){
+          if (err2) {
+            console.log(err2);
             response.redirect('/bookmarx/'+folder_id);
           }
-          else if(page==2){
-            response.redirect('/bookmarx/mostvisited');
+          if (res2) {
+            var redirectURL = res2[0].url;
+            if (redirectURL.indexOf('https://') > -1 || redirectURL.indexOf('http://')>-1){
+
+            }
+            else {
+              redirectURL='http://'+ redirectURL;
+            }
+            response.redirect(redirectURL);
           }
-          else if(page==3){
-            response.redirect('/bookmarx/favorites');
-          }else{
-            response.redirect('/bookmarx');
-          }
-
-        }
-      });
-  };
-
-var mostusedtags = module.exports.mostusedtags = function(req, response) {
-
-  // SELECT COUNT(*) 'count', k.name 'keyword_name' FROM keywords k LEFT JOIN bookmarks b ON k.bookmark_id=b.id GROUP BY k.name ORDER BY 1 DESC LIMIT 5;
+        });
+      }
+    });
 };

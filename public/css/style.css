@@ -472,6 +472,7 @@ nav h2 {
 	vertical-align: middle;
 	margin: 0;
 	padding: 6px;
+	border-radius: 0;
 }
 
 .mobileView .folderContainer input {
