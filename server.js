@@ -113,10 +113,12 @@ app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
          '/bookmarx/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],bookmarx.clickCount);
 
+app.get('/bookmarx/search',bookmarx.search);
 
 // export & import
 app.get('/bookmarx/import',bookmarx.importBookmarks);
 app.get('/bookmarx/export',bookmarx.exportBookmarks);
+
 
 
 app.use(function (req, res, next) {
