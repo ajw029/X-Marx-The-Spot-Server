@@ -132,30 +132,19 @@ var list = module.exports.list = function(req, response) {
         .from(bookmarx_table)
         .where('account_id=' + db.escape(account_id))
         .where('deleted=0');
-    if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
-      queryBookmarks.order('name', req.query.ordering === 'asc');
-    }
+
+    queryBookmarks.order('name', true);
 
     if (folderRes) {
       if (folder_id) {
-        queryBookmarks.where('folder_id=' + folder_id)
+        queryBookmarks.where('folder_id=' + folder_id);
+        selectedFolder = {selectedFolder: folder_id};
       }
       else {
-        if (folderRes[0] && !req.query.search) {
+        if (folderRes[0]) {
           queryBookmarks.where('folder_id=' + folderRes[0].id);
           selectedFolder = {selectedFolder: folderRes[0].id};
         }
-      }
-
-      if (req.query.search && req.query.search.length > 0) {
-        req.query.search = db.escape(req.query.search);
-        req.query.search = req.query.search.slice(1, req.query.search.length - 1);
-        queryBookmarks.where(
-            db.squel.expr()
-                .or('name LIKE \'%' + req.query.search + '%\'')
-                .or('url LIKE \'%' + req.query.search + '%\'')
-                .or('description LIKE \'%' + req.query.search + '%\'')
-        );
       }
 
       db.query(queryBookmarks.toString(), function (err, res) {
@@ -234,8 +223,11 @@ var search=module.exports.search=function(req,response){
  * Renders page to delete a bookmarx
  */
 var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, response) {
-  var bookmarx_id = db.escape(req.params.bookmarx_id);
   var account_id = req.body.account_id;
+  var bookmarx_id = db.escape(req.params.bookmarx_id);
+  var page_id = req.params.page;
+  var folder_id = req.params.folder_id;
+
   //Not deleted but hidden
   var deleteBookMarksQuery = db.squel
       .update()
@@ -251,7 +243,15 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
       throw err;
     }
     if (res) {
-      response.redirect('/bookmarx');
+      //Redirect back to current page      
+      if(page_id == 1)
+        response.redirect('/bookmarx/' + folder_id);
+      else if (page_id == 2)
+        response.redirect('/bookmarx/favorites');
+      else if (page_id == 3)
+        response.redirect('/bookmarx/mostvisited');
+      else
+        response.redirect('/bookmarx');
     }
   });
 
@@ -330,9 +330,12 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
   var bookmarx_folder_id = db.escape(req.body.folder);
   var bookmarx_id = db.escape(req.body.bookmarx_id);
 
+  //Get the referer URL so we can return back to page where we clicked edit
+  var params = req.headers['referer'].split('/');
+
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
-  console.log(bookmarx_keywords)
+  
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
@@ -409,7 +412,14 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
               }
             });
 
-            response.redirect('/bookmarx');
+            if(params[params.length - 1] == 1)
+              response.redirect('/bookmarx/' + params[params.length - 2]);
+            else if (params[params.length - 1] == 2)
+              response.redirect('/bookmarx/favorites');
+            else if (params[params.length - 1] == 3)
+              response.redirect('/bookmarx/mostvisited');
+            else
+              response.redirect('/bookmarx');
           }
         });
   }
@@ -594,14 +604,12 @@ var staraction = module.exports.staraction =  function(req, response) {
             response.redirect('/bookmarx/' + res[0].folder_id);
           }
           else if(page==2){
-            response.redirect('/bookmarx/mostvisited');
-          }else if(page==3){
-            response.redirect('/bookmarx/favorites');
-          }else{
+            response.redirect('/bookmarx/favorites/');
+          } else if(page==3){
+            response.redirect('/bookmarx/mostvisited/');
+          } else{
             response.redirect('/bookmarx');
           }
-
-
 
         }
       });
