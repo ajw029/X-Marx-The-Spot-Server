@@ -657,3 +657,65 @@ var mostusedtags = module.exports.mostusedtags = function(req, response) {
 
   // SELECT COUNT(*) 'count', k.name 'keyword_name' FROM keywords k LEFT JOIN bookmarks b ON k.bookmark_id=b.id GROUP BY k.name ORDER BY 1 DESC LIMIT 5;
 };
+
+var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
+  console.log('>>>>>');
+
+  var backup = {};
+  backup['folders'] = new Array();
+  var account_id = req.body.account_id;
+
+  var queryFolderListString = db.squel
+    .select()
+    .from(folder_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryBookmarksListString = db.squel
+    .select()
+    .from(bookmarx_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryKeywordsListString = db.squel
+    .select()
+    .from(keywords_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+    
+
+  db.query(queryFolderListString, function(err, resObj) {
+    if (err) { throw err; }
+    if (resObj) {
+      backup['folders'] = resObj;
+
+      db.query(queryBookmarksListString, function(err, resObj) {
+        if (err) { throw err; }
+        if (resObj) {
+          backup['bookmarks'] = resObj;
+          db.query(queryBookmarksListString, function(err, resObj) {
+            if (err) { throw err; }
+            if (resObj) {
+              backup['keywords'] = resObj;
+              //console.log(backup);
+
+              var today = new Date();
+              var fileName = 'backup_'+today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'.json';
+              /** sends file to client **/
+              fs.writeFile(fileName, JSON.stringify(backup, null, 2) , 'utf-8', function () {
+                  response.download(fileName);
+              });                
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+var importBookmarks = module.exports.importBookmarks = function(req, response) {
+  console.log('>>>>>');
+};
