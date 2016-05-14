@@ -67,13 +67,12 @@ module.exports.loginAuth = function(req, response) {
     .toString();
 
     db.query(queryString,function(err,res){
-
       if(err){
-        response.render('users/login.ejs',{errmsg: {message:"can not be null ", hasError: true} });
+        response.render('users/login.ejs',{errmsg: {message:"Provide username please", hasError: true} });
       }else if(res){
         // If Null
         if (!res || !res[0]) {
-          response.render('users/login.ejs',{errmsg: {message:"User doesn't exist", hasError: true}});
+          response.render('users/login.ejs',{errmsg: {message:"Could not login", hasError: true}});
         }
         else {
 
@@ -83,14 +82,14 @@ module.exports.loginAuth = function(req, response) {
             response.redirect('/bookmarx');
           }
           else {
-            response.render('users/login.ejs', {errmsg: {hasError: true,message:"User name and password not match " }});
+            response.render('users/login.ejs', {errmsg: {hasError: true,message:"Username and password doesnt' match " }});
           }
         }
       }
     });
   }
   else {
-    response.render('users/login.ejs',{errmsg: {message:"can not be null ", hasError: true}});
+    response.render('users/login.ejs',{errmsg: {message:"Could not login", hasError: true}});
   }
 };
 
@@ -120,7 +119,7 @@ module.exports.signupAuth = function(req, response) {
     db.query(createUserQueryString, function (err, res) {
       if (err) {
         //server side failure
-        response.render('users/signup.ejs', {errmsg: {message: "server error ", hasError: true}});
+        response.render('users/signup.ejs', {errmsg: {message: "Username already exists", hasError: true}});
       } else if (res) {
         if (err) {
         } else if (res && res.insertId) {
@@ -138,7 +137,7 @@ module.exports.signupAuth = function(req, response) {
               throw err;
               response.render('users/signup.ejs', {
                 errmsg: {
-                  message: "server error ",
+                  message: "Error",
                   hasError: true
                 }
               });
@@ -165,7 +164,7 @@ module.exports.signupAuth = function(req, response) {
     });
   }
   else {
-    response.render('users/signup.ejs',{errmsg: {message:"Password and comfirm password not match", hasError: true}});
+    response.render('users/signup.ejs',{errmsg: {message:"Passwords don't match", hasError: true}});
   }
 };
 

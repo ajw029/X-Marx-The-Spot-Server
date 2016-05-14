@@ -597,9 +597,8 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .select()
       .from(bookmarx_table)
       .where('account_id=' + account_id)
-      //.field("ORDER BY visit_count DESC limit "+ topN)
       .toString();
-   queryString=queryString+" ORDER BY visit_count DESC limit "+ topN;
+   queryString=queryString+" ORDER BY visit_count ASC limit "+ topN;
    db.query(queryString,function(err,res){
      if(err){
       throw err;
