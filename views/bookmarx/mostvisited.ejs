@@ -63,8 +63,7 @@
             <% bookmarxList.forEach(function(bookmarx) { %>
               <li>
                 <div class="bookmark">
-                  <a href="/" onclick="window.open('<%= bookmarx.url %>');
-                                    window.open('/bookmarx/click/<%= bookmarx.folder_id%>/<%= bookmarx.id %>/2');" >
+                <a href='/bookmarx/click/<%= bookmarx.id %>'>
 
                     <h2><%= bookmarx.name %></h2>
                     <h3><%= bookmarx.url %></h3>
