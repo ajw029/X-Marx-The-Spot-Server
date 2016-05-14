@@ -2,5 +2,5 @@ db.js
 node_modules/*
 cache/*
 .DS_Store
-access.log
-error.log
+*.log
+my_configs.js

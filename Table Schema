@@ -19,7 +19,7 @@ keyword_id | keyword | timestamp
 Notes Table
 note_id | folder_id | note_title | body | timestamp
 
-
+mysql.server start
 Anthonys-MacBook-Pro-3:~ Sasuke$ mysql -u root -p bookmarx < /Users/Sasuke/Desktop/CSE\ 136/136HW3/postback/bookmarx.sql
 Enter password:
 Anthonys-MacBook-Pro-3:~ Sasuke$ mysql -u root -p

@@ -15,7 +15,8 @@
     "mysql": "^2.10.2",
     "npm": "^3.8.8",
     "squel": "^5.0.4",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "ejs": "^2.4.1"
   },
   "devDependencies": {},
   "scripts": {

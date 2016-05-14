@@ -6,7 +6,7 @@ var users = require('./users');
 db.init();
 
 var express = require('express');
-var fs = require('fs');
+fs = require('fs');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var compression = require('compression');
@@ -73,7 +73,7 @@ app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
 
-// Robots.txt file 
+// Robots.txt file
 app.get('/robots.txt', bookmarx.robots);
 
 /*  This must go between the users routes and the books routes */
@@ -110,7 +110,14 @@ app.post('/bookmarx/updatepassword',users.updatepassword);
 app.get('/bookmarx/favorites/',bookmarx.openFavoritesView);
 app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 
-app.get('/bookmarx/click/:folder_id(\\d)/:bookmarx_id(\\d)/:page(\\d)',bookmarx.clickCount);
+app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
+         '/bookmarx/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],bookmarx.clickCount);
+
+
+// export & import
+app.get('/bookmarx/import',bookmarx.importBookmarks);
+app.get('/bookmarx/export',bookmarx.exportBookmarks);
+
 
 app.use(function (req, res, next) {
     res.redirect('/');
