@@ -6,7 +6,7 @@ var users = require('./users');
 db.init();
 
 var express = require('express');
-var fs = require('fs');
+fs = require('fs');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var compression = require('compression');
@@ -114,6 +114,12 @@ app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
          '/bookmarx/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],bookmarx.clickCount);
 
 app.get('/bookmarx/search',bookmarx.search);
+
+// export & import
+app.get('/bookmarx/import',bookmarx.importBookmarks);
+app.get('/bookmarx/export',bookmarx.exportBookmarks);
+
+
 
 app.use(function (req, res, next) {
     res.redirect('/');

@@ -655,9 +655,8 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       .select()
       .from(bookmarx_table)
       .where('account_id=' + account_id)
-      //.field("ORDER BY visit_count DESC limit "+ topN)
       .toString();
-   queryString=queryString+" ORDER BY visit_count DESC limit "+ topN;
+   queryString=queryString+" ORDER BY visit_count ASC limit "+ topN;
    db.query(queryString,function(err,res){
      if(err){
       throw err;
@@ -716,4 +715,66 @@ var clickCount=module.exports.clickCount=function(req,response){
         });
       }
     });
+};
+
+var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
+  console.log('>>>>>');
+
+  var backup = {};
+  backup['folders'] = new Array();
+  var account_id = req.body.account_id;
+
+  var queryFolderListString = db.squel
+    .select()
+    .from(folder_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryBookmarksListString = db.squel
+    .select()
+    .from(bookmarx_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+
+  var queryKeywordsListString = db.squel
+    .select()
+    .from(keywords_table)
+    .where('account_id=' + db.escape(account_id))
+    .where('deleted=0')
+    .toString();
+    
+
+  db.query(queryFolderListString, function(err, resObj) {
+    if (err) { throw err; }
+    if (resObj) {
+      backup['folders'] = resObj;
+
+      db.query(queryBookmarksListString, function(err, resObj) {
+        if (err) { throw err; }
+        if (resObj) {
+          backup['bookmarks'] = resObj;
+          db.query(queryBookmarksListString, function(err, resObj) {
+            if (err) { throw err; }
+            if (resObj) {
+              backup['keywords'] = resObj;
+              //console.log(backup);
+
+              var today = new Date();
+              var fileName = 'backup_'+today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'.json';
+              /** sends file to client **/
+              fs.writeFile(fileName, JSON.stringify(backup, null, 2) , 'utf-8', function () {
+                  response.download(fileName);
+              });                
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+var importBookmarks = module.exports.importBookmarks = function(req, response) {
+  console.log('>>>>>');
 };
