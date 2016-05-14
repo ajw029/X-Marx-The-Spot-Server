@@ -113,6 +113,8 @@ app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
          '/bookmarx/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],bookmarx.clickCount);
 
+app.get('/bookmarx/search',bookmarx.search);
+
 app.use(function (req, res, next) {
     res.redirect('/');
 });
