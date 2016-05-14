@@ -176,13 +176,12 @@ var list = module.exports.list = function(req, response) {
   });
 };
 
-//search 
+//search
 var search=module.exports.search=function(req,response){
- 
+
   var account_id = req.body.account_id;
   var keyword = req.query.search;
   var ordering = req.query.ordering;
-  console.log(keyword);
   var keywordList = [];
   if (keyword)
     keywordList = (keyword.trim()).split(' ');
@@ -207,7 +206,6 @@ var search=module.exports.search=function(req,response){
     var whereExpr = db.squel.expr();
     for (var j = 0; j < keywordList.length; j++) {
       var searchTerm = db.escape(keywordList[j]);
-      console.log(searchTerm)
       searchTerm = searchTerm.slice(1, searchTerm.length - 1);
             whereExpr
             .or('b.name LIKE \'%' + searchTerm + '%\'')
@@ -217,14 +215,12 @@ var search=module.exports.search=function(req,response){
     }
 
     queryBookmarks.where(whereExpr);
-    console.log(queryBookmarks.toString())
     db.query(queryBookmarks.toString(), function (err, res) {
       if (err) {
         throw err;
       }
       if (res) {
-        console.log(res);
-        response.render('bookmarx/list.ejs', {
+        response.render('bookmarx/searchresults.ejs', {
           bookmarxList: res,
           search: req.query.search || '',
           ordering: req.query.ordering || ''
@@ -744,7 +740,7 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
     .where('account_id=' + db.escape(account_id))
     .where('deleted=0')
     .toString();
-    
+
 
   db.query(queryFolderListString, function(err, resObj) {
     if (err) { throw err; }
@@ -766,7 +762,7 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
               /** sends file to client **/
               fs.writeFile(fileName, JSON.stringify(backup, null, 2) , 'utf-8', function () {
                   response.download(fileName);
-              });                
+              });
             }
           });
         }
