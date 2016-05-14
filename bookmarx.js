@@ -536,8 +536,6 @@ var staraction = module.exports.staraction =  function(req, response) {
           response.redirect('/bookmarx');
         }
         if (result) {
-          // TODO: find a way to go back where we were (eg search)
-
           if(page==1){
             response.redirect('/bookmarx/' + res[0].folder_id);
           }
@@ -564,16 +562,22 @@ var robots = module.exports.robots = function(req, res) {
 
 var openFavoritesView=module.exports.openFavoritesView=function(req,response){
 
-  var account_id=req.body.account_id;
 
-  var queryString = "SELECT * FROM " + bookmarx_table + " WHERE favorite=1" ;
+  var account_id=req.body.account_id;
+  var select_queryString = db.squel
+      .select()
+      .from(bookmarx_table)
+      .where('favorite=1')
+      .where('account_id=' + account_id)
+      .toString();
+  
 
   var ordering = '';
   if (req.query.ordering && (req.query.ordering === 'asc' || req.query.ordering === 'desc')) {
     ordering = ' ORDER BY name ' + req.query.ordering;
   }
 
-  db.query(queryString + ordering, function(err, res) {
+  db.query(select_queryString + ordering, function(err, res) {
        if (err){
          throw err;
        }
@@ -589,9 +593,14 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
 
    var mostvisited=module.exports.mostvisited=function(req,response){
    var account_id=req.body.account_id;
-   var topN=5;
-   var queryString="SELECT * FROM "+bookmarx_table+" WHERE account_id="+account_id+" ORDER BY visit_count DESC  LIMIT "+ topN;
-
+   var topN=6;
+   var queryString = db.squel
+      .select()
+      .from(bookmarx_table)
+      .where('account_id=' + account_id)
+      //.field("ORDER BY visit_count DESC limit "+ topN)
+      .toString();
+   queryString=queryString+"ORDER BY visit_count DESC limit "+ topN;
    db.query(queryString,function(err,res){
      if(err){
       throw err;
@@ -614,8 +623,14 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
       var bookmark_id=db.escape(req.params.bookmarx_id);
       var folder_id=req.params.folder_id;
       var page=req.params.page;
-
-      var queryString="update "+bookmarx_table+" set visit_count=visit_count+1 where id="+bookmark_id +" AND account_id="+account_id ;
+      var queryString = db.squel
+          .update()
+          .table(bookmarx_table)
+          .set('visit_count=visit_count+1')
+          .where('id='+bookmark_id)
+          .where('account_id=' + account_id)
+          .toString();
+      
       db.query(queryString,function(err,res){
         if(err){
           throw err;
