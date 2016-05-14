@@ -203,7 +203,8 @@ var search=module.exports.search=function(req,response){
             .or('k.name LIKE\'%' + searchTerm + '%\'')
     }
 
-    queryBookmarks.where(whereExpr);
+    queryBookmarks.where(whereExpr).group('b.id');
+
     db.query(queryBookmarks.toString(), function (err, res) {
       if (err) {
         throw err;
