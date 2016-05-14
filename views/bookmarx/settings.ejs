@@ -55,9 +55,17 @@
 			</div>
 			<div class="settinggroup">
 				<h2>Import/Export Bookmarks</h2>
-				<form >
+        <!-- <form action="import" method="POST" type="multipart/form-data">
 					<div class="inputgroup">
-						<a type="submit" class="boxButton okayButton" href="/bookmarx/import">Import Bookmarks</a>
+						<input type='file' name='fileUploaded' accept=".json">
+						<input type="submit" class="boxButton okayButton" value="Import Bookmarks"/>
+					</div>
+				</form> -->
+				<form action="import" method="POST">
+					<div class="inputgroup">
+						Please copy paste contents of backup into:
+						<input type="text" name="bookmarksJsonText">
+						<input type="submit" class="boxButton okayButton" value="Import Bookmarks"/>
 					</div>
 				</form>
 				<form >

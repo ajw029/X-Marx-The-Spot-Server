@@ -115,9 +115,8 @@ app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
 
 
 // export & import
-app.get('/bookmarx/import',bookmarx.importBookmarks);
+app.post('/bookmarx/import',bookmarx.importBookmarks);
 app.get('/bookmarx/export',bookmarx.exportBookmarks);
-
 
 app.use(function (req, res, next) {
     res.redirect('/');
