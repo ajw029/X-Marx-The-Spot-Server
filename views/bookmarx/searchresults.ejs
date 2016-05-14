@@ -17,12 +17,10 @@
     <ul class="nav-title">
       <li><a href="index.html">BookMarx</a></li>
     </ul>
-    <!--ul class="nav-hamburger mobileView">
-      <li><a href="index.html"><img src="img/ic_menu_white_48dp_2x.png"></a></li>
-    </ul-->
+
     <div class="searchContainer">
       <div class="folderSearchBar">
-        <form action="/bookmarx/search" method="GET">
+        <form action="" method="GET">
         <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
         <select name="ordering">
           <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
@@ -35,7 +33,7 @@
     <ul class="navbar-right">
       <li class="navbar-hide"><a href="/bookmarx/add" class="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Add a BookMarx</span></a></li>
       <li class="navbar-hide"><a href="/bookmarx/addfolder" class="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"><span class="tooltiptext">Add a Folder</span></a></li>
-      <li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li>
+      <!--li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li-->
       <li class="navbar-hide"><a href="/bookmarx/settings" class="tooltip"><img class="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Settings</span></a></li>
       <li><a class="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
     </ul>
@@ -53,22 +51,26 @@
     </section>
 
     <section class="right-container center-container">
+
       <div class="slide">
 
         <div class="folderContent">
+  
           <ul>
             <% bookmarxList.forEach(function(bookmarx) { %>
               <li>
-                <div class="bookmark">
-                <a href='/bookmarx/click/<%= bookmarx.id %>'>
+              <!--count the click -->
+
+                <div class="bookmark"  >
+                  <a href='/bookmarx/click/<%= bookmarx.id %>'>
 
                     <h2><%= bookmarx.name %></h2>
                     <h3><%= bookmarx.url %></h3>
 
                   </a>
-                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>/<%= bookmarx.folder_id %>/3"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
+                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
                   <div class="card__action-bar">
-                    <form action="/bookmarx/staraction/3" method="POST">
+                    <form action="/bookmarx/staraction/1" method="POST">
                       <input type="hidden" name="bookmarx_id" value="<%= bookmarx.id %>">
                       <% if (bookmarx.favorite==1) { %>
                         <button class="fab favorite"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
@@ -76,9 +78,11 @@
                         <button class="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
                     <% } %>
                     </form>
-                      <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>/<%= bookmarx.folder_id %>/3">EDIT</a>                  
+                    <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>">EDIT</a>
                   </div>
+
                 </div>
+
               </li>
             <% }); %>
           </ul>
@@ -88,14 +92,7 @@
     </section>
   </div>
 
-  <div class="overlay hide" onclick="closeOverlay(this)">
-  </div>
-
   <div class="overlayContainer">
-    <div class="mini-fab-container hide">
-      <button class="mini-fab" onclick="window.location.replace('add.html')"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></button>
-      <button class="mini-fab" onclick="window.location.replace('folder.html')"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></button>
-    </div>
     <a class="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></a>
   </div>
 

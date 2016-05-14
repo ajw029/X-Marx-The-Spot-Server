@@ -91,13 +91,13 @@ app.post('/bookmarx/add', bookmarx.addBookmarxAuth);
 
 app.post('/bookmarx/staraction/:page(\\d)', bookmarx.staraction);
 
-app.get(['/bookmarx/edit/:bookmarx_id(\\d+)', '/bookmarx/edit'], bookmarx.editBookmarx);
+app.get(['/bookmarx/edit/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', '/bookmarx/edit'], bookmarx.editBookmarx);
 app.post('/bookmarx/edit', bookmarx.editBookmarxAuth);
 
 app.get('/bookmarx/addfolder', bookmarx.addfolder);
 app.post('/bookmarx/addfolder', bookmarx.addfolderauth);
 
-app.get('/bookmarx/delete/:bookmarx_id(\\d+)', bookmarx.deleteBookmarxAuth);
+app.get('/bookmarx/delete/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', bookmarx.deleteBookmarxAuth);
 
 //Folder Settings
 app.get('/foldersetting/:folder_id(\\d+)', bookmarx.foldersettings);
@@ -113,10 +113,12 @@ app.get('/bookmarx/mostvisited',bookmarx.mostvisited);
 app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
          '/bookmarx/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],bookmarx.clickCount);
 
+app.get('/bookmarx/search',bookmarx.search);
 
 // export & import
 app.post('/bookmarx/import',bookmarx.importBookmarks);
 app.get('/bookmarx/export',bookmarx.exportBookmarks);
+
 
 app.use(function (req, res, next) {
     res.redirect('/');
