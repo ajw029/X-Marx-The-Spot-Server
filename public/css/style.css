@@ -9,6 +9,8 @@
 	padding: 0;
 	border-radius: 0;
 	-webkit-appearance: none;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
 }
 button, input {
 	outline:none;
