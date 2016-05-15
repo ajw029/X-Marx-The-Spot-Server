@@ -783,8 +783,8 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
 };
 
 var importBookmarks = module.exports.importBookmarks = function(req, response){
-  console.log('......<<<<<');
-  console.log(req.body.bookmarksJsonText);
+  //console.log('......<<<<<');
+  //console.log(req.body.bookmarksJsonText);
 
   var importJson = {};
 
@@ -796,7 +796,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
     return;
   }
 
-  console.log(importJson);
+  //console.log(importJson);
   var account_id=req.body.account_id;
   var folderOldNewId = {};
 
@@ -810,7 +810,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
         .where('account_id=' + account_id)
         .where('name=' + db.escape(importJson['folders'][i]['name']))
         .toString();
-        console.log(querystring);
+        //console.log(querystring);
 
       db.query(querystring, function(err, res) {
         if(err) {console.log(err);}
@@ -824,12 +824,12 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
             'name': importJson['folders'][i]['name']
           })
           .toString();   
-          console.log(insertFolderString);
+          //console.log(insertFolderString);
           db.query(insertFolderString, function(err, res) {
             if(err) {console.log(err);}
             if(res) {
-              console.log("inserted this");
-              console.log(res);
+              //console.log("inserted this");
+              //console.log(res);
 
               db.query(querystring, function(err, res) {
                 if(err) {console.log(err);}
@@ -844,7 +844,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
           });
         }
         else {
-          console.log(res);
+          //console.log(res);
           folderOldNewId[importJson['folders'][i]['id']] = res[0].id;
           if(i == ( importJson['folders'].length - 1) ) {
                     bookmarkInsertStep();
@@ -876,13 +876,13 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
           'visit_count': 0
         })
         .toString();  
-        console.log(insertBookmarkString); 
+        //console.log(insertBookmarkString); 
 
         db.query(insertBookmarkString, function(err, res) {
           if(err) {console.log(err);}
           if(res) {
-            console.log("inserted this");
-            console.log(res.insertId);
+            //console.log("inserted this");
+            //console.log(res.insertId);
             bookmarksOldNewIdHash[importJson['bookmarks'][i]['id']] = res.insertId;
             if(i == ( importJson['bookmarks'].length - 1) ) {
                     keywordInsertStep();
@@ -908,7 +908,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
           'bookmark_id': bookmarksOldNewIdHash[importJson['keywords'][i]['id']]
         })
         .toString();  
-        console.log(insertKeywordsString); 
+        //console.log(insertKeywordsString); 
 
         db.query(insertKeywordsString, function(err, res) {
           if(err) {console.log(err);}
