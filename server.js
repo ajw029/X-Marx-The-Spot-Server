@@ -116,9 +116,8 @@ app.get(['/bookmarx/click/:bookmarx_id(\\d+)',
 app.get('/bookmarx/search',bookmarx.search);
 
 // export & import
-app.get('/bookmarx/import',bookmarx.importBookmarks);
+app.post('/bookmarx/import',bookmarx.importBookmarks);
 app.get('/bookmarx/export',bookmarx.exportBookmarks);
-
 
 
 app.use(function (req, res, next) {

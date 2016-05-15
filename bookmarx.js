@@ -203,7 +203,8 @@ var search=module.exports.search=function(req,response){
             .or('k.name LIKE\'%' + searchTerm + '%\'')
     }
 
-    queryBookmarks.where(whereExpr);
+    queryBookmarks.where(whereExpr).group('b.id');
+
     db.query(queryBookmarks.toString(), function (err, res) {
       if (err) {
         throw err;
@@ -752,7 +753,6 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
     .where('deleted=0')
     .toString();
 
-
   db.query(queryFolderListString, function(err, resObj) {
     if (err) { throw err; }
     if (resObj) {
@@ -782,6 +782,147 @@ var exportBookmarks = module.exports.exportBookmarks = function(req, response) {
   });
 };
 
-var importBookmarks = module.exports.importBookmarks = function(req, response) {
-  console.log('>>>>>');
+var importBookmarks = module.exports.importBookmarks = function(req, response){
+  //console.log('......<<<<<');
+  //console.log(req.body.bookmarksJsonText);
+
+  var importJson = {};
+
+  try {
+    importJson = JSON.parse(req.body.bookmarksJsonText);
+  }
+  catch (e) {
+    console.log('not valid json');
+    return;
+  }
+
+  //console.log(importJson);
+  var account_id=req.body.account_id;
+  var folderOldNewId = {};
+
+
+  for(var i=0; i < importJson['folders'].length; i++) {
+    function createFolders(i) {
+      if (importJson['folders'][i]['deleted']==1) return;
+      var querystring = db.squel
+        .select()
+        .from(folder_table)
+        .where('account_id=' + account_id)
+        .where('name=' + db.escape(importJson['folders'][i]['name']))
+        .toString();
+        //console.log(querystring);
+
+      db.query(querystring, function(err, res) {
+        if(err) {console.log(err);}
+
+        if(res && !res[0]) {
+          var insertFolderString = db.squel
+          .insert()
+          .into(folder_table)
+          .setFields({
+            'account_id': account_id,
+            'name': importJson['folders'][i]['name']
+          })
+          .toString();   
+          //console.log(insertFolderString);
+          db.query(insertFolderString, function(err, res) {
+            if(err) {console.log(err);}
+            if(res) {
+              //console.log("inserted this");
+              //console.log(res);
+
+              db.query(querystring, function(err, res) {
+                if(err) {console.log(err);}
+                if(res && res[0]) {
+                  folderOldNewId[importJson['folders'][i]['id']] = res[0].id;
+                  if(i == ( importJson['folders'].length - 1) ) {
+                    bookmarkInsertStep();
+                  }
+                }
+              });
+            }
+          });
+        }
+        else {
+          //console.log(res);
+          folderOldNewId[importJson['folders'][i]['id']] = res[0].id;
+          if(i == ( importJson['folders'].length - 1) ) {
+                    bookmarkInsertStep();
+          }
+        }
+      });
+    }
+    createFolders(i);
+  }
+
+  var bookmarksOldNewIdHash = {};
+
+  function bookmarkInsertStep() {
+    for(var i=0; i < importJson['bookmarks'].length; i++) {
+
+      function insertBookmark(i) {
+        if (importJson['bookmarks'][i]['deleted']==1) return;
+        
+        var insertBookmarkString = db.squel
+        .insert()
+        .into(bookmarx_table)
+        .setFields({
+         'folder_id': (folderOldNewId[importJson['bookmarks'][i]['folder_id']]),
+          'account_id': (account_id),
+          'name': (importJson['bookmarks'][i]['name']),
+          'url': (importJson['bookmarks'][i]['url']),
+          'description': (importJson['bookmarks'][i]['description']),
+          'favorite': false,
+          'visit_count': 0
+        })
+        .toString();  
+        //console.log(insertBookmarkString); 
+
+        db.query(insertBookmarkString, function(err, res) {
+          if(err) {console.log(err);}
+          if(res) {
+            //console.log("inserted this");
+            //console.log(res.insertId);
+            bookmarksOldNewIdHash[importJson['bookmarks'][i]['id']] = res.insertId;
+            if(i == ( importJson['bookmarks'].length - 1) ) {
+                    keywordInsertStep();
+            }
+          }
+        });
+      }
+      insertBookmark(i);
+    }  
+  }
+
+  function keywordInsertStep() {
+    for(var i=0; i < importJson['keywords'].length; i++) {
+
+      function insertKeywords(i) {
+        
+        var insertKeywordsString = db.squel
+        .insert()
+        .into(keywords_table)
+        .setFields({
+          'account_id': (account_id),
+          'name': (importJson['keywords'][i]['name']),
+          'bookmark_id': bookmarksOldNewIdHash[importJson['keywords'][i]['id']]
+        })
+        .toString();  
+        //console.log(insertKeywordsString); 
+
+        db.query(insertKeywordsString, function(err, res) {
+          if(err) {console.log(err);}
+          if(res) {
+            // END            
+            if(i == ( importJson['keywords'].length - 1) ) {
+              response.redirect('/bookmarx');
+            }
+          }
+        });
+      }
+      insertKeywords(i);
+
+    }
+  }
+
 };
