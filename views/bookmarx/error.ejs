@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Settings</title>
+	<meta name="description" content="Bookmarx">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/imgs/tp.png">
+  <script src="/js/jquery.js"></script>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="black-background">
+	<nav>
+    <ul class="nav-title">
+      <li><a href="index.html">BookMarx</a></li>
+    </ul>
+    <ul class="navbar-right">
+      <li class="navbar-hide"><a href="/bookmarx/add" class="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Add a BookMarx</span></a></li>
+      <li class="navbar-hide"><a href="/bookmarx/addfolder" class="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"><span class="tooltiptext">Add a Folder</span></a></li>
+      <!--li class="navbar-hide"><a href="/bookmarx/export" class="tooltip"><img src="/img/ic_import_export_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Import/Export BookMarx</span></a></li-->
+      <li class="navbar-hide"><a href="/bookmarx/settings" class="tooltip"><img class="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Settings</span></a></li>
+      <li><a class="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
+    </ul>
+  </nav>
+  <section class="slide">
+    <div class="formcontainer column-40">
+      <h1>Error</h1>
+      <a class="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png" alt="back"></a>
+    <p><%= error %></p>
+    </div>
+  </section>
+  <nav class="nav-mobile mobileView">
+    <ul class="mobileView">
+      <li><a href="/bookmarx/favorites"><img src="/img/ic_star_white_48dp_2x.png" alt="favorite"></a></li>
+      <li><a href="/bookmarx/mostvisited"><img src="/img/ic_pets_white_48dp_2x.png" alt="mostvisited"></a></li>
+      <li class="active"><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png" alt="home"></a></li>
+      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="addfolder"></a></li>
+      <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png" alt="settings"></a></li>
+    </ul>
+  </nav>
+</body>
+</html>

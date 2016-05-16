@@ -787,6 +787,14 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   }
   catch (e) {
     console.log('not valid json');
+    response.render('bookmarx/error.ejs', 
+      {error: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'});
+    return;
+  }
+
+  if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
+    response.render('bookmarx/error.ejs', 
+      {error: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'});
     return;
   }
 
@@ -795,6 +803,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   var folderOldNewId = {};
 
 
+  try {
   for(var i=0; i < importJson['folders'].length; i++) {
     function createFolders(i) {
       if (importJson['folders'][i]['deleted']==1) return;
@@ -917,6 +926,12 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
       insertKeywords(i);
 
     }
+  }
+  }
+  catch (e) {
+    response.render('bookmarx/error.ejs', 
+      {error: 'Backup corrupt.'});
+    return;
   }
 
 };
