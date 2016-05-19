@@ -7,6 +7,7 @@ db.init();
 
 var express = require('express');
 fs = require('fs');
+var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var compression = require('compression');
@@ -53,7 +54,7 @@ var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a
 var errorLogStream = fs.createWriteStream(__dirname + '/error.log', {falgs: 'a'});
 
 // Set up logging to detect only "suspicious" requests (any requests we haven't defined)
-app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', 
+app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}',
 { skip: function(req, res) { return (req.method === 'GET' || req.method === 'POST'); },
 	stream: accessLogStream }
 ));
@@ -61,7 +62,7 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
 // Set up error logging
 app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}',
   { skip: function(req,res) { return res.statusCode < 400; },
-  stream: errorLogStream } 
+  stream: errorLogStream }
 ));
 
 // Login And Signup
@@ -78,6 +79,13 @@ app.get('/robots.txt', bookmarx.robots);
 
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
+
+app.get('/home', function(req, res) {
+    res.sendFile(__dirname + '/views/list.html');
+});
+
+app.get('/api/getfolders', bookmarx.apiGetFolders);
+app.get('/api/getbookmarks', bookmarx.apiGetBookmarx);
 
 // Bookmarx Routes
 app.get(['/bookmarx',

@@ -103,6 +103,78 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
   }
 };
 
+var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
+  var account_id = req.body.account_id;
+
+  var queryFolderListString = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('deleted=0')
+      .toString();
+
+  db.query(queryFolderListString, function(err, folderRes) {
+    if (err) {
+      throw err;
+    }
+    if (folderRes) {
+      response.status(200).send(folderRes);
+    }
+  });
+};
+
+var apiGetBookmarx = module.exports.apiGetBookmarx = function(req, response) {
+  var account_id = req.body.account_id;
+
+  //
+  var folder_id =  req.params.folder_id;
+
+  var queryBookmarks = db.squel.select()
+      .from(bookmarx_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('deleted=0');
+
+  if (folder_id) {
+    queryBookmarks.where('folder_id=' + folder_id);
+    db.query(queryBookmarks.toString(), function(err, bookmarks) {
+      if (err) {
+        throw err;
+      }
+      if (folderRes) {
+        response.status(200).send(bookmarks);
+      }
+    });
+  }
+  else {
+    var queryFolderListString = db.squel
+        .select()
+        .from(folder_table)
+        .where('account_id=' + db.escape(account_id))
+        .where('deleted=0')
+        .toString();
+
+    db.query(queryFolderListString, function(err, folderRes) {
+      if (err) {
+        throw err;
+      }
+      if (folderRes) {
+        if (folderRes[0]) {
+          queryBookmarks.where('folder_id=' + folderRes[0].id);
+          db.query(queryBookmarks.toString(), function(err, bookmarks) {
+            if (err) {
+              throw err;
+            }
+            if (folderRes) {
+              response.status(200).send(bookmarks);
+            }
+          });
+        }
+      }
+    });
+  }
+
+};
+
 /**
  * Selects all books and then renders the page with the list.ejs template
  */
@@ -121,7 +193,6 @@ var list = module.exports.list = function(req, response) {
       .where('account_id=' + db.escape(account_id))
       .where('deleted=0')
       .toString();
-
 
   db.query(queryFolderListString, function(err, folderRes) {
     if (err) {
@@ -244,7 +315,7 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
       throw err;
     }
     if (res) {
-      //Redirect back to current page      
+      //Redirect back to current page
       if(page_id == 1)
         response.redirect('/bookmarx/' + folder_id);
       else if (page_id == 2)
@@ -336,7 +407,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
-  
+
   if (bookmarx_title &&
       bookmarx_url   &&
       bookmarx_desc  &&
@@ -823,7 +894,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
             'account_id': account_id,
             'name': importJson['folders'][i]['name']
           })
-          .toString();   
+          .toString();
           //console.log(insertFolderString);
           db.query(insertFolderString, function(err, res) {
             if(err) {console.log(err);}
@@ -862,7 +933,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
 
       function insertBookmark(i) {
         if (importJson['bookmarks'][i]['deleted']==1) return;
-        
+
         var insertBookmarkString = db.squel
         .insert()
         .into(bookmarx_table)
@@ -875,8 +946,8 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
           'favorite': false,
           'visit_count': 0
         })
-        .toString();  
-        //console.log(insertBookmarkString); 
+        .toString();
+        //console.log(insertBookmarkString);
 
         db.query(insertBookmarkString, function(err, res) {
           if(err) {console.log(err);}
@@ -891,14 +962,14 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
         });
       }
       insertBookmark(i);
-    }  
+    }
   }
 
   function keywordInsertStep() {
     for(var i=0; i < importJson['keywords'].length; i++) {
 
       function insertKeywords(i) {
-        
+
         var insertKeywordsString = db.squel
         .insert()
         .into(keywords_table)
@@ -907,13 +978,13 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
           'name': (importJson['keywords'][i]['name']),
           'bookmark_id': bookmarksOldNewIdHash[importJson['keywords'][i]['id']]
         })
-        .toString();  
-        //console.log(insertKeywordsString); 
+        .toString();
+        //console.log(insertKeywordsString);
 
         db.query(insertKeywordsString, function(err, res) {
           if(err) {console.log(err);}
           if(res) {
-            // END            
+            // END
             if(i == ( importJson['keywords'].length - 1) ) {
               response.redirect('/bookmarx');
             }

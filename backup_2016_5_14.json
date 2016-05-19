@@ -1,0 +1,306 @@
+{
+  "folders": [
+    {
+      "id": 1,
+      "account_id": 1,
+      "name": "Default",
+      "deleted": 0
+    },
+    {
+      "id": 12,
+      "account_id": 1,
+      "name": "wow",
+      "deleted": 0
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": 2,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 1,
+      "url": "2",
+      "description": "2",
+      "deleted": 0,
+      "visit_count": 15
+    },
+    {
+      "id": 6,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "aldfa",
+      "favorite": 0,
+      "url": "asldkfj",
+      "description": "adlsfk",
+      "deleted": 0,
+      "visit_count": 3
+    },
+    {
+      "id": 7,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 0,
+      "url": "asdf",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 3
+    },
+    {
+      "id": 9,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "asdfasdf",
+      "favorite": 0,
+      "url": "asdf",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 2
+    },
+    {
+      "id": 10,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "asdfas",
+      "favorite": 0,
+      "url": "asdfdas",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 12,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "newtest",
+      "favorite": 0,
+      "url": "1",
+      "description": "1",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 17,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "HAI HAI2",
+      "favorite": 1,
+      "url": "FACEBOOK",
+      "description": "OMG",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 18,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "facebook.com",
+      "favorite": 0,
+      "url": "facebook.com",
+      "description": "facebook",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 19,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "tet",
+      "favorite": 0,
+      "url": "//facebook.com",
+      "description": "adsf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 20,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 0,
+      "url": "//facebook.com",
+      "description": "adf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 22,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "google2",
+      "favorite": 1,
+      "url": "google.com",
+      "description": "asdfadsf",
+      "deleted": 0,
+      "visit_count": 2
+    },
+    {
+      "id": 23,
+      "folder_id": 12,
+      "account_id": 1,
+      "name": "wtf",
+      "favorite": 0,
+      "url": "wtf",
+      "description": "wtf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 24,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "wtf2",
+      "favorite": 0,
+      "url": "a",
+      "description": "a",
+      "deleted": 0,
+      "visit_count": 0
+    }
+  ],
+  "keywords": [
+    {
+      "id": 2,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 1,
+      "url": "2",
+      "description": "2",
+      "deleted": 0,
+      "visit_count": 15
+    },
+    {
+      "id": 6,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "aldfa",
+      "favorite": 0,
+      "url": "asldkfj",
+      "description": "adlsfk",
+      "deleted": 0,
+      "visit_count": 3
+    },
+    {
+      "id": 7,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 0,
+      "url": "asdf",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 3
+    },
+    {
+      "id": 9,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "asdfasdf",
+      "favorite": 0,
+      "url": "asdf",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 2
+    },
+    {
+      "id": 10,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "asdfas",
+      "favorite": 0,
+      "url": "asdfdas",
+      "description": "asdf",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 12,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "newtest",
+      "favorite": 0,
+      "url": "1",
+      "description": "1",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 17,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "HAI HAI2",
+      "favorite": 1,
+      "url": "FACEBOOK",
+      "description": "OMG",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 18,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "facebook.com",
+      "favorite": 0,
+      "url": "facebook.com",
+      "description": "facebook",
+      "deleted": 0,
+      "visit_count": 1
+    },
+    {
+      "id": 19,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "tet",
+      "favorite": 0,
+      "url": "//facebook.com",
+      "description": "adsf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 20,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "test",
+      "favorite": 0,
+      "url": "//facebook.com",
+      "description": "adf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 22,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "google2",
+      "favorite": 1,
+      "url": "google.com",
+      "description": "asdfadsf",
+      "deleted": 0,
+      "visit_count": 2
+    },
+    {
+      "id": 23,
+      "folder_id": 12,
+      "account_id": 1,
+      "name": "wtf",
+      "favorite": 0,
+      "url": "wtf",
+      "description": "wtf",
+      "deleted": 0,
+      "visit_count": 0
+    },
+    {
+      "id": 24,
+      "folder_id": 1,
+      "account_id": 1,
+      "name": "wtf2",
+      "favorite": 0,
+      "url": "a",
+      "description": "a",
+      "deleted": 0,
+      "visit_count": 0
+    }
+  ]
+}
