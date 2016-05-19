@@ -35,7 +35,7 @@ var FolderContainerComponent = React.createClass({
       );
     });
     return (
-      <div>
+          <div className="slide desktopView">
         {folderNodes}
       </div>
     );
@@ -98,10 +98,12 @@ var BookmarxContainerComponent = React.createClass({
       );
     });
     return (
-      <div>
-        <ul>
-          {bookmarkNodes}
-        </ul>
+      <div className="slide">
+        <div className="folderContent">
+          <ul>
+            {bookmarkNodes}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -188,14 +190,16 @@ var MobileFolderSwitcherContainer = React.createClass({
       )
     });
     return (
-      <div class="column- folderContainer">
-        <form action="/bookmarx/" method="GET">
-          <span class="folder_label_mobile">Folder: </span>
-            <select  name="folder_id">
-              {folderNodes}
-            </select>
-          <input type="submit" value="Change"></input>
-        </form>
+      <div className="slide mobileView">
+        <div className="column- folderContainer">
+          <form action="/bookmarx/" method="GET">
+            <span className="folder_label_mobile">Folder: </span>
+              <select  name="folder_id">
+                {folderNodes}
+              </select>
+            <input type="submit" value="Change"></input>
+          </form>
+        </div>
       </div>
     );
   }
@@ -236,40 +240,27 @@ var SideBar = React.createClass({
 var HomeContainer = React.createClass({
   render: function() {
     return (
-      <div className="container">
-        <SideBar/>
-        <section className="slide-container">
-          <div className="slide desktopView">
-            <FolderContainerComponent/>
-          </div>
-          <div className="slide mobileView">
+      <div>
+        <NavBar/>
+        <div className="container">
+          <SideBar/>
+          <section className="slide-container">
+            <FolderContainerComponent
+              source="/api/getfolders"/>
             <MobileFolderSwitcherContainer/>
-          </div>
-        </section>
-        <section className="right-container">
-        </section>
+          </section>
+          <section className="right-container">
+            <BookmarxContainerComponent
+              source="/api/getbookmarks"/>
+          </section>
+        </div>
+        <MobileNav/>
       </div>
     );
   }
 });
 
 ReactDOM.render(
-  <SideBar/>,
-  document.getElementById('sidebarContainer')
-);
-ReactDOM.render(
-  <NavBar/>,
-  document.getElementById('navbarcontainer')
-);
-
-ReactDOM.render(
-  <FolderContainerComponent
-    source="/api/getfolders"/>,
-  document.getElementById('folderContainer')
-);
-
-ReactDOM.render(
-  <BookmarxContainerComponent
-    source="/api/getbookmarks"/>,
-  document.getElementById('bookmarklist')
+  <HomeContainer/>,
+  document.getElementById('maincontainer')
 );
