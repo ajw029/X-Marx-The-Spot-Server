@@ -60,17 +60,14 @@
             <% bookmarxList.forEach(function(bookmarx) { %>
               <li>
               <!--count the click -->
-
                 <div class="bookmark"  >
                   <a href='/bookmarx/click/<%= bookmarx.id %>'>
-
                     <h2><%= bookmarx.name %></h2>
                     <h3><%= bookmarx.url %></h3>
-
                   </a>
-                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
+                  <a class="closeButton" href="/bookmarx/delete/<%= bookmarx.id %>/<%= bookmarx.folder_id %>/4"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></a>
                   <div class="card__action-bar">
-                    <form action="/bookmarx/staraction/1" method="POST">
+                    <form action="/bookmarx/staraction/4" method="POST">
                       <input type="hidden" name="bookmarx_id" value="<%= bookmarx.id %>">
                       <% if (bookmarx.favorite==1) { %>
                         <button class="fab favorite"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
@@ -78,11 +75,9 @@
                         <button class="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></button>
                     <% } %>
                     </form>
-                    <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>">EDIT</a>
+                    <a class="card__button" href="/bookmarx/edit/<%= bookmarx.id %>/<%= bookmarx.folder_id %>/4">EDIT</a>
                   </div>
-
                 </div>
-
               </li>
             <% }); %>
           </ul>

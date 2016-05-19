@@ -318,12 +318,8 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
       //Redirect back to current page
       if(page_id == 1)
         response.redirect('/bookmarx/' + folder_id);
-      else if (page_id == 2)
-        response.redirect('/bookmarx/favorites');
-      else if (page_id == 3)
-        response.redirect('/bookmarx/mostvisited');
       else
-        response.redirect('/bookmarx');
+        response.redirect(req.headers['referer']);
     }
   });
 
@@ -384,7 +380,9 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
           //console.log(res)
           response.render('bookmarx/edit.ejs', {keywordList: keywordList,
                                                 bookmarx: res[0],
-                                                foldersList: folderList});
+                                                foldersList: folderList,
+                                                referer: req.headers['referer']
+                                              });
           }
         });
       }
@@ -404,6 +402,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 
   //Get the referer URL so we can return back to page where we clicked edit
   var params = req.headers['referer'].split('/');
+  var referer = req.body.referer;
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
@@ -490,6 +489,8 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
               response.redirect('/bookmarx/favorites');
             else if (params[params.length - 1] == 3)
               response.redirect('/bookmarx/mostvisited');
+            else if (params[params.length - 1] == 4)
+              response.redirect(referer);
             else
               response.redirect('/bookmarx');
           }
@@ -643,7 +644,7 @@ var settings = module.exports.settings =  function(req, res) {
 var staraction = module.exports.staraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
-  var page=req.params.page;
+  var page = req.params.page;
 
   var select_queryString = db.squel
       .select()
@@ -672,17 +673,10 @@ var staraction = module.exports.staraction =  function(req, response) {
           response.redirect('/bookmarx');
         }
         if (result) {
-          if(page==1){
+          if(page==1)
             response.redirect('/bookmarx/' + res[0].folder_id);
-          }
-          else if(page==2){
-            response.redirect('/bookmarx/favorites/');
-          } else if(page==3){
-            response.redirect('/bookmarx/mostvisited/');
-          } else{
-            response.redirect('/bookmarx');
-          }
-
+          else
+            response.redirect(req.headers['referer']);
         }
       });
     }
@@ -864,6 +858,14 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   }
   catch (e) {
     console.log('not valid json');
+    response.render('bookmarx/error.ejs', 
+      {error: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'});
+    return;
+  }
+
+  if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
+    response.render('bookmarx/error.ejs', 
+      {error: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'});
     return;
   }
 
@@ -872,6 +874,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   var folderOldNewId = {};
 
 
+  try {
   for(var i=0; i < importJson['folders'].length; i++) {
     function createFolders(i) {
       if (importJson['folders'][i]['deleted']==1) return;
@@ -994,6 +997,12 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
       insertKeywords(i);
 
     }
+  }
+  }
+  catch (e) {
+    response.render('bookmarx/error.ejs', 
+      {error: 'Backup corrupt.'});
+    return;
   }
 
 };
