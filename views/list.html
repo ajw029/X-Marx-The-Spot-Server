@@ -15,11 +15,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-  <script  type="text/babel" src="js/listreact.js"></script>
+  <script  type="text/babel" src="js/components/list.react.js"></script>
+  <script  type="text/babel" src="js/components/nav.react.js"></script>
 </head>
 
 <body>
-  <nav>
+  <div id="navbarcontainer">
+  </div>
+  <!--nav>
     <ul class="nav-title">
       <li><a href="index.html">BookMarx</a></li>
     </ul>
@@ -29,8 +32,7 @@
         <form action="/bookmarx/search" method="GET">
         <input type="text" name="search" placeholder="Search" value="<%= search %>"/>
         <select name="ordering">
-          <option value="asc" <% if (ordering === 'asc') {%> selected <%} %>>A-Z</option>
-          <option value="desc" <% if (ordering === 'desc') {%> selected <%} %>>Z-A</option>
+          <option value="desc" selected>Z-A</option>
         </select>
           <input type="submit" value="Find">
       </form>
@@ -42,25 +44,19 @@
       <li class="navbar-hide"><a href="/bookmarx/settings" class="tooltip"><img class="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"><span class="tooltiptext">Settings</span></a></li>
       <li><a class="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"><span class="tooltiptext" >Logout</span></a></li>
     </ul>
-  </nav>
+  </nav-->
 
   <div class="container">
-    <section class="side-nav-container desktopView">
-      <h2>Quicklinks</h2>
-      <ul>
-        <li class="side-nav-divider"></li>
-        <li><a href="/bookmarx">My BookMarx</a></li>
-        <li><a href="/bookmarx/mostvisited">Most Visited</a></li>
-        <li><a href="/bookmarx/favorites">Favorites</a></li>
-      </ul>
-    </section>
+    <div id="sidebarContainer">
+
+    </div>
+
     <section class="slide-container">
       <div id="folderContainer" class="slide desktopView">
 
       </div>
       <div class="slide mobileView">
         <div id="searchcontainer-react" class="column- folderContainer">
-
         </div>
       </div>
     </section>
@@ -72,21 +68,10 @@
       </div>
     </section>
   </div>
-
   <div class="overlayContainer">
     <a class="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></a>
   </div>
 
-  <nav class="nav-mobile mobileView">
-    <ul class="mobileView">
-      <li><a href="/bookmarx/favorites"><img src="/img/ic_star_white_48dp_2x.png" alt="favorite"></a></li>
-      <li><a href="/bookmarx/mostvisited"><img src="/img/ic_pets_white_48dp_2x.png" alt="mostvisited"></a></li>
-      <li class="active"><a href="/bookmarx"><img src="/img/ic_home_white_48dp_2x.png" alt="home"></a></li>
-      <li><a href="/bookmarx/addfolder"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="addfolder"></a></li>
-      <li><a href="/bookmarx/settings"><img src="/img/ic_settings_white_48dp_2x.png" alt="settings"></a></li>
-    </ul>
-  </nav>
 
 </body>
-
 </html>
