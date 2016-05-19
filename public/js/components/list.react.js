@@ -1,15 +1,28 @@
 var BookmarksFolderComponent = React.createClass({
   render: function() {
-    return (
+
+    var folderRedirect="/bookmarx/"+this.props.id;
+    if (this.props.curFolder != this.props.id) {
+      return (
+        <div className="column- folderContainer">
+          <div className="folder">
+            <h2>{this.props.name}</h2>
+            <a className="folderToggle openFolder" href={folderRedirect}></a>
+            <a href="/foldersetting/{id}"><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"/></a>
+          </div>
+        </div>
+      )
+    }
+    else {
+      return (
       <div className="column- folderContainer">
         <div className="folder">
           <h2>{this.props.name}</h2>
-          <a className="folderToggle openFolder" href="/bookmarx/{this.props.id}">
-            <img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"/></a>
+          <a className="folderToggle openFolder" href={folderRedirect}><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"></img></a>
           <a href="/foldersetting/{id}"><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"/></a>
         </div>
-      </div>
-    )
+      </div>);
+    }
   }
 });
 
@@ -28,12 +41,13 @@ var FolderContainerComponent = React.createClass({
     var folderNodes = this.state.folderList.map(function(folder) {
       return (
         <BookmarksFolderComponent
+                 curFolder={this.props.curFolder}
                  name={folder.name}
                  key={folder.id}
                  id={folder.id}
                  />
       );
-    });
+    }.bind(this));
     return (
           <div className="slide desktopView">
         {folderNodes}
@@ -171,7 +185,7 @@ var MobileFolderSwitcher = React.createClass({
 
 var MobileFolderSwitcherContainer = React.createClass({
   getInitialState: function () {
-    return {folderList: []};
+    return {folderList: [], curFolder: this.props.curFolder};
   },
   componentDidMount: function() {
      this.serverRequest = $.get(this.props.source, function (result) {
@@ -180,12 +194,16 @@ var MobileFolderSwitcherContainer = React.createClass({
        });
      }.bind(this));
    },
-  render: function () {
-    var folderNodes = this.state.folderList.map(function(folder) {
-      return (
-        <MobileFolderSwitcher
+   updateSelectValue: function(event) {
+    this.setState({curFolder: event.target.value});
+   },
+   render: function () {
+     var folderNodes = this.state.folderList.map(function(folder) {
+       return (
+         <MobileFolderSwitcher
         name={folder.name}
         id={folder.id}
+        key={folder.id}
         />
       )
     });
@@ -194,7 +212,7 @@ var MobileFolderSwitcherContainer = React.createClass({
         <div className="column- folderContainer">
           <form action="/bookmarx/" method="GET">
             <span className="folder_label_mobile">Folder: </span>
-              <select  name="folder_id">
+              <select onChange={this.updateSelectValue} value={this.state.curFolder} name="folder_id">
                 {folderNodes}
               </select>
             <input type="submit" value="Change"></input>
@@ -202,6 +220,18 @@ var MobileFolderSwitcherContainer = React.createClass({
         </div>
       </div>
     );
+  }
+});
+
+
+
+var AddBookmarkContainer = React.createClass({
+  render: function() {
+    return (
+      <div className="overlayContainer">
+        <a className="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></img></a>
+      </div>
+    )
   }
 });
 
@@ -246,10 +276,49 @@ var HomeContainer = React.createClass({
           <SideBar/>
           <section className="slide-container">
             <FolderContainerComponent
+              curFolder=""
               source="/api/getfolders"/>
-            <MobileFolderSwitcherContainer/>
+            <MobileFolderSwitcherContainer
+              source="/api/getfolders"/>
           </section>
           <section className="right-container">
+            <BookmarxContainerComponent
+              source="/api/getbookmarks"/>
+          </section>
+        </div>
+        <AddBookmarkContainer/>
+        <MobileNav/>
+      </div>
+    );
+  }
+});
+
+var MyFavsContainer = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <NavBar/>
+        <div className="container">
+          <SideBar/>
+          <section className="right-container center-container">
+            <BookmarxContainerComponent
+              source="/api/getbookmarks"/>
+          </section>
+        </div>
+        <MobileNav/>
+      </div>
+    );
+  }
+});
+
+var MostVisitedContainer = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <NavBar/>
+        <div className="container">
+          <SideBar/>
+          <section className="right-container center-container">
             <BookmarxContainerComponent
               source="/api/getbookmarks"/>
           </section>
