@@ -3,6 +3,9 @@ var db = require('./db');
 var bookmarx = require('./bookmarx');
 var users = require('./users');
 
+var apis=require('./apisBookmarx');
+var apisUser=require('./apisUser');
+
 db.init();
 
 var express = require('express');
@@ -66,6 +69,72 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
 ));
 
 // Login And Signup
+app.get('/', apisUser.apiLogin);
+
+app.get('/signup', apisUser.apiSignup);
+app.post('/signup', apisUser.apiSignUpAuth);
+app.get('/login', apisUser.apiLogin);
+app.post('/login', apisUser.apiLoginAuth);
+app.get('/logout', apisUser.apiLogOut);
+
+// Robots.txt file
+app.get('/robots.txt', apis.apiRobots);
+
+/*  This must go between the users routes and the books routes */
+app.use(apisUser.apiAuth);
+
+app.post('/booapikmarx/updatepassword',apisUser.apiUpdatePassword);
+
+
+app.get('/home', function(req, res) {
+    res.sendFile(__dirname + '/views/list.html');
+});
+
+/*
+  apis
+*/
+
+app.get('/api/getfolders', apis.apiGetFolders);
+app.get('/api/getbookmarks', apis.apiGetBookmarx);
+
+app.get('/api/add', apis.apiAdd);
+app.post('/api/add', apis.apiAddBookmarxAuth);
+
+app.post('/api/staraction/:page(\\d)', apis.apiStaraction);
+
+app.get('/apis/settings', apis.apiSettings);
+
+app.get(['/api/edit/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', '/bookmarx/edit'], apis.apiEditBookmarx);
+app.post('/api/edit', apis.apiEditBookmarxAuth);
+
+app.get('/api/addfolder', apis.apiAddFolder);
+app.post('/api/addfolder', apis.apiAddFolderauth);
+
+app.get('/api/delete/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', apis.apiDeleteBookmarxAuth);
+
+//Folder Settings
+app.get('/foldersetting/:folder_id(\\d+)', apis.apiFolderSettings);
+app.post('/api/updatefolder/:folder_id(\\d+)', apis.apiUpdateFolder);
+app.post('/api/deletefolder',apis.apiDeleteFolder);
+
+//open the views
+app.get('/api/favorites/',apis.apiOpenFavoritesView);
+app.get('/api/mostvisited',apis.apiMostVisited);
+
+app.get(['/api/click/:bookmarx_id(\\d+)',
+         '/api/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],apis.apiClickCount);
+
+app.get('/api/search',apis.apiSearch);
+
+// export & import
+app.post('/api/import',apis.apiImportBookmarks);
+app.get('/api/export',apis.apiExportBookmarks);
+
+
+
+
+
+// Login And Signup
 app.get('/', users.login);
 
 app.get('/signup', users.signup);
@@ -80,22 +149,19 @@ app.get('/robots.txt', bookmarx.robots);
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 
-app.get('/home', function(req, res) {
-    res.sendFile(__dirname + '/views/list.html');
-});
+app.post('/booapikmarx/updatepassword',users.updatepassword);
 
-app.get('/api/getfolders', bookmarx.apiGetFolders);
-app.get('/api/getbookmarks', bookmarx.apiGetBookmarx);
+
 
 // Bookmarx Routes
 app.get(['/bookmarx',
          '/index.html',
          '/bookmarx/:folder_id(\\d+)'], bookmarx.list);
 
-app.get('/bookmarx/settings', bookmarx.settings);
-
 app.get('/bookmarx/add', bookmarx.add);
 app.post('/bookmarx/add', bookmarx.addBookmarxAuth);
+
+app.get('/bookmarx/settings', bookmarx.settings);
 
 app.post('/bookmarx/staraction/:page(\\d)', bookmarx.staraction);
 
