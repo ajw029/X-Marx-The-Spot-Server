@@ -1,5 +1,3 @@
-var React = require('react');
-var Link = require('react-router').Link;
 var BookmarksFolderComponent = React.createClass({
   changeFolders() {
     this.props.getBookmarks(this.props.id)
