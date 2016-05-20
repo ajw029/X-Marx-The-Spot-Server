@@ -12,7 +12,8 @@ var AddBookmarkComponent = React.createClass({
       urlErr: false,
       descErr: false,
       keywordErr: false,
-      folderErr: false
+      folderErr: false,
+      overallErr: false
       };
   },
   validateSubmit: function() {
@@ -83,6 +84,7 @@ var AddBookmarkComponent = React.createClass({
       body.desc= this.state.desc;
       body.keywords= this.state.keywords;
       body.folder= this.state.curFolder;
+      console.log(body)
       $.ajax({
             url: this.props.source,
             dataType: 'json',
@@ -93,7 +95,7 @@ var AddBookmarkComponent = React.createClass({
               browserHistory.push('/home')
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
+              this.setState({overallErr: true});
             }.bind(this)
           });
     }
@@ -114,6 +116,11 @@ var AddBookmarkComponent = React.createClass({
         <BackButton/>
         <form action="/bookmarx/add" method="POST">
           <h1>Create New BookMarx</h1>
+          <div className="inputgroup">
+            <ToggleDisplay show={this.state.overallErr}>
+              <span className="errMsg">Could not create bookmark</span>
+            </ToggleDisplay>
+          </div>
           <div className="inputgroup">
             <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
             <span className="bar"></span>

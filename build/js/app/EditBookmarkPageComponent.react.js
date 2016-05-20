@@ -4,8 +4,8 @@ var Keyword = React.createClass({
   render: function() {
     return (
     <div className="hashtaggroup">
-      <input type="checkbox" name="oldkeyword_ids" value={this.props.k_id}></input>
-      <p>keyword</p>
+      <input type="checkbox" name="oldkeyword_ids" value={this.props.id}></input>
+      <p>{this.props.name}</p>
     </div>);
   }
 })
@@ -14,39 +14,17 @@ var EditBookmarkPage = React.createClass({
   getInitialState: function () {
     return {
       folderList: [],
-      bookmark: {}
-      };
-  },
-  getInitialState: function () {
-    var bookmarks = this.props.bookmark;
-    console.log(bookmarks)
-    var tempBookmark = bookmarks[0];
-    console.log(tempBookmark)
-    if (!tempBookmark) {
-      return {
-        title: '',
-        url: '',
-        desc: '',
-        keywords: '',
-        folders: '',
-        titleErr: false,
-        urlErr: false,
-        descErr: false,
-        newKeywordErr: false
-      };
-    }
-    else {
-      return {
-        title: tempBookmark.name,
-        url: '',
-        desc: '',
-        keywords: '',
-        folders: '',
-        titleErr: false,
-        urlErr: false,
-        descErr: false,
-        newKeywordErr: false
-      };
+      bookmark: {},
+      title: '',
+      url: '',
+      desc: '',
+      keywords: '',
+      oldkeywords: [],
+      curFolder: '',
+      titleErr: false,
+      urlErr: false,
+      descErr: false,
+      newKeywordErr: false
     }
   },
   updateTitle: function(event) {
@@ -69,8 +47,9 @@ var EditBookmarkPage = React.createClass({
     var title = this.state.title;
     var url = this.state.url;
     var desc = this.state.desc;
+    var curFolder = this.state.curFolder;
     var keywords = this.state.keywords;
-    var folders = this.state.folders;
+
      if (!title || !title.trim()) {
       okay = false;
       this.setState({titleErr: true});
@@ -92,27 +71,61 @@ var EditBookmarkPage = React.createClass({
     else {
       this.setState({descErr: false});
     }
-    if (!keywords || !keywords.trim()) {
+
+    var checkedKeywords = [];
+    var items = 0;
+    $('.hashtaggroup').find('input').each(function(index) {
+      if ($(this).is(':checked')) {
+        checkedKeywords.push(parseInt(this.value));
+      }
+      items++;
+    });
+    this.setState({oldkeywordsOutput: checkedKeywords});
+
+    // Check if All keywords have been checked off and theres no keywords
+    if (checkedKeywords.length == items && !keywords.trim()) {
       okay = false;
       this.setState({newKeywordErr: true});
     }
     else {
       this.setState({newKeywordErr: false});
     }
-    if (!folders || !folders.trim()) {
+
+    if (!curFolder) {
       okay = false;
+      this.setState({folderErr: true});
     }
     else {
-
+      this.setState({folderErr: false});
     }
     return okay;
 
   },
-
   submit: function() {
     var okay = this.validateSubmit();
+    var body = {};
+    body.title= this.state.title;
+    body.url= this.state.url;
+    body.desc= this.state.desc;
+    body.keywords= this.state.keywords;
+    body.oldkeywords=this.state.oldkeywordsOutput;
+    body.folder= parseInt(this.state.curFolder);
 
     if (okay) {
+
+      $.ajax({
+            url: '/api/editbookmark',
+            dataType: 'json',
+            cache: false,
+            type: 'post',
+            data: body,
+            success: function(data) {
+              browserHistory.push('/home')
+            }.bind(this),
+            error: function(xhr, status, err) {
+              //console.error(this.props.url, status, err.toString());
+            }.bind(this)
+          });
 
     }
   },
@@ -123,29 +136,52 @@ var EditBookmarkPage = React.createClass({
     this.serverRequest = $.get("/api/getfolders", function (result) {
       var body = {};
       body.bookmark_id = id;
-      this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
 
+      this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
+        var oldkeywordsList = [];
+        var i = 0;
+        for (i=0; i< result2.length; i++) {
+          var keyword_item = {};
+          keyword_item.name=result2[i].keyword;
+          keyword_item.keyword_id=result2[i].keyword_id;
+          oldkeywordsList.push(keyword_item);
+        }
         this.setState({
           bookmark: result2,
-          folderList: result
+          folderList: result,
+          title: result2[0].name,
+          url: result2[0].url,
+          desc: result2[0].description,
+          oldkeywords:oldkeywordsList ,
+          curFolder: result2[0].folder_id,
         });
-        this.forceUpdate();
 
       }.bind(this));
     }.bind(this));
   },
   render: function() {
-    console.log(this.state.bookmark)
+    var folderNodes = this.state.folderList.map(function(folder) {
+      return (
+        <OptionComponent
+        name={folder.name}
+        id={folder.id}
+        key={folder.id}
+        curSelect={this.state.curFolder}
+        />
+      )
+    }.bind(this));
+    var key = 0;
 
-        var folderNodes = this.props.folderList.map(function(folder) {
-          return (
-            <OptionComponent
-            name={folder.name}
-            id={folder.id}
-            key={folder.id}
-            />
-          )
-        });
+    var keywordNodes = this.state.oldkeywords.map(function(keyword) {
+      key++;
+      return (
+        <Keyword
+          name={keyword.name}
+          id={keyword.keyword_id}
+          key={key}
+        />
+      )
+    });
     return (
       <div>
         <NavBar/>
@@ -154,7 +190,7 @@ var EditBookmarkPage = React.createClass({
             <div className="formcontainer column-40">
               <BackButton/>
               <form action="/bookmarx/edit" method="POST">
-                <h1>Edit {this.props.name}</h1>
+                <h1>Editting</h1>
                 <div className="inputgroup">
                   <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
                   <span className="bar"></span>
@@ -190,13 +226,13 @@ var EditBookmarkPage = React.createClass({
                 </div>
                 <div className="hashtagcontainer">
                   <label><i>Click to Delete Keyword</i></label>
-
+                  {keywordNodes}
                 </div>
                 <div className="labelgroup">
                   <label>Folder</label>
                 </div>
                 <div className="inputgroup">
-                  <select name="folder" onChange={this.updateSelectValue}>
+                  <select name="folder" onChange={this.updateSelectValue} value={this.state.curFolder}>
                     {folderNodes}
                   </select>
                 </div>
