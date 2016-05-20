@@ -34,6 +34,7 @@ app.set('view engine', 'ejs');
 app.set('view cache', true);
 app.set('x-powered-by', false);
 app.use(compression());
+/*
 app.use(minify({cache: './cache'}));
 app.use(minifyHTML({
     override:      true,
@@ -46,6 +47,7 @@ app.use(minifyHTML({
         minifyJS:                  true
     }
 }));
+*/
 
 //app.use(minify());
 

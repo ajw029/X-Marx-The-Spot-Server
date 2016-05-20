@@ -7,12 +7,16 @@ var AddBookmarkComponent = React.createClass({
       url: '',
       desc: '',
       keywords: '',
-      folders: '',
+      curFolder: this.props.curFolder,
       titleErr: false,
       urlErr: false,
       descErr: false,
       keywordErr: false
       };
+  },
+  setInitialFolderID(folderId) {
+    this.setState({curFolder: folderId});
+    console.log('setting curfolder to ' + folderId);
   },
   validateSubmit: function() {
     var okay = true;
@@ -80,8 +84,8 @@ var AddBookmarkComponent = React.createClass({
    this.setState({curFolder: event.target.value});
   },
   submit: function() {
+    console.log("Cur Folder is " + this.state.curFolder);
     var okay = this.validateSubmit();
-
     if (okay) {
       $.ajax({
             url: this.props.source,
@@ -89,7 +93,6 @@ var AddBookmarkComponent = React.createClass({
             cache: false,
             type: 'post',
             success: function(data) {
-              console.log('success');
               browserHistory.push('/home')
             }.bind(this),
             error: function(xhr, status, err) {
