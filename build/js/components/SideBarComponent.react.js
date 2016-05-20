@@ -1,4 +1,5 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 var SideBar = React.createClass({
   render: function() {
@@ -7,9 +8,9 @@ var SideBar = React.createClass({
         <h2>Quicklinks</h2>
         <ul>
           <li className="side-nav-divider"></li>
-          <li><a href="/bookmarx">My BookMarx</a></li>
-          <li><a href="/bookmarx/mostvisited">Most Visited</a></li>
-          <li><a href="/bookmarx/favorites">Favorites</a></li>
+          <li><Link to={'home'}>My BookMarx</Link></li>
+          <li><Link to={'myrecent'}>Most Visited</Link></li>
+          <li><Link to={'myfavlinks'}>Favorites</Link></li>
         </ul>
       </section>
     );

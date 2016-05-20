@@ -1,4 +1,5 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 var NavBar = React.createClass({
   getInitialState: function () {
@@ -40,9 +41,9 @@ var NavBar = React.createClass({
           </div>
         </div>
         <ul className="navbar-right">
-          <li className="navbar-hide"><a href="/bookmarx/add" className="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Add a BookMarx</span></a></li>
-          <li className="navbar-hide"><a href="/bookmarx/addfolder" className="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></img><span className="tooltiptext">Add a Folder</span></a></li>
-          <li className="navbar-hide"><a href="/bookmarx/settings" className="tooltip"><img className="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Settings</span></a></li>
+          <li className="navbar-hide"><Link to={"/addnewbookmark"} className="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Add a BookMarx</span></Link></li>
+          <li className="navbar-hide"><Link to={"/addnewfolder"} className="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></img><span className="tooltiptext">Add a Folder</span></Link></li>
+          <li className="navbar-hide"><Link to={"/gotosettings"} className="tooltip"><img className="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Settings</span></Link></li>
           <li><a className="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"></img><span className="tooltiptext">Logout</span></a></li>
         </ul>
       </nav>

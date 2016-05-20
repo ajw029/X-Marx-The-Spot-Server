@@ -78,9 +78,10 @@
           if(data.errormsg)
             console.log("Login Failed");
           //check if success or not (redirect here?)
-          if(data.successmsg)
-            console.log("Login Successful");
-      }); 
+          if(data.successmsg) {
+            window.location = '/home';
+          }
+      });
     });
   </script>
 
