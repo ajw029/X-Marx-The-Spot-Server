@@ -22,6 +22,7 @@
     <div class="formcontainer column-40">
       <form action="" method="POST" onsubmit="return validateSignUp()" autocomplete="off">
         <h1>Sign Up</h1>
+        <span class="errMsg hide" id="server_errlabel"></span>
         <% if (errmsg){%>
         <% if (errmsg.hasError) {%>
         <div class="inputgroup">
@@ -32,19 +33,19 @@
           <input type="text" name="username" autofocus required/>
           <span class="bar"></span>
           <label>Username</label>
-          <span class="errMsg hide" id="username_errlabel">Please input a username</label>
+          <span class="errMsg hide" id="username_errlabel">Please input a username</span>
         </div>
         <div class="inputgroup">
           <input type="password" name="pass" required/>
           <span class="bar"></span>
           <label>Password</label>
-          <span class="errMsg hide" id="pwd_errlabel">Please input a password</label>
+          <span class="errMsg hide" id="pwd_errlabel">Please input a password</span>
         </div>
         <div class="inputgroup">
           <input type="password" name="repass" required/>
           <span class="bar"></span>
           <label>Reconfirm Password</label>
-          <span class="errMsg hide" id="repwd_errlabel">Please confirm password</label>
+          <span class="errMsg hide" id="repwd_errlabel">Please confirm password</span>
         </div>
         <div class="inputgroup">
           <input type="submit" class="boxButton okayButton" value="Sign Up">
@@ -93,9 +94,23 @@
     $('form').submit(function(e) {
       e.preventDefault();
       console.log("IN HERE");
-      $.post("/api/signup", $('form').serialize(), function(data) {
-          console.log("AFTERWARDS");
-          //Check for error and redirect here
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/signup',
+        data: $('form').serialize(),
+        success: function(data) {
+          window.location = '/home';
+        },
+        //error handling
+        error: function(data) {
+          response = JSON.parse(data.responseText);
+
+          $('#username_errlabel').removeClass('hide');
+          $('#username_errlabel').html(response['msg']);
+
+          console.log(response['msg']);
+        }
       });
     });
   </script>

@@ -96,13 +96,9 @@ module.exports.apiLoginAuth = function(req, response) {
 * Attempt to Signup the user.
 */
 module.exports.apiSignUpAuth = function(req, response) {
-
-
   var username = db.escape(req.body.username);
   var password = req.body.pass;
   var repassword = req.body.repass;
-  
-
 
   if(password==repassword && password.trim()){
     // Encrypt Pwd
@@ -119,8 +115,7 @@ module.exports.apiSignUpAuth = function(req, response) {
 
     db.query(createUserQueryString, function (err, res) {
       if (err) {
-        
-        return response.status(400).send({errmsg:  "Username already exists"});
+        response.status(400).send(JSON.stringify({success: "0", msg:  "Username already exists"}));
       }
       
       if (res && res.insertId) {
@@ -137,7 +132,7 @@ module.exports.apiSignUpAuth = function(req, response) {
           db.query(createDefaultFolder, function (err, folderRes) {
             if (err) {
               throw err;
-              response.status(500).send({errmsg: "query error"});
+              response.status(500).send(JSON.stringify({success: "0", msg: "Query error"}));
             }
             if (folderRes) {
               var queryString = db.squel
@@ -148,12 +143,11 @@ module.exports.apiSignUpAuth = function(req, response) {
 
               db.query(queryString, function (err, res) {
                 if (err) {
-                  response.status(200).send({successmsg: "not in db yet"});
+                  response.status(200).send(JSON.stringify({success: "1", msg: "not in db yet"}));
                 }
                 if (res) {
-                  
                   req.session.username = encryption.encrypt(res[0].id.toString());
-                  response.status(200).send({successmsg: "signup successful"});
+                  response.status(200).send(JSON.stringify({success: "1", msg: "signup successful"}));
                 }
               });
             }
@@ -162,7 +156,7 @@ module.exports.apiSignUpAuth = function(req, response) {
     });
   }
   else {
-   response.status(500).send({errmsg: "Passwords don't match"});
+   response.status(500).send(JSON.stringify({success: "0", msg: "Passwords don't match"}));
   }
 };
 
