@@ -84,7 +84,7 @@ var AddBookmarkComponent = React.createClass({
       body.desc= this.state.desc;
       body.keywords= this.state.keywords;
       body.folder= this.state.curFolder;
-      console.log(body)
+
       $.ajax({
             url: this.props.source,
             dataType: 'json',

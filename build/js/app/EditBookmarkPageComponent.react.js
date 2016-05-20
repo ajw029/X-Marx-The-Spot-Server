@@ -112,7 +112,6 @@ var EditBookmarkPage = React.createClass({
     body.folder= parseInt(this.state.curFolder);
 
     if (okay) {
-
       $.ajax({
             url: '/api/editbookmark',
             dataType: 'json',
@@ -125,8 +124,7 @@ var EditBookmarkPage = React.createClass({
             error: function(xhr, status, err) {
               //console.error(this.props.url, status, err.toString());
             }.bind(this)
-          });
-
+      });
     }
   },
   componentDidMount: function() {

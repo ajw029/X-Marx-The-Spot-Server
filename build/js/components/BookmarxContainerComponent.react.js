@@ -1,9 +1,34 @@
 var BookmarkComponent = React.createClass({
   favoriteClick: function() {
     // TODO
+    $.ajax({
+          url: '/api/favoritebookmark',
+          dataType: 'json',
+          cache: false,
+          type: 'post',
+          data: body,
+          success: function(data) {
+            browserHistory.push('/home')
+          }.bind(this),
+          error: function(xhr, status, err) {
+            //console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
   },
   deleteBookmark: function() {
-    // TODO
+    $.ajax({
+          url: '/api/deleteBookmark',
+          dataType: 'json',
+          cache: false,
+          type: 'post',
+          data: body,
+          success: function(data) {
+            browserHistory.push('/home')
+          }.bind(this),
+          error: function(xhr, status, err) {
+            //console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
   },
   render: function() {
     var favButton;
@@ -13,7 +38,6 @@ var BookmarkComponent = React.createClass({
     else {
       favButton = <button onClick={this.favoriteClick} className="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
     }
-
     return (
       <li>
         <div className="bookmark">

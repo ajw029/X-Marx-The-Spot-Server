@@ -26,7 +26,7 @@ var AddBookmarkPage = React.createClass({
         <div className="container">
           <AddBookmarkComponent
             folderList={this.state.folderList}
-            source='/api/addbookmark'
+            source='/api/add'
             curFolder={this.state.curFolder}
             />
         </div>
