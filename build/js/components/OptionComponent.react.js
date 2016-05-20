@@ -5,5 +5,5 @@ var OptionComponent = React.createClass({
     );
   }
 });
-
+//selected={this.props.curSelect == this.props.id}
 module.exports = OptionComponent;
