@@ -1,3 +1,4 @@
+// React
 React = require('react');
 var render = require('react-dom');
 
@@ -6,6 +7,7 @@ Route = require('react-router').Route;
 Link = require('react-router').Link;
 
 browserHistory = require('react-router').browserHistory;
+ToggleDisplay = require('react-toggle-display');
 
 // List Views
 var HomeContainer = require('./app/Home.react');
@@ -34,8 +36,6 @@ AddBookmarkContainer = React.createFactory(require('./components/AddBookMarkFab.
 FolderContainerComponent = React.createFactory(require('./components/FolderContainer.react'));
 BookmarxContainerComponent = React.createFactory(require('./components/BookmarxContainerComponent.react'));
 MobileFolderSwitcherContainer = React.createFactory(require('./components/MobileFolderComponent.react'));
-
-
 
 route = (<Router history={browserHistory}>
   <Route path="/home" component={HomeContainer}></Route>

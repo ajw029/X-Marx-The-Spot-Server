@@ -1,7 +1,5 @@
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
 
-require('react-toggle-display').ToggleDisplay;
-
 var AddBookmarkComponent = React.createClass({
   getInitialState: function () {
     return {
@@ -10,7 +8,10 @@ var AddBookmarkComponent = React.createClass({
       desc: '',
       keywords: '',
       folders: '',
-      titleErr: false
+      titleErr: false,
+      urlErr: false,
+      descErr: false,
+      keywordErr: false
       };
   },
   validateSubmit: function() {
@@ -22,6 +23,10 @@ var AddBookmarkComponent = React.createClass({
     var folders = this.state.folders;
     if (!title || !title.trim()) {
       okay = false;
+      this.setState({urlErr: true});
+    }
+    else {
+      this.setState({urlErr: false});
     }
     if (!url || !url.trim()) {
       okay = false;
@@ -32,15 +37,30 @@ var AddBookmarkComponent = React.createClass({
     }
     if (!url || !url.trim()) {
       okay = false;
+      this.setState({urlErr: true});
+    }
+    else {
+      this.setState({urlErr: false});
     }
     if (!desc || !desc.trim()) {
       okay = false;
+      this.setState({descErr: true});
+    }
+    else {
+      this.setState({descErr: false});
     }
     if (!keywords || !keywords.trim()) {
       okay = false;
+      this.setState({keywordErr: true});
+    }
+    else {
+      this.setState({keywordErr: false});
     }
     if (!folders || !folders.trim()) {
       okay = false;
+    }
+    else {
+
     }
     return okay;
   },
@@ -98,25 +118,33 @@ var AddBookmarkComponent = React.createClass({
             <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
             <span className="bar"></span>
             <label>Title</label>
-            <span className="errMsg" show={this.state.titleErr} id="title_errlabel">Please add a title</span>
+            <ToggleDisplay show={this.state.titleErr}>
+              <span className="errMsg" id="title_errlabel">Please add a title</span>
+            </ToggleDisplay>
           </div>
           <div className="inputgroup">
-            <input type="text" name="url" required></input>
+            <input type="text" name="url" onChange={this.updateURL} value={this.state.url} required></input>
             <span className="bar"></span>
             <label>URL</label>
-            <span className="errMsg hide" onChange={this.updateURL} value={this.state.url} id="url_errlabel">Please add a URL</span>
+            <ToggleDisplay show={this.state.urlErr}>
+              <span className="errMsg" id="url_errlabel">Please add a URL</span>
+            </ToggleDisplay>
           </div>
           <div className="inputgroup">
-            <input type="text" name="desc" required/>
+            <input type="text" name="desc" onChange={this.updateDesc} value={this.state.desc} required/>
             <span className="bar"></span>
             <label>Description</label>
-            <span className="errMsg hide" onChange={this.updateDesc} value={this.state.desc} id="descr_errlabel">Please add a description</span>
+            <ToggleDisplay show={this.state.descErr}>
+              <span className="errMsg" id="descr_errlabel">Please add a description</span>
+            </ToggleDisplay>
           </div>
           <div className="inputgroup">
             <input type="text" name="keywords" onChange={this.updateKeywords} value={this.state.keywords} required></input>
             <span className="bar"></span>
             <label>Keywords</label>
-            <span className="errMsg hide" id="keywords_errlabel">Please add keywords</span>
+            <ToggleDisplay show={this.state.keywordErr}>
+              <span className="errMsg" id="keywords_errlabel">Please add keywords</span>
+            </ToggleDisplay>
             <span className="inputtext_hint">(Please seperate keywords with a space)</span>
           </div>
           <div className="labelgroup">
