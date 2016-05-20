@@ -4,11 +4,9 @@ var encryption = require("./encrypt");
 var db = require('./db');
 
 var user_table = tables.user_table;
-var account_table = tables.user_table;
 var folder_table = tables.folder_table;
 
 /**
-*
 * Render the signup form
 */
 module.exports.signup = function(req, res) {
@@ -51,7 +49,6 @@ module.exports.auth = function(req, res, next) {
 };
 
 /**
-*
 * Attempt to login the user.
 */
 module.exports.loginAuth = function(req, response) {
@@ -94,7 +91,6 @@ module.exports.loginAuth = function(req, response) {
 };
 
 /**
-*
 * Attempt to Signup the user.
 */
 module.exports.signupAuth = function(req, response) {
