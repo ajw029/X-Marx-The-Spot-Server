@@ -17,7 +17,7 @@ module.exports.apiSignUp = function(req, res) {
     res.redirect('/bookmarx');
   }
   else {
-    res.render('users/signup.ejs',{errmsg: {hasError: false}});
+    res.status(200).send('users/signup.ejs',{errmsg: {hasError: false}});
   }
 
 };

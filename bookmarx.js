@@ -103,78 +103,6 @@ var addBookmarxAuth = module.exports.addBookmarxAuth = function(req, response) {
   }
 };
 
-var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
-  var account_id = req.body.account_id;
-
-  var queryFolderListString = db.squel
-      .select()
-      .from(folder_table)
-      .where('account_id=' + db.escape(account_id))
-      .where('deleted=0')
-      .toString();
-
-  db.query(queryFolderListString, function(err, folderRes) {
-    if (err) {
-      throw err;
-    }
-    if (folderRes) {
-      response.status(200).send(folderRes);
-    }
-  });
-};
-
-var apiGetBookmarx = module.exports.apiGetBookmarx = function(req, response) {
-  var account_id = req.body.account_id;
-
-  //
-  var folder_id =  req.params.folder_id;
-
-  var queryBookmarks = db.squel.select()
-      .from(bookmarx_table)
-      .where('account_id=' + db.escape(account_id))
-      .where('deleted=0');
-
-  if (folder_id) {
-    queryBookmarks.where('folder_id=' + folder_id);
-    db.query(queryBookmarks.toString(), function(err, bookmarks) {
-      if (err) {
-        throw err;
-      }
-      if (folderRes) {
-        response.status(200).send(bookmarks);
-      }
-    });
-  }
-  else {
-    var queryFolderListString = db.squel
-        .select()
-        .from(folder_table)
-        .where('account_id=' + db.escape(account_id))
-        .where('deleted=0')
-        .toString();
-
-    db.query(queryFolderListString, function(err, folderRes) {
-      if (err) {
-        throw err;
-      }
-      if (folderRes) {
-        if (folderRes[0]) {
-          queryBookmarks.where('folder_id=' + folderRes[0].id);
-          db.query(queryBookmarks.toString(), function(err, bookmarks) {
-            if (err) {
-              throw err;
-            }
-            if (folderRes) {
-              response.status(200).send(bookmarks);
-            }
-          });
-        }
-      }
-    });
-  }
-
-};
-
 /**
  * Selects all books and then renders the page with the list.ejs template
  */
@@ -858,13 +786,13 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   }
   catch (e) {
     console.log('not valid json');
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'});
     return;
   }
 
   if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'});
     return;
   }
@@ -1000,7 +928,7 @@ var importBookmarks = module.exports.importBookmarks = function(req, response){
   }
   }
   catch (e) {
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Backup corrupt.'});
     return;
   }

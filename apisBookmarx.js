@@ -7,7 +7,6 @@ var bookmarx_table = tables.bookmarx_table;
 var keywords_table = tables.keywords_table;
 var account_table = tables.user_table;
 
-
 /*
 *add api
 */
@@ -109,7 +108,6 @@ var apiAddBookmarxAuth = module.exports.apiAddBookmarxAuth = function(req, respo
   }
 };
 
-
 var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
   var account_id = req.body.account_id;
 
@@ -130,12 +128,11 @@ var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
   });
 };
 
-var apiGetBookmarx = module.exports.apiGetBookmarx = function(req, response) {
+var apiGetBookmarks = module.exports.apiGetBookmarks = function(req, response) {
   var account_id = req.body.account_id;
 
-  //
-  var folder_id =  req.params.folder_id;
-
+  var folder_id =  req.query.folder_id;
+  console.log(folder_id)
   var queryBookmarks = db.squel.select()
       .from(bookmarx_table)
       .where('account_id=' + db.escape(account_id))
@@ -147,8 +144,8 @@ var apiGetBookmarx = module.exports.apiGetBookmarx = function(req, response) {
       if (err) {
         throw err;
       }
-      if (folderRes) {
-        response.status(200).send(bookmarks);
+      if (bookmarks) {
+        return response.status(200).send(bookmarks);
       }
     });
   }
@@ -172,7 +169,7 @@ var apiGetBookmarx = module.exports.apiGetBookmarx = function(req, response) {
               throw err;
             }
             if (folderRes) {
-              response.status(200).send(bookmarks);
+              return response.status(200).send(bookmarks);
             }
           });
         }
@@ -807,13 +804,13 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
   }
   catch (e) {
     console.log('not valid json');
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'});
     return;
   }
 
   if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'});
     return;
   }
@@ -949,7 +946,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
   }
   }
   catch (e) {
-    response.render('bookmarx/error.ejs', 
+    response.render('bookmarx/error.ejs',
       {error: 'Backup corrupt.'});
     return;
   }

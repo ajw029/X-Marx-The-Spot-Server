@@ -491,11 +491,15 @@ nav h2 {
 	border-radius: 0;
 }
 
-.mobileView .folderContainer input {
+.mobileView .folderContainer input, .mobileView .folderContainer button {
+	font-size: 16px;
+	color: white;
+	z-index: 9996;
+	height: 36px;
 	padding: 6px;
   margin: 0 auto;
-  font-size: 16px;
-  width: auto;
+  width: 96px;
+
   display: inline-block;
   vertical-align: middle;
   background-color: #FF9800;
