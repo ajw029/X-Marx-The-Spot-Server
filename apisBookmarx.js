@@ -377,14 +377,15 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
   var bookmarx_desc = db.escape(req.body.desc);
   var bookmarx_keywords = db.escape(req.body.keywords);
   var bookmarx_folder_id = db.escape(req.body.folder);
-  var bookmarx_id = db.escape(req.body.bookmarx_id);
+  var bookmarx_id = db.escape(req.body.bookmark_id);
 
   //Get the referer URL so we can return back to page where we clicked edit
   var params = req.headers['referer'].split('/');
   var referer = req.body.referer;
 
   var account_id = db.escape(req.body.account_id);
-  var bookmarx_old_keywords_id = req.body.oldkeyword_ids; // not escaping because messes up array
+  var bookmarx_old_keywords_id = JSON.parse(req.body.oldkeywords); // not escaping because messes up array
+  //console.log("oldkeywords: " + JSON.parse(bookmarx_old_keywords_id));
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -403,7 +404,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
         .where('id=' + bookmarx_id)
         .where('account_id=' + account_id)
         .toString();
-
+        
         db.query(querystring, function(err, res) {
           if (err) {
             response.status(500).send({errmsg: "Can't edit,please retry"});
@@ -416,6 +417,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
                  .from(keywords_table)
                  .where("id = ?", word_id)
                  .toString();
+              console.log(queryStringDelete);
                db.query(queryStringDelete, function(err3, res3) {
                if (err3){
                  //throw err;
@@ -461,11 +463,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
                 });
               }
             });
-
-            response.status(200).send({
-                                     page:params[params.length-1],
-
-                                     });
+            response.status(200).send(JSON.stringify({msg:"Successful edit"}));//page:params[params.length-1],});
 
           }
         });
