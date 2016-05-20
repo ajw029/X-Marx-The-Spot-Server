@@ -1,6 +1,45 @@
 var React = require('react');
 var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var SettingsComponent = React.createClass({
+  getInitialState: function () {
+    return {
+      pwd: '',
+      newpwd: '',
+      repwd: '',
+    }
+  },
+  updatePwd: function(event) {
+    this.setState({pwd: event.target.value})
+  },
+  updateNewPwd: function(event) {
+    this.setState({newpwd: event.target.value})
+  },
+  updateRePwd: function(event) {
+    this.setState({repwd: event.target.value})
+  },
+  validateSubmit: function() {
+    var okay = true;
+    var pwd = this.state.pwd;
+    var newpwd = this.state.newpwd;
+    var repwd = this.state.repwd;
+
+    if (!pwd || !pwd.trim()) {
+      okay = false;
+    }
+    if (!newpwd || !newpwd.trim()) {
+      okay = false;
+    }
+    if (!repwd || !repwd.trim()) {
+      okay = false;
+    }
+    return okay;
+  },
+  submit: function() {
+    var okay = this.validateSubmit();
+    if (okay) {
+      
+    }
+  },
   render: function () {
     return (
       <section className="slide">
@@ -11,25 +50,25 @@ var SettingsComponent = React.createClass({
             <h2>Change Password</h2>
             <form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
               <div className="inputgroup">
-                <input type="password" name="oldPassword"  autofocus required></input>
+                <input type="password" name="oldPassword" value={this.state.pwd} onChange={this.updatePwd} autofocus required></input>
                 <span className="bar"></span>
                 <label>Original Password</label>
                 <span className="errMsg hide" id="originalpwd_errlabel">Please input a password</span>
               </div>
               <div className="inputgroup">
-                <input type="password" name="newPassword" required></input>
+                <input type="password" name="newPassword" value={this.state.newpwd} onChange={this.updateNewPwd} required></input>
                 <span className="bar"></span>
                 <label>New Password</label>
                 <span className="errMsg hide" id="newpwd_errlabel">Please input new password</span>
               </div>
               <div className="inputgroup">
-                <input type="password" name="reNewPassword" required/>
+                <input type="password" name="reNewPassword" value={this.state.repwd} onChange={this.updateRePwd} required/>
                 <span className="bar"></span>
                 <label>Confirm New Password</label>
                 <span className="errMsg hide" id="renewpwd_errlabel">Please confirm new password</span>
               </div>
               <div className="inputgroup">
-                <input type="submit" className="boxButton okayButton" value="Change Password"/>
+                <button onClick={this.submit} type="button" className="boxButton okayButton">Change Password</button>
               </div>
             </form>
           </div>

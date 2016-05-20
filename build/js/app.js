@@ -1,11 +1,11 @@
 var React = require('react');
 var render = require('react-dom');
 
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var Link = require('react-router').Link;
+Router = require('react-router').Router;
+Route = require('react-router').Route;
+Link = require('react-router').Link;
 
-var browserHistory = require('react-router').browserHistory;
+browserHistory = require('react-router').browserHistory;
 
 // List Views
 var HomeContainer = require('./app/Home.react');
@@ -21,19 +21,21 @@ var EditFolder = require('./app/EditFolderPageComponent.react');
 // Setings
 var Settings = require('./app/SettingsPageComponent.react');
 
+route = (<Router history={browserHistory}>
+  <Route path="/home" component={HomeContainer}></Route>
+  <Route path="/myfavlinks" component={MyFavComponent}></Route>
+  <Route path="/myrecent" component={MostRecentComponent}></Route>
+
+  <Route path="/addnewbookmark" component={AddBookmarkPageComponent}></Route>
+
+  <Route path="/addnewfolder" component={AddFolderPage}></Route>
+  <Route path="/editmyfolder" component={EditFolder}></Route>
+
+  <Route path="/gotosettings" component={Settings}></Route>
+  <Route path="/editmybookmark" path="/:bookmarx_id" component={EditBookmarkPageComponent}></Route>
+  <Route path="/" component={HomeContainer}></Route>
+</Router>);
+
 render.render((
-  <Router history={browserHistory}>
-    <Route path="/home" component={HomeContainer}></Route>
-    <Route path="/myfavlinks" component={MyFavComponent}></Route>
-    <Route path="/myrecent" component={MostRecentComponent}></Route>
-
-    <Route path="/addnewbookmark" component={AddBookmarkPageComponent}></Route>
-
-    <Route path="/addnewfolder" component={AddFolderPage}></Route>
-    <Route path="/editmyfolder" component={EditFolder}></Route>
-
-    <Route path="/gotosettings" component={Settings}></Route>
-    <Route path="/editmybookmark" path="/:bookmarx_id" component={EditBookmarkPageComponent}></Route>
-    <Route path="/" component={HomeContainer}></Route>  
-  </Router>
+  route
 ), document.getElementById('myapp'));
