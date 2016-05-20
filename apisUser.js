@@ -147,7 +147,7 @@ module.exports.apiSignUpAuth = function(req, response) {
                 }
                 if (res) {
                   req.session.username = encryption.encrypt(res[0].id.toString());
-                  response.status(200).send(JSON.stringify({success: "1", msg: "signup successful"});
+                  response.status(200).send(JSON.stringify({success: "1", msg: "signup successful"}));
                 }
               });
             }
