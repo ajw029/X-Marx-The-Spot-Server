@@ -3,19 +3,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
   <title>Login</title>
   <meta name="description" content="The Team Page">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="imgs/tp.png">
   <script src="/js/jquery.js"></script>
   <link rel="stylesheet" href="/css/style.css">
-
 </head>
 
-
 <body class="black-background">
-
   <nav>
     <ul>
       <li><a href="index.html">BookMarx</a></li>
@@ -23,7 +19,7 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="/login" method="POST" onsubmit="return validateLogin()" autocomplete="off">
+      <form action="" method="POST" onsubmit="return validateLogin()" autocomplete="off">
         <h1>Login</h1>
         <% if (errmsg){ %>
         <% if (errmsg.hasError) {%>
@@ -59,7 +55,7 @@
         $('#username_errlabel').removeClass('hide');
         return false;
       }
-        $('#username_errlabel').addClass('hide');
+      $('#username_errlabel').addClass('hide');
       return true;
     }
     function validatePassword() {
@@ -76,8 +72,16 @@
       var isValidPwd = validatePassword();
       return  isValidUsername && isValidPwd;
     }
-
-
+    $('form').submit(function(e) {
+      e.preventDefault();
+      $.post("/api/login/", $('form').serialize(), function(data) {
+          if(data.errormsg)
+            console.log("Login Failed");
+          //check if success or not (redirect here?)
+          if(data.successmsg)
+            console.log("Login Successful");
+      }); 
+    });
   </script>
 
 </body>

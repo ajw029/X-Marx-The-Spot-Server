@@ -8,7 +8,6 @@ var account_table = tables.user_table;
 var folder_table = tables.folder_table;
 
 /**
-*
 * Render the signup form
 */
 module.exports.apiSignUp = function(req, res) {
@@ -17,7 +16,7 @@ module.exports.apiSignUp = function(req, res) {
     res.redirect('/bookmarx');
   }
   else {
-    res.status(200).send('users/signup.ejs',{errmsg: {hasError: false}});
+    res.render('users/signup.ejs', {errmsg: {hasError: false}});
   }
 
 };
@@ -26,7 +25,6 @@ module.exports.apiSignUp = function(req, res) {
 * Render the login form
 */
 module.exports.apiLogin = function(req, res) {
-  console.log("in here");
   var session = req.session.username;
   if (session) {
     res.redirect('/bookmarx');
@@ -52,7 +50,6 @@ module.exports.apiAuth = function(req, res, next) {
 };
 
 /**
-*
 * Attempt to login the user.
 */
 module.exports.apiLoginAuth = function(req, response) {
@@ -68,22 +65,22 @@ module.exports.apiLoginAuth = function(req, response) {
     .toString();
 
     db.query(queryString,function(err,res){
-      if(err){
-        response.render('users/login.ejs',{errmsg: {message:"Provide username please", hasError: true} });
-      } else if(res){
+      if(err) {
+        response.status(400).send({errmsg: {message:"Provide username please", hasError: true} });
+      } else if(res) {
         // If Null
         if (!res || !res[0]) {
-          response.render('users/login.ejs',{errmsg: {message:"Could not login", hasError: true}});
+          response.status(400).send({errmsg: {message:"Could not login", hasError: true}});
         }
+        //Otherwise check if login matches DB and send appropriate response
         else {
-
           var queryP = res[0].password;
           if(encryption.encrypt(password.toString())===queryP.toString()){
             req.session.username = encryption.encrypt(res[0].id.toString());
-            response.redirect('/bookmarx');
+            response.status(200).send({successmsg: true});
           }
           else {
-            response.render('users/login.ejs', {errmsg: {hasError: true,message:"Username and password doesnt' match " }});
+            response.status(200).send({errmsg: {hasError: true, message:"Username and password doesnt' match " }});
           }
         }
       }
@@ -95,7 +92,6 @@ module.exports.apiLoginAuth = function(req, response) {
 };
 
 /**
-*
 * Attempt to Signup the user.
 */
 module.exports.apiSignUpAuth = function(req, response) {
@@ -121,9 +117,8 @@ module.exports.apiSignUpAuth = function(req, response) {
       if (err) {
         //server side failure
         response.render('users/signup.ejs', {errmsg: {message: "Username already exists", hasError: true}});
-      } else if (res) {
-        if (err) {
-        } else if (res && res.insertId) {
+      } 
+      else if (res && res.insertId) {
 
           var createDefaultFolder = db.squel
           .insert()
@@ -133,15 +128,11 @@ module.exports.apiSignUpAuth = function(req, response) {
             'name': 'Default'
           })
           .toString();
+
           db.query(createDefaultFolder, function (err, folderRes) {
             if (err) {
               throw err;
-              response.render('users/signup.ejs', {
-                errmsg: {
-                  message: "Error",
-                  hasError: true
-                }
-              });
+              response.status(500).send({errmsg: "query error"});
             }
             if (folderRes) {
               var queryString = db.squel
@@ -149,19 +140,19 @@ module.exports.apiSignUpAuth = function(req, response) {
               .from(user_table)
               .where('username = \'' + username + '\'')
               .toString();
+
               db.query(queryString, function (err, res) {
                 if (err) {
-                  response.redirect('/login');
+                  response.status(200).send({successmsg: "not in db yet"});
                 }
                 if (res) {
                   req.session.username = encryption.encrypt(res[0].id.toString());
-                  response.redirect('/bookmarx');
+                  response.status(200).send({successmsg: "signup successful"});
                 }
               });
             }
           });
         }
-      }
     });
   }
   else {
