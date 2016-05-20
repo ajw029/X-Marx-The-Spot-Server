@@ -23,7 +23,7 @@ var NavBar = React.createClass({
     return (
       <nav>
         <ul className="nav-title">
-          <li><Link to={'/home'}>BookMarx</Link></li>
+          <li><Link to={'/app/home'}>BookMarx</Link></li>
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">
@@ -38,9 +38,9 @@ var NavBar = React.createClass({
           </div>
         </div>
         <ul className="navbar-right">
-          <li className="navbar-hide"><Link to={"/addnewbookmark"} className="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Add a BookMarx</span></Link></li>
-          <li className="navbar-hide"><Link to={"/addnewfolder"} className="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></img><span className="tooltiptext">Add a Folder</span></Link></li>
-          <li className="navbar-hide"><Link to={"/gotosettings"} className="tooltip"><img className="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Settings</span></Link></li>
+          <li className="navbar-hide"><Link to={"/app/addnewbookmark"} className="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Add a BookMarx</span></Link></li>
+          <li className="navbar-hide"><Link to={"/app/addnewfolder"} className="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></img><span className="tooltiptext">Add a Folder</span></Link></li>
+          <li className="navbar-hide"><Link to={"/app/gotosettings"} className="tooltip"><img className="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Settings</span></Link></li>
           <li><a className="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"></img><span className="tooltiptext">Logout</span></a></li>
         </ul>
       </nav>
