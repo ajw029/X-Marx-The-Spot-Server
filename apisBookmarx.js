@@ -276,10 +276,8 @@ var apiSearch=module.exports.apiSearch=function(req,response){
 */
 var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req, response) {
   var account_id = req.body.account_id;
-  var bookmarx_id = db.escape(req.params.bookmarx_id);
-  var page_id = req.params.page;
-  var folder_id = req.params.folder_id;
-
+  var bookmarx_id = db.escape(req.body.bookmarx_id);
+  console.log('deleting')
   //Not deleted but hidden
   var deleteBookMarksQuery = db.squel
       .update()
@@ -288,18 +286,16 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
       .where('account_id=' + db.escape(account_id))
       .where('id=' + bookmarx_id)
       .toString();
-
+      console.log(deleteBookMarksQuery)
   db.query(deleteBookMarksQuery, function(err, res) {
     if (err){
+      console.log(err)
       response.status(500).send({errmsg:"Can't delete,please retry"});
       throw err;
     }
     if (res) {
       //Redirect backhome page
-        response.status(200).send({
-                                    folder_id:folder_id,
-                                    page:req.headers['referer']
-                                    });
+      response.status(200).send({});
     }
   });
 
@@ -621,8 +617,6 @@ var apiSettings = module.exports.apiSettings =  function(req, res) {
 var apiStaraction = module.exports.apiStaraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
-  var page = req.params.page;
-
   var select_queryString = db.squel
       .select()
       .from(bookmarx_table)
@@ -650,8 +644,7 @@ var apiStaraction = module.exports.apiStaraction =  function(req, response) {
           response.status(500).send({errmsg: "Failed,please retry"});
         }
         if (result) {
-          if(page==1)
-            response.status(200).send({successmg:"   ",folder_id:res[0].folder_id,page:page});
+          response.status(200).send({successmg:"   ",folder_id:res[0].folder_idf});
 
         }
       });

@@ -1,6 +1,8 @@
 var BookmarkComponent = React.createClass({
   favoriteClick: function() {
-    // TODO
+    var body = {};
+    body.bookmarx_id=this.props.id;
+
     $.ajax({
           url: '/api/staraction',
           dataType: 'json',
@@ -8,14 +10,16 @@ var BookmarkComponent = React.createClass({
           type: 'post',
           data: body,
           success: function(data) {
-            browserHistory.push('/home');
-            this.favBookmark(this.props.id)
+            this.props.favBookmark(this.props.id)
+
           }.bind(this),
           error: function(xhr, status, err) {
           }.bind(this)
         });
   },
   deleteBookmark: function() {
+    var body = {};
+    body.bookmarx_id=this.props.id
     $.ajax({
           url: '/api/delete',
           dataType: 'json',
@@ -23,8 +27,8 @@ var BookmarkComponent = React.createClass({
           type: 'post',
           data: body,
           success: function(data) {
-            browserHistory.push('/home');
-            this.deleteBookmark(this.props.id);
+            this.props.deleteBookmark(this.props.id);
+
           }.bind(this),
           error: function(xhr, status, err) {
           }.bind(this)
@@ -33,10 +37,10 @@ var BookmarkComponent = React.createClass({
   render: function() {
     var favButton;
     if (this.props.favorite) {
-      favButton = <button onClick={this.favoriteClick} className="fab favorite"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
+      favButton = <button type="button" onClick={this.favoriteClick} className="fab favorite"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
     }
     else {
-      favButton = <button onClick={this.favoriteClick} className="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
+      favButton = <button type="button" onClick={this.favoriteClick} className="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
     }
     return (
       <li>
@@ -71,8 +75,8 @@ var BookmarxContainerComponent = React.createClass({
                  url={bookmark.url}
                  key={bookmark.id}
                  id={bookmark.id}
-                 favBookmark={this.favBookmark}
-                 deleteBookmark={this.deleteBookmark}
+                 favBookmark={this.props.favBookmark}
+                 deleteBookmark={this.props.deleteBookmark}
                  />
       );
     }.bind(this));
