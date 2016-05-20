@@ -1,5 +1,3 @@
-var React = require('react');
-var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var SettingsComponent = React.createClass({
   getInitialState: function () {
     return {
@@ -37,7 +35,7 @@ var SettingsComponent = React.createClass({
   submit: function() {
     var okay = this.validateSubmit();
     if (okay) {
-      
+
     }
   },
   render: function () {

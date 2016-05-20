@@ -1,6 +1,3 @@
-var React = require('react');
-var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
-var Link = require('react-router').Link;
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
 
 var EditBookmarkComponent = React.createClass({

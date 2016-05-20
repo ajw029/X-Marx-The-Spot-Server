@@ -1,12 +1,4 @@
-var React = require('react');
-var MobileNav = React.createFactory(require('../components/MobileNavComponent.react'));
-var NavBar = React.createFactory(require('../components/Nav.react'));
-var SideBar = React.createFactory(require('../components/SideBarComponent.react'));
-var AddBookmarkContainer = React.createFactory(require('../components/AddBookMarkFab.react'));
-var FolderContainerComponent = React.createFactory(require('../components/FolderContainer.react'));
-var BookmarxContainerComponent = React.createFactory(require('../components/BookmarxContainerComponent.react'));
 
-var MobileFolderSwitcherContainer = React.createFactory(require('../components/MobileFolderComponent.react'));
 
 var HomeContainer = React.createClass({
   getInitialState: function () {

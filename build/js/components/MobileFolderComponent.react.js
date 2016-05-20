@@ -1,4 +1,3 @@
-var React = require('react');
 
 var MobileFolderSwitcher = React.createClass({
   render: function () {

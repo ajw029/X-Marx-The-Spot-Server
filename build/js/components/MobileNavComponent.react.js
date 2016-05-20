@@ -1,6 +1,3 @@
-var React = require('react');
-var Link = require('react-router').Link;
-
 var MobileNav = React.createClass({
 
   render: function() {

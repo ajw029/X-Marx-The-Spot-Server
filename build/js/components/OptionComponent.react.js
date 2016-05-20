@@ -1,5 +1,3 @@
-var React = require('react');
-
 var OptionComponent = React.createClass({
   render: function () {
     return (

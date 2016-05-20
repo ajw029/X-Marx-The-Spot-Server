@@ -1,8 +1,6 @@
-var React = require('react');
-var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
 
-var ToggleDisplay = require('react-toggle-display');
+require('react-toggle-display').ToggleDisplay;
 
 var AddBookmarkComponent = React.createClass({
   getInitialState: function () {
@@ -63,7 +61,7 @@ var AddBookmarkComponent = React.createClass({
   },
   submit: function() {
     var okay = this.validateSubmit();
-  
+
     if (okay) {
       $.ajax({
             url: this.props.source,

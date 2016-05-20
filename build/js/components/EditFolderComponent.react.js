@@ -1,7 +1,3 @@
-var React = require('react');
-var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
-var Link = require('react-router').Link;
-
 var EditFolderComponent = React.createClass({
   getInitialState: function () {
     return ({
