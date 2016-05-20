@@ -67,28 +67,28 @@ module.exports.apiLoginAuth = function(req, response) {
 
     db.query(queryString,function(err,res){
       if(err) {
-        response.status(400).send({errmsg: "Provide username please"});
+        response.status(400).send(JSON.stringify({msg: "Could not login, database failure."}));
       } else if(res) {
         // If Null
         if (!res || !res[0]) {
-          response.status(400).send({errmsg:"Could not login"});
+          response.status(400).send(JSON.stringify({msg:"Could not login, please check username/password"}));
         }
         //Otherwise check if login matches DB and send appropriate response
         else {
           var queryP = res[0].password;
           if(encryption.encrypt(password.toString())===queryP.toString()){
             req.session.username = encryption.encrypt(res[0].id.toString());
-            response.status(200).send({successmsg: true});
+            response.status(200).send(JSON.stringify({msg: "Successful login"}));
           }
           else {
-            response.status(200).send({errmsg: "Username and password doesnt' match " });
+            response.status(400).send(JSON.stringify({msg: "Could not login, please check username/password" }));
           }
         }
       }
     });
   }
   else {
-    response.status(400).send({errmsg: "Could not login"});
+    response.status(400).send(JSON.stringify({msg: "Could not login, please check username/password"}));
   }
 };
 
