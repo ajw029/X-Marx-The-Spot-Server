@@ -54,7 +54,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up logging files (accessLog for suspicious requests, errorLog for errors)
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
-var errorLogStream = fs.createWriteStream(__dirname + '/error.log', {falgs: 'a'});
+var errorLogStream = fs.createWriteStream(__dirname + '/error.log', {flags: 'a'});
 
 // Set up logging to detect only "suspicious" requests (any requests we haven't defined)
 app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}',
@@ -64,17 +64,18 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
 
 // Set up error logging
 app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", "method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}',
-  { skip: function(req,res) { return res.statusCode < 400; },
+{ skip: function(req,res) { return res.statusCode < 400; },
   stream: errorLogStream }
 ));
 
-// Login And Signup
+// Login And Signup APIs
 app.get('/', apisUser.apiLogin);
-/*
-app.get('/api/signup', apisUser.apiSignup);
-app.post('/api/signup', apisUser.apiSignUpAuth);
+
 app.get('/api/login', apisUser.apiLogin);
 app.post('/api/login', apisUser.apiLoginAuth);
+app.post('/api/signup', apisUser.apiSignUpAuth);
+/*
+app.get('/api/signup', apisUser.apiSignup);
 app.get('/api/logout', apisUser.apiLogOut);
 */
 
