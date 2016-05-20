@@ -1,11 +1,11 @@
 var React = require('react');
-
+var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var AddFolderComponent = React.createClass({
   render: function() {
     return (
     <section className="slide">
       <div className="formcontainer column-40">
-        <a className="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png" alt="back"></img></a>
+        <BackButton/>
         <form action="/bookmarx/addfolder" onsubmit="return validateAddFolder()" method="POST">
           <h1>Add Folder</h1>
           <div className="inputgroup">

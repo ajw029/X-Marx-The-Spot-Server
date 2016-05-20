@@ -1,11 +1,11 @@
 var React = require('react');
-
+var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var EditBookmarkComponent = React.createClass({
   render: function() {
     return (
     <section className="slide">
       <div className="formcontainer column-40">
-        <a className="form_backbutton" href="<%= referer %>"><img src="/img/ic_arrow_back_black_48dp_2x.png" alt="back"></img></a>
+        <BackButton/>
         <form action="/bookmarx/edit" onsubmit="return validateEditBookmark()" method="POST">
           <h1>Edit {this.props.name}</h1>
           <div className="inputgroup">

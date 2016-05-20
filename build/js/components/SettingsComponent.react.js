@@ -1,12 +1,12 @@
 var React = require('react');
-
+var BackButton = React.createFactory(require('./FormBackButtonComponent.react'));
 var SettingsComponent = React.createClass({
   render: function () {
     return (
       <section className="slide">
         <div className="formcontainer column-40">
           <h1>Settings</h1>
-          <a className="form_backbutton" href="/bookmarx"><img src="/img/ic_arrow_back_black_48dp_2x.png" alt="back"></img></a>
+          <BackButton/>
           <div className="settinggroup">
             <h2>Change Password</h2>
             <form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
