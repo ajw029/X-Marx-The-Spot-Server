@@ -9,7 +9,8 @@ var AddBookmarkPage = React.createClass({
     // Gets all the folders
     this.serverRequest = $.get("/api/getfolders", function (result) {
       this.setState({
-        folderList: result
+        folderList: result,
+
       });
       if (!this.state.curFolder.trim() && result && result.length > 0) {
         this.setState({
