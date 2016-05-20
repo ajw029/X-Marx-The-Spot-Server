@@ -29,7 +29,7 @@ var EditBookmarkComponent = React.createClass({
   updateSelectValue: function(event) {
     this.setState({curFolder: event.target.value});
   },
-  validateSubmit: function {
+  validateSubmit: function() {
     var okay = true;
     var title = this.state.title;
     var url = this.state.url;
@@ -77,8 +77,8 @@ var EditBookmarkComponent = React.createClass({
     else {
 
     }
-    return okay;  
-  
+    return okay;
+
   },
 
   submit: function() {
