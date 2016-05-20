@@ -13,6 +13,9 @@ fs = require('fs');
 var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+
+
+
 var compression = require('compression');
 var minify = require('express-minify');
 var session = require('express-session');
@@ -46,6 +49,10 @@ app.use(minifyHTML({
         minifyJS:                  true
     }
 }));
+app.use(bodyParser.urlencoded({ extended: false }))
+ 
+// parse application/json 
+app.use(bodyParser.json())
 
 //app.use(minify());
 
@@ -68,22 +75,6 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
   stream: errorLogStream }
 ));
 
-// Login And Signup APIs
-app.get('/', apisUser.apiLogin);
-
-app.get('/api/login', apisUser.apiLogin);
-app.post('/api/login', apisUser.apiLoginAuth);
-app.post('/api/signup', apisUser.apiSignUpAuth);
-/*
-app.get('/api/signup', apisUser.apiSignup);
-app.get('/api/logout', apisUser.apiLogOut);
-*/
-
-/*  This must go between the users routes and the books routes */
-//app.use(apisUser.apiAuth);
-
-//app.post('/booapikmarx/updatepassword',apisUser.apiUpdatePassword);
-
 
 app.get('/home', function(req, res) {
     res.sendFile(__dirname + '/views/list.html');
@@ -91,6 +82,9 @@ app.get('/home', function(req, res) {
 
 // Login And Signup
 app.get('/', users.login);
+// Login And Signup APIs
+app.post('/api/login', apisUser.apiLoginAuth);
+app.post('/api/signup', apisUser.apiSignUpAuth);
 
 app.get('/signup', users.signup);
 app.post('/signup', users.signupAuth);
@@ -153,34 +147,33 @@ app.get('/bookmarx/export',bookmarx.exportBookmarks);
 app.get('/api/getfolders', apis.apiGetFolders);
 app.get('/api/getbookmarks', apis.apiGetBookmarks);
 
-/*
+
 app.get('/api/add', apis.apiAdd);
 app.post('/api/add', apis.apiAddBookmarxAuth);
 
-app.post('/api/staraction/:page(\\d)', apis.apiStaraction);
+app.post('/api/staractio', apis.apiStaraction);
 
 app.get('/apis/settings', apis.apiSettings);
 
-app.get(['/api/edit/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', '/bookmarx/edit'], apis.apiEditBookmarx);
+app.get('/api/edit', apis.apiEditBookmarx);
 app.post('/api/edit', apis.apiEditBookmarxAuth);
 
 app.get('/api/addfolder', apis.apiAddFolder);
 
-app.post('/api/addfolder', apis.apiAddFolderauth);
+app.post('/api/addfolder', apis.apiAddFolderAuth);
 
-app.get('/api/delete/:bookmarx_id(\\d+)/:folder_id(\\d+)/:page(\\d+)', apis.apiDeleteBookmarxAuth);
+app.get('/api/delete', apis.apiDeleteBookmarxAuth);
 
 //Folder Settings
-app.get('/foldersetting/:folder_id(\\d+)', apis.apiFolderSettings);
-app.post('/api/updatefolder/:folder_id(\\d+)', apis.apiUpdateFolder);
+app.get('/foldersetting', apis.apiFolderSettings);
+app.post('/api/updatefolder', apis.apiUpdateFolder);
 app.post('/api/deletefolder',apis.apiDeleteFolder);
 
 //open the views
 app.get('/api/favorites/',apis.apiOpenFavoritesView);
 app.get('/api/mostvisited',apis.apiMostVisited);
 
-app.get(['/api/click/:bookmarx_id(\\d+)',
-         '/api/click/:folder_id(\\d+)/:bookmarx_id(\\d+)'],apis.apiClickCount);
+app.get('/api/click',apis.apiClickCount);
 
 app.get('/api/search',apis.apiSearch);
 
@@ -192,7 +185,7 @@ app.use(function (req, res, next) {
     res.redirect('/');
 });
 
-*/
+
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');

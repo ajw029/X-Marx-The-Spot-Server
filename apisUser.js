@@ -13,10 +13,10 @@ var folder_table = tables.folder_table;
 module.exports.apiSignUp = function(req, res) {
   var session = req.session.username;
   if (session) {
-    res.redirect('/bookmarx');
+    res.status(200).send({successmsg:" "});
   }
   else {
-    res.render('users/signup.ejs', {errmsg: {hasError: false}});
+    res.status(400).send({errmsg:"Session doesn't exist"});
   }
 
 };
@@ -27,10 +27,11 @@ module.exports.apiSignUp = function(req, res) {
 module.exports.apiLogin = function(req, res) {
   var session = req.session.username;
   if (session) {
-    res.redirect('/bookmarx');
+    res.session.username;
+    res.status(200).send({successmsg:" "});
   }
   else {
-    res.render('users/login.ejs',{errmsg: {hasError: false}});
+     res.status(400).send({errmsg:"Session doesn't exist"});
   }
 };
 
@@ -45,7 +46,7 @@ module.exports.apiAuth = function(req, res, next) {
     return next();
   }
   else {
-    res.render('users/login.ejs', {errmsg: {hasError: false}});
+    res.status(200).send( {successmsg:""});
   }
 };
 
@@ -56,7 +57,7 @@ module.exports.apiLoginAuth = function(req, response) {
 
   var username = db.escape(req.body.username);
   var password = req.body.pass;
-
+ 
   if (username && password) {
     var queryString = db.squel
     .select()
@@ -66,11 +67,11 @@ module.exports.apiLoginAuth = function(req, response) {
 
     db.query(queryString,function(err,res){
       if(err) {
-        response.status(400).send({errmsg: {message:"Provide username please", hasError: true} });
+        response.status(400).send({errmsg: "Provide username please"});
       } else if(res) {
         // If Null
         if (!res || !res[0]) {
-          response.status(400).send({errmsg: {message:"Could not login", hasError: true}});
+          response.status(400).send({errmsg:"Could not login"});
         }
         //Otherwise check if login matches DB and send appropriate response
         else {
@@ -80,14 +81,14 @@ module.exports.apiLoginAuth = function(req, response) {
             response.status(200).send({successmsg: true});
           }
           else {
-            response.status(200).send({errmsg: {hasError: true, message:"Username and password doesnt' match " }});
+            response.status(200).send({errmsg: "Username and password doesnt' match " });
           }
         }
       }
     });
   }
   else {
-    response.render('users/login.ejs',{errmsg: {message:"Could not login", hasError: true}});
+    response.status(400).send({errmsg: "Could not login"});
   }
 };
 
@@ -96,11 +97,14 @@ module.exports.apiLoginAuth = function(req, response) {
 */
 module.exports.apiSignUpAuth = function(req, response) {
 
+
   var username = db.escape(req.body.username);
   var password = req.body.pass;
   var repassword = req.body.repass;
+  
 
-  if(password==repassword && password.trim()) {
+
+  if(password==repassword && password.trim()){
     // Encrypt Pwd
     var encryptedPwd = encryption.encrypt(password);
 
@@ -115,10 +119,11 @@ module.exports.apiSignUpAuth = function(req, response) {
 
     db.query(createUserQueryString, function (err, res) {
       if (err) {
-        //server side failure
-        response.render('users/signup.ejs', {errmsg: {message: "Username already exists", hasError: true}});
-      } 
-      else if (res && res.insertId) {
+        
+        return response.status(400).send({errmsg:  "Username already exists"});
+      }
+      
+      if (res && res.insertId) {
 
           var createDefaultFolder = db.squel
           .insert()
@@ -146,6 +151,7 @@ module.exports.apiSignUpAuth = function(req, response) {
                   response.status(200).send({successmsg: "not in db yet"});
                 }
                 if (res) {
+                  
                   req.session.username = encryption.encrypt(res[0].id.toString());
                   response.status(200).send({successmsg: "signup successful"});
                 }
@@ -156,7 +162,7 @@ module.exports.apiSignUpAuth = function(req, response) {
     });
   }
   else {
-    response.render('users/signup.ejs',{errmsg: {message:"Passwords don't match", hasError: true}});
+   response.status(500).send({errmsg: "Passwords don't match"});
   }
 };
 
@@ -180,7 +186,7 @@ module.exports.apiUpdatePassword=function(req,res){
       db.query(queryPasswordString,function(err,res1){
         if(err){
           throw err;
-          res.redirect('/bookmarx/settings');
+          response.status(500).send({errmsg: "Can't update"});
         }
 
         if(res1[0] && res1[0].password==encryption.encrypt(oldPassword)){
@@ -195,28 +201,24 @@ module.exports.apiUpdatePassword=function(req,res){
           db.query(updatePasswordQuery,function(err,res2){
             if(err){
               throw err;
-              res.redirect('/bookmarx/settings');
+              response.status(500).send({errmsg: "Can't update"});
             }
             if(res2){
-              res.redirect('/bookmarx');
+              response.status(200).send({successmsg: "Update successful"});
             }
           });
         }
         else {
-          res.redirect('/bookmarx/settings');
+          response.status(500).send({errmsg: "Can't update"});
         }
 
       });
 
     }else{
-      res.redirect('/bookmarx/settings');
+      response.status(500).send({errmsg: "Can't update"});
     }
   }
 
 };
 
 
-module.exports.apiLogout = function(req, res) {
-  req.session.destroy();
-  res.redirect('/login');
-};
