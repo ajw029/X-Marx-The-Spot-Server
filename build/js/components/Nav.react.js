@@ -35,7 +35,7 @@ var NavBar = React.createClass({
               <option value="asc">A-Z</option>
               <option value="desc">Z-A</option>
             </select>
-            <input type="submit" onClick={this.find} placeholder="Find"></input>
+            <input type="submit" onClick={this.find} value="Find"></input>
           </form>
           </div>
         </div>

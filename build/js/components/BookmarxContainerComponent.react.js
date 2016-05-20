@@ -1,4 +1,5 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 var BookmarkComponent = React.createClass({
   favoriteClick: function() {
@@ -25,7 +26,7 @@ var BookmarkComponent = React.createClass({
               <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
               {favButton}
             </form>
-            <a className="card__button" href="/bookmarx/edit/{id}/{folder_id}/1">EDIT</a>
+            <Link to={'/editmybookmark'} params={{bookmarx_id: this.props.id}} className="card__button">EDIT</Link>
           </div>
         </div>
       </li>

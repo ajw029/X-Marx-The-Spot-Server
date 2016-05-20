@@ -1,10 +1,12 @@
 var React = require('react');
 
+var Link = require('react-router').Link;
+
 var AddBookmarkContainer = React.createClass({
   render: function() {
     return (
       <div className="overlayContainer">
-        <a className="fab" href="/bookmarx/add"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></img></a>
+        <Link to={'/addnewbookmark'} className="fab"><img src="/img/ic_add_white_48dp_2x.png" alt="plus"></img></Link>
       </div>
     )
   }

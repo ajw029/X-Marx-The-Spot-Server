@@ -1,18 +1,22 @@
 var React = require('react');
-
+var Link = require('react-router').Link;
 var BookmarksFolderComponent = React.createClass({
   changeFolders() {
     this.props.getBookmarks(this.props.id)
   },
   render: function() {
     var folderRedirect="/bookmarx/"+this.props.id;
+    var editFolder;
+    if (this.props.name && (this.props.name.trim() == 'Default')) {
+      editFolder='hide';
+    }
     if (this.props.curFolder != this.props.id) {
       return (
         <div className="column- folderContainer">
           <div className="folder">
             <h2>{this.props.name}</h2>
             <a className="folderToggle openFolder" onClick={this.changeFolders}></a>
-            <a href="/foldersetting/{id}"><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"/></a>
+            <Link to={"/editmyfolder"} className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
           </div>
         </div>
       )
@@ -23,7 +27,7 @@ var BookmarksFolderComponent = React.createClass({
         <div className="folder">
           <h2>{this.props.name}</h2>
           <a className="folderToggle openFolder" onClick={this.changeFolders}><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"></img></a>
-          <a href="/foldersetting/{id}"><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"/></a>
+          <Link to={"/editmyfolder"} className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
         </div>
       </div>);
     }
