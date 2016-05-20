@@ -26,6 +26,7 @@ module.exports.apiSignUp = function(req, res) {
 * Render the login form
 */
 module.exports.apiLogin = function(req, res) {
+  console.log("in here");
   var session = req.session.username;
   if (session) {
     res.redirect('/bookmarx');
@@ -69,7 +70,7 @@ module.exports.apiLoginAuth = function(req, response) {
     db.query(queryString,function(err,res){
       if(err){
         response.render('users/login.ejs',{errmsg: {message:"Provide username please", hasError: true} });
-      }else if(res){
+      } else if(res){
         // If Null
         if (!res || !res[0]) {
           response.render('users/login.ejs',{errmsg: {message:"Could not login", hasError: true}});

@@ -165,7 +165,7 @@ var list = module.exports.list = function(req, response) {
 };
 
 //search
-var search=module.exports.search=function(req,response){
+var search = module.exports.search = function(req,response){
 
   var account_id = req.body.account_id;
   var keyword = req.query.search;
@@ -222,7 +222,7 @@ var search=module.exports.search=function(req,response){
 /**
  * Renders page to delete a bookmarx
  */
-var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, response) {
+var deleteBookmarxAuth = module.exports.deleteBookmarxAuth = function(req, response) {
   var account_id = req.body.account_id;
   var bookmarx_id = db.escape(req.params.bookmarx_id);
   var page_id = req.params.page;
@@ -256,7 +256,7 @@ var deleteBookmarxAuth = module.exports.deleteBookmarxAuth =  function(req, resp
 /*
  * Updates a bookmark
  */
-var editBookmarx = module.exports.editBookmarx =  function(req, response) {
+var editBookmarx = module.exports.editBookmarx = function(req, response) {
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
@@ -320,7 +320,7 @@ var editBookmarx = module.exports.editBookmarx =  function(req, response) {
   });
 };
 
-var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response) {
+var editBookmarxAuth = module.exports.editBookmarxAuth = function(req, response) {
   var bookmarx_title = db.escape(req.body.title);
   var bookmarx_url = db.escape(req.body.url);
   var bookmarx_desc = db.escape(req.body.desc);
@@ -366,10 +366,10 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
                  .where("id = ?", word_id)
                  .toString();
                db.query(queryStringDelete, function(err3, res3) {
-               if (err3){
-                 //throw err;
-                 console.log(err3);
-               }
+                 if (err3){
+                   //throw err;
+                   console.log(err3);
+                 }
                  if (res3) {
                   //Do nothing, insert success
                  }
@@ -400,10 +400,10 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
                   .toString();
 
                 db.query(queryStringKeyword, function(err2, res2) {
-                if (err2){
-                  //throw err;
-                  console.log(err2);
-                }
+                  if (err2){
+                    //throw err;
+                    console.log(err2);
+                  }
                   if (res2) {
                    //Do nothing, insert success
                   }
@@ -430,7 +430,7 @@ var editBookmarxAuth = module.exports.editBookmarxAuth =  function(req, response
 };
 
 /*
- *
+ * Folder Settings
  */
 var foldersettings = module.exports.foldersettings =  function(req, response) {
   var folder_id= db.escape(req.params.folder_id);
@@ -616,7 +616,7 @@ var robots = module.exports.robots = function(req, res) {
   res.render('bookmarx/robots.ejs');
 };
 
-var openFavoritesView=module.exports.openFavoritesView=function(req,response){
+var openFavoritesView = module.exports.openFavoritesView = function(req,response){
 
   var account_id=req.body.account_id;
   var select_queryString = db.squel
@@ -647,7 +647,7 @@ var openFavoritesView=module.exports.openFavoritesView=function(req,response){
  };
 
 
-   var mostvisited=module.exports.mostvisited=function(req,response){
+var mostvisited = module.exports.mostvisited = function(req,response){
    var account_id=req.body.account_id;
    var topN=6;
    var queryString = db.squel
