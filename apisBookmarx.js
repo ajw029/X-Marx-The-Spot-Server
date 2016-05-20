@@ -306,7 +306,7 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
 };
 
 var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) {
-
+    console.log('SUP')
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
 

@@ -20,6 +20,7 @@ var EditBookmarkPage = React.createClass({
       desc: '',
       keywords: '',
       oldkeywords: [],
+      oldkeywordsOutput: [],
       curFolder: '',
       titleErr: false,
       urlErr: false,
@@ -110,10 +111,10 @@ var EditBookmarkPage = React.createClass({
     body.keywords= this.state.keywords;
     body.oldkeywords=this.state.oldkeywordsOutput;
     body.folder= parseInt(this.state.curFolder);
-
+    console.log(body)
     if (okay) {
       $.ajax({
-            url: '/api/editbookmark',
+            url: '/api/edit',
             dataType: 'json',
             cache: false,
             type: 'post',
@@ -122,7 +123,7 @@ var EditBookmarkPage = React.createClass({
               browserHistory.push('/home')
             }.bind(this),
             error: function(xhr, status, err) {
-              //console.error(this.props.url, status, err.toString());
+              console.error(JSON.stringify(err));
             }.bind(this)
       });
     }

@@ -152,7 +152,7 @@ app.get('/api/getbookmark', apis.apiGetBookmark);
 app.get('/api/add', apis.apiAdd);
 app.post('/api/add', apis.apiAddBookmarxAuth);
 
-app.post('/api/staractio', apis.apiStaraction);
+app.post('/api/staraction', apis.apiStaraction);
 
 app.get('/apis/settings', apis.apiSettings);
 
@@ -163,7 +163,7 @@ app.get('/api/addfolder', apis.apiAddFolder);
 
 app.post('/api/addfolder', apis.apiAddFolderAuth);
 
-app.get('/api/delete', apis.apiDeleteBookmarxAuth);
+app.post('/api/delete', apis.apiDeleteBookmarxAuth);
 
 //Folder Settings
 app.get('/foldersetting', apis.apiFolderSettings);
@@ -185,8 +185,6 @@ app.get('/api/export',apis.apiExportBookmarks);
 app.use(function (req, res, next) {
     res.redirect('/');
 });
-
-
 
 app.listen(config.PORT, function () {
   console.log('Example app listening on port ' + config.PORT + '!');

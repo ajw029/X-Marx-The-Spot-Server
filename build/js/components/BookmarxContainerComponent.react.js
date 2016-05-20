@@ -2,31 +2,31 @@ var BookmarkComponent = React.createClass({
   favoriteClick: function() {
     // TODO
     $.ajax({
-          url: '/api/favoritebookmark',
+          url: '/api/staraction',
           dataType: 'json',
           cache: false,
           type: 'post',
           data: body,
           success: function(data) {
-            browserHistory.push('/home')
+            browserHistory.push('/home');
+            this.favBookmark(this.props.id)
           }.bind(this),
           error: function(xhr, status, err) {
-            //console.error(this.props.url, status, err.toString());
           }.bind(this)
         });
   },
   deleteBookmark: function() {
     $.ajax({
-          url: '/api/deleteBookmark',
+          url: '/api/delete',
           dataType: 'json',
           cache: false,
           type: 'post',
           data: body,
           success: function(data) {
-            browserHistory.push('/home')
+            browserHistory.push('/home');
+            this.deleteBookmark(this.props.id);
           }.bind(this),
           error: function(xhr, status, err) {
-            //console.error(this.props.url, status, err.toString());
           }.bind(this)
         });
   },
@@ -71,9 +71,11 @@ var BookmarxContainerComponent = React.createClass({
                  url={bookmark.url}
                  key={bookmark.id}
                  id={bookmark.id}
+                 favBookmark={this.favBookmark}
+                 deleteBookmark={this.deleteBookmark}
                  />
       );
-    });
+    }.bind(this));
     return (
       <div className="slide">
         <div className="folderContent">
