@@ -36,14 +36,7 @@ var EditBookmarkComponent = React.createClass({
     var desc = this.state.desc;
     var keywords = this.state.keywords;
     var folders = this.state.folders;
-    if (!title || !title.trim()) {
-      okay = false;
-      this.setState({urlErr: true});
-    }
-    else {
-      this.setState({urlErr: false});
-    }
-    if (!url || !url.trim()) {
+     if (!title || !title.trim()) {
       okay = false;
       this.setState({titleErr: true});
     }
@@ -83,6 +76,7 @@ var EditBookmarkComponent = React.createClass({
 
   submit: function() {
     var okay = this.validateSubmit();
+
     if (okay) {
 
     }
@@ -104,11 +98,11 @@ var EditBookmarkComponent = React.createClass({
           <form action="/bookmarx/edit" method="POST">
             <h1>Edit {this.props.name}</h1>
             <div className="inputgroup">
-              <input type="text" name="title" value={this.state.title} onChange={this.updateTitle} required></input>
+              <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
               <span className="bar"></span>
               <label>Title</label>
               <ToggleDisplay show={this.state.titleErr}>
-              <span className="errMsg hide" id="title_errlabel">Please add a title</span>
+                <span className="errMsg" id="title_errlabel">Please add a title</span>
               </ToggleDisplay>
             </div>
             <div className="inputgroup">
@@ -146,9 +140,9 @@ var EditBookmarkComponent = React.createClass({
             <div className="labelgroup">
               <label>Folder</label>
             </div>
-            <div className="inputgroup">
+            <div className="inputgroup"
               <select name="folder" onChange={this.updateSelectValue}>
-                {folderNodes}
+                {folderNoes}
               </select>
             </div>
             <div className="inputgroup">

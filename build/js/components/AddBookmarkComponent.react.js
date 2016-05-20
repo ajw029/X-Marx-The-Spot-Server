@@ -27,13 +27,6 @@ var AddBookmarkComponent = React.createClass({
     var folders = this.state.folders;
     if (!title || !title.trim()) {
       okay = false;
-      this.setState({urlErr: true});
-    }
-    else {
-      this.setState({urlErr: false});
-    }
-    if (!url || !url.trim()) {
-      okay = false;
       this.setState({titleErr: true});
     }
     else {
