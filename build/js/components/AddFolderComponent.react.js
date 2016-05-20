@@ -18,7 +18,20 @@ var AddFolderComponent = React.createClass({
   submit: function() {
     var okay = this.validateSubmit();
     if (okay) {
-
+      var body = {};
+      body.folder_title = this.state.title;
+      $.ajax({
+            url: '/api/addfolder',
+            dataType: 'json',
+            cache: false,
+            type: 'post',
+            data: body,
+            success: function(data) {
+              browserHistory.push('/home');
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+          });
     }
   },
   render: function() {
