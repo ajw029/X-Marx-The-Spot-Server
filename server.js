@@ -159,8 +159,6 @@ app.get('/apis/settings', apis.apiSettings);
 app.get('/api/edit', apis.apiEditBookmarx);
 app.post('/api/edit', apis.apiEditBookmarxAuth);
 
-app.get('/api/addfolder', apis.apiAddFolder);
-
 app.post('/api/addfolder', apis.apiAddFolderAuth);
 
 app.post('/api/delete', apis.apiDeleteBookmarxAuth);

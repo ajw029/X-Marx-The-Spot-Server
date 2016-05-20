@@ -575,14 +575,6 @@ var apiUpdateFolder = module.exports.apiUpdateFolder = function(req, response) {
   }
 }
 
-var apiAddFolder = module.exports.apiAddFolder =  function(req, res) {
-  var folder_title = db.escape(req.body.folder_title);
-  var account_id = db.escape(req.body.account_id);
-
-  //res.render('bookmarx/addfolder.ejs');\
-  response.status(200).send({successmg:"     "});
-};
-
 var apiAddFolderAuth = module.exports.apiAddFolderAuth =  function(req, response) {
   var folder_title = db.escape(req.body.folder_title);
   var account_id = req.body.account_id;
