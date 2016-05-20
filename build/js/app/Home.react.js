@@ -32,11 +32,34 @@ var HomeContainer = React.createClass({
      }
      // Gets all the bookmarks
      this.serverRequest = $.get("/api/getbookmarks", body, function (result) {
-       console.log(result)
        this.setState({
          myBookmarks: result
        });
      }.bind(this));
+   },
+   favBookmark: function(b_id) {
+     var myBookmarksList =this.state.myBookmarks;
+     for (var i = 0; i < myBookmarksList.length; i++) {
+       var myBookmark = myBookmarksList[i];
+       if (myBookmark.id == b_id) {
+         myBookmarksList[i].favorite = (!myBookmark.favorite);
+         break;
+       }
+     }
+     this.setState({myBookmarks: myBookmarksList});
+   },
+   deleteBookmark: function(b_id) {
+     var myBookmarksList =this.state.myBookmarks;
+     var i = 0;
+     for (; i < myBookmarksList.length; i++) {
+       var myBookmark = myBookmarksList[i];
+       if (myBookmark.id == b_id) {
+         myBookmarksList[i].favorite = (!myBookmark.favorite);
+         break;
+       }
+     }
+     myBookmarksList.splice(i, 1);
+     this.setState({myBookmarks: myBookmarksList});
    },
    render: function() {
      return (
@@ -58,7 +81,10 @@ var HomeContainer = React.createClass({
           </section>
           <section className="right-container">
             <BookmarxContainerComponent
-              myBookmarks={this.state.myBookmarks}/>
+              myBookmarks={this.state.myBookmarks}
+              favBookmark={this.favBookmark}
+              deleteBookmark={this.deleteBookmark}
+              />
           </section>
         </div>
         <AddBookmarkContainer/>

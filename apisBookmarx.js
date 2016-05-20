@@ -146,6 +146,7 @@ var apiGetBookmark = module.exports.apiGetBookmark = function(req, response) {
       .field("b.deleted")
       .field("b.description")
       .field("k.name", "keyword")
+      .field("k.id", "keyword_id")
       .from(bookmarx_table, 'b')
       .join(keywords_table, 'k', 'k.bookmark_id=b.id')
       .where('b.account_id=' + db.escape(account_id))
@@ -275,10 +276,8 @@ var apiSearch=module.exports.apiSearch=function(req,response){
 */
 var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req, response) {
   var account_id = req.body.account_id;
-  var bookmarx_id = db.escape(req.params.bookmarx_id);
-  var page_id = req.params.page;
-  var folder_id = req.params.folder_id;
-
+  var bookmarx_id = db.escape(req.body.bookmarx_id);
+  console.log('deleting')
   //Not deleted but hidden
   var deleteBookMarksQuery = db.squel
       .update()
@@ -287,25 +286,23 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
       .where('account_id=' + db.escape(account_id))
       .where('id=' + bookmarx_id)
       .toString();
-
+      console.log(deleteBookMarksQuery)
   db.query(deleteBookMarksQuery, function(err, res) {
     if (err){
+      console.log(err)
       response.status(500).send({errmsg:"Can't delete,please retry"});
       throw err;
     }
     if (res) {
       //Redirect backhome page
-        response.status(200).send({
-                                    folder_id:folder_id,
-                                    page:req.headers['referer']
-                                    });
+      response.status(200).send({});
     }
   });
 
 };
 
 var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) {
-
+    console.log('SUP')
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
 
@@ -461,7 +458,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
               }
             });
 
-            response.staus(200).send({
+            response.status(200).send({
                                      page:params[params.length-1],
 
                                      });
@@ -490,7 +487,7 @@ var apiFolderSettings = module.exports.apiFolderSettings =  function(req, respon
 
   db.query(queryString, function(err, res) {
     if (err){
-      response.staus(500).send({errmsg: "Can't edit,please retry"});
+      response.status(500).send({errmsg: "Can't edit,please retry"});
       throw err;
     }
     if (res) {
@@ -518,7 +515,7 @@ var apiDeleteFolder=module.exports.apiDeleteFolder=function(req,response){
   db.query(deleteFolderQuery,function(err,res){
     if(err){
       throw err;
-      response.staus(500).send({errmsg: "Can't delete folder,please retry"});
+      response.status(500).send({errmsg: "Can't delete folder,please retry"});
     }if(res){
 
       var deleteChildBookmarksQuery = db.squel
@@ -532,7 +529,7 @@ var apiDeleteFolder=module.exports.apiDeleteFolder=function(req,response){
       db.query(deleteChildBookmarksQuery,function(err,res2){
         if(err){
           throw err;
-          response.staus(500).send({errmsg:"Can't delete folder,please retry"});
+          response.status(500).send({errmsg:"Can't delete folder,please retry"});
         }
         if(res2){
            response.status(200).send({successmg:"Edit Succeed"});
@@ -548,10 +545,10 @@ var apiUpdateFolder = module.exports.apiUpdateFolder = function(req, response) {
   var folder_id  = req.bodu.folder_id;
   var account_id = req.body.asccount_id;
   if (isNaN(folder_id)|| isNaN(account_id)) {
-   response.staus(500).send({errmsg: "Can't update ,please retry"});
+   response.status(500).send({errmsg: "Can't update ,please retry"});
   }
   if (!req.body.newname.trim()) {
-    response.staus(500).send({errmsg: "Can't update ,please retry",folder_id:folder_id});
+    response.status(500).send({errmsg: "Can't update ,please retry",folder_id:folder_id});
   }
   else {
     folder_id = db.escape(folder_id);
@@ -570,9 +567,9 @@ var apiUpdateFolder = module.exports.apiUpdateFolder = function(req, response) {
     db.query(updateFolderQuery,function(err,res1){
       if(err){
         throw err;
-        response.staus(500).send({errmsg: "Can't update folder,please retry"});
+        response.status(500).send({errmsg: "Can't update folder,please retry"});
       }if(res1){
-        response.staus(200).send({successmg:"update Succeed"});
+        response.status(200).send({successmg:"update Succeed"});
       }
     });
   }
@@ -583,7 +580,7 @@ var apiAddFolder = module.exports.apiAddFolder =  function(req, res) {
   var account_id = db.escape(req.body.account_id);
 
   //res.render('bookmarx/addfolder.ejs');\
-  response.staus(200).send({successmg:"     "});
+  response.status(200).send({successmg:"     "});
 };
 
 var apiAddFolderAuth = module.exports.apiAddFolderAuth =  function(req, response) {
@@ -605,23 +602,21 @@ var apiAddFolderAuth = module.exports.apiAddFolderAuth =  function(req, response
   db.query(querystring, function(err, res2) {
     if(err) {
       throw err;
-     response.staus(500).send({errmsg: "Can't add folder,please retry"});
+     response.status(500).send({errmsg: "Can't add folder,please retry"});
     }
-    response.staus(200).send({successmg:"Add folder Succeed"});
+    response.status(200).send({successmg:"Add folder Succeed"});
   });
 
 };
 
 var apiSettings = module.exports.apiSettings =  function(req, res) {
   //res.render('bookmarx/settings.ejs');
-  response.staus(200).send({successmg:"   "});
+  response.status(200).send({successmg:"   "});
 };
 
 var apiStaraction = module.exports.apiStaraction =  function(req, response) {
   var bookmarx_id = db.escape(req.body.bookmarx_id);
   var account_id = req.body.account_id;
-  var page = req.params.page;
-
   var select_queryString = db.squel
       .select()
       .from(bookmarx_table)
@@ -632,7 +627,7 @@ var apiStaraction = module.exports.apiStaraction =  function(req, response) {
   db.query(select_queryString, function(err, res) {
     if (err) {
       throw err;
-      response.staus(500).send({errmsg: "Failed,please retry"});
+      response.status(500).send({errmsg: "Failed,please retry"});
     }
     if (res) {
       var querystring = db.squel
@@ -646,11 +641,10 @@ var apiStaraction = module.exports.apiStaraction =  function(req, response) {
       db.query(querystring, function(err, result) {
         if (err) {
           throw err;
-          response.staus(500).send({errmsg: "Failed,please retry"});
+          response.status(500).send({errmsg: "Failed,please retry"});
         }
         if (result) {
-          if(page==1)
-            response.staus(200).send({successmg:"   ",folder_id:res[0].folder_id,page:page});
+          response.status(200).send({successmg:"   ",folder_id:res[0].folder_idf});
 
         }
       });
@@ -680,7 +674,7 @@ var apiOpenFavoritesView=module.exports.apiOpenFavoritesView=function(req,respon
   db.query(select_queryString + ordering, function(err, res) {
        if (err){
 
-         response.staus(500).send({errmsg:"Can't open favorite view,please retry"});
+         response.status(500).send({errmsg:"Can't open favorite view,please retry"});
          throw err;
        }
        if (res) {
@@ -706,7 +700,7 @@ var apiOpenFavoritesView=module.exports.apiOpenFavoritesView=function(req,respon
    db.query(queryString,function(err,res){
      if(err){
       throw err;
-      response.staus(500).send({errmsg: "Can't open recent view,please retry"});
+      response.status(500).send({errmsg: "Can't open recent view,please retry"});
     }
     if(res){
      response.status(200).send(            {bookmarxList: res,
@@ -733,7 +727,7 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
       if(err){
         throw err;
         //console.log(err);
-         response.staus(500).send({errmsg:" Error"});
+         response.status(500).send({errmsg:" Error"});
       }
       if(res){
         var redirectString = db.squel
@@ -747,7 +741,7 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
         db.query(redirectString,function(err2,res2){
           if (err2) {
            // console.log(err2);
-           response.staus(500).send({errmsg:" Error,stay on home page"});
+           response.status(500).send({errmsg:" Error,stay on home page"});
           }
           if (res2) {
             // var redirectURL = res2[0].url;
@@ -831,13 +825,13 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
   }
   catch (e) {
     console.log('not valid json');
-    response.staus(400).send(
+    response.status(400).send(
       {errmsg: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'});
     return;
   }
 
   if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
-    response.staus(400).send(
+    response.status(400).send(
       {errmsg: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'});
     return;
   }
@@ -962,7 +956,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           if(res) {
             // END
             if(i == ( importJson['keywords'].length - 1) ) {
-              response.staus(200).send({successmg:" Succeed "});
+              response.status(200).send({successmg:" Succeed "});
             }
           }
         });
@@ -973,7 +967,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
   }
   }
   catch (e) {
-    response.staus(500).send(
+    response.status(500).send(
       {errmsg: 'Backup corrupt.'});
     return;
   }
