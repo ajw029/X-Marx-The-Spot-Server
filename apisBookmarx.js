@@ -146,6 +146,7 @@ var apiGetBookmark = module.exports.apiGetBookmark = function(req, response) {
       .field("b.deleted")
       .field("b.description")
       .field("k.name", "keyword")
+      .field("k.id", "keyword_id")
       .from(bookmarx_table, 'b')
       .join(keywords_table, 'k', 'k.bookmark_id=b.id')
       .where('b.account_id=' + db.escape(account_id))

@@ -14,8 +14,6 @@ var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
-
-
 var compression = require('compression');
 var minify = require('express-minify');
 var session = require('express-session');
@@ -59,7 +57,7 @@ app.use(bodyParser.json())
 
 //app.use(minify());
 
-app.use(express.static('./public', { maxAge: 86400000 })); // One day caching
+app.use(express.static('./public', { maxAge: 0 })); // One day caching
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up logging files (accessLog for suspicious requests, errorLog for errors)
