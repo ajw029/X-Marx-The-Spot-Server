@@ -58,6 +58,7 @@
     function validateUsername() {
       var username =$('.inputgroup').find('input[name="username"]').val();
       if (!username || !username.trim()) {
+        $('#username_errlabel').html("Please input a username");
         $('#username_errlabel').removeClass('hide');
         return false;
       }
@@ -108,8 +109,6 @@
 
           $('#username_errlabel').removeClass('hide');
           $('#username_errlabel').html(response['msg']);
-
-          console.log(response['msg']);
         }
       });
     });
