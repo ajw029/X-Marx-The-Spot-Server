@@ -77,11 +77,12 @@ var EditBookmarkPage = React.createClass({
     var items = 0;
     $('.hashtaggroup').find('input').each(function(index) {
       if ($(this).is(':checked')) {
+        console.log("Checked: " + parseInt(this.value));
         checkedKeywords.push(parseInt(this.value));
       }
       items++;
     });
-    this.setState({oldkeywordsOutput: checkedKeywords});
+    this.oldkeywordsOutput = JSON.stringify(checkedKeywords);
 
     // Check if All keywords have been checked off and theres no keywords
     if (checkedKeywords.length == items && !keywords.trim()) {
@@ -109,8 +110,9 @@ var EditBookmarkPage = React.createClass({
     body.url= this.state.url;
     body.desc= this.state.desc;
     body.keywords= this.state.keywords;
-    body.oldkeywords=this.state.oldkeywordsOutput;
+    body.oldkeywords=this.oldkeywordsOutput;
     body.folder= parseInt(this.state.curFolder);
+    body.bookmark_id = this.state.bookmark_id;
     console.log(body)
     if (okay) {
       $.ajax({
@@ -146,14 +148,16 @@ var EditBookmarkPage = React.createClass({
           oldkeywordsList.push(keyword_item);
         }
         this.setState({
+          bookmark_id: id,
           bookmark: result2,
           folderList: result,
           title: result2[0].name,
           url: result2[0].url,
           desc: result2[0].description,
-          oldkeywords:oldkeywordsList ,
+          oldkeywords:oldkeywordsList,
           curFolder: result2[0].folder_id,
         });
+        console.log("Stateid " + this.state.bookmark_id);
 
       }.bind(this));
     }.bind(this));
