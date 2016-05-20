@@ -4,3 +4,4 @@ cache/*
 .DS_Store
 *.log
 my_configs.js
+build/node_modules/*
