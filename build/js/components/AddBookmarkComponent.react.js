@@ -7,16 +7,13 @@ var AddBookmarkComponent = React.createClass({
       url: '',
       desc: '',
       keywords: '',
-      curFolder: this.props.curFolder,
+      curFolder: ' ',
       titleErr: false,
       urlErr: false,
       descErr: false,
-      keywordErr: false
+      keywordErr: false,
+      folderErr: false
       };
-  },
-  setInitialFolderID(folderId) {
-    this.setState({curFolder: folderId});
-    console.log('setting curfolder to ' + folderId);
   },
   validateSubmit: function() {
     var okay = true;
@@ -24,7 +21,7 @@ var AddBookmarkComponent = React.createClass({
     var url = this.state.url;
     var desc = this.state.desc;
     var keywords = this.state.keywords;
-    var folders = this.state.folders;
+    var folders = this.state.curFolder;
     if (!title || !title.trim()) {
       okay = false;
       this.setState({titleErr: true});
@@ -55,9 +52,10 @@ var AddBookmarkComponent = React.createClass({
     }
     if (!folders || !folders.trim()) {
       okay = false;
+      this.setState({folderErr: true});
     }
     else {
-
+      this.setState({folderErr: false});
     }
     return okay;
   },
@@ -77,14 +75,20 @@ var AddBookmarkComponent = React.createClass({
    this.setState({curFolder: event.target.value});
   },
   submit: function() {
-    console.log("Cur Folder is " + this.state.curFolder);
     var okay = this.validateSubmit();
     if (okay) {
+      var body = {};
+      body.title= this.state.title;
+      body.url= this.state.url;
+      body.desc= this.state.desc;
+      body.keywords= this.state.keywords;
+      body.folder= this.state.curFolder;
       $.ajax({
             url: this.props.source,
             dataType: 'json',
             cache: false,
             type: 'post',
+            data: body,
             success: function(data) {
               browserHistory.push('/home')
             }.bind(this),
@@ -108,7 +112,7 @@ var AddBookmarkComponent = React.createClass({
     <section className="slide">
       <div className="formcontainer column-40">
         <BackButton/>
-        <form action="/bookmarx/add" onsubmit="return validateAddBookmark()" method="POST">
+        <form action="/bookmarx/add" method="POST">
           <h1>Create New BookMarx</h1>
           <div className="inputgroup">
             <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
@@ -147,9 +151,13 @@ var AddBookmarkComponent = React.createClass({
             <label>Folder</label>
           </div>
           <div className="inputgroup">
-            <select name="folder" onChange={this.updateSelectValue}>
+            <select name="folder" onChange={this.updateSelectValue} defaultValue="" >
+              <option value=""></option>
               {folderNodes}
             </select>
+            <ToggleDisplay show={this.state.folderErr}>
+              <span className="errMsg">Please add pick a folder</span>
+            </ToggleDisplay>
           </div>
           <div className="inputgroup">
             <button type="button" onClick={this.submit} className="boxButton okayButton">Save</button>
