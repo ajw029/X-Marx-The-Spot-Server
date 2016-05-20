@@ -1,18 +1,47 @@
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
 
+var Keyword = React.createClass({
+  render: function() {
+    return (
+    <div className="hashtaggroup">
+      <input type="checkbox" name="oldkeyword_ids" value={this.props.k_id}></input>
+      <p>keyword</p>
+    </div>);
+  }
+})
+
 var EditBookmarkComponent = React.createClass({
   getInitialState: function () {
-    return {
-      title: '',
-      url: '',
-      desc: '',
-      keywords: '',
-      folders: '',
-      titleErr: false,
-      urlErr: false,
-      descErr: false,
-      newKeywordErr: false
-    };
+    var bookmarks = this.props.bookmark;
+    console.log(bookmarks)
+    var tempBookmark = bookmarks[0];
+    console.log(tempBookmark)
+    if (!tempBookmark) {
+      return {
+        title: '',
+        url: '',
+        desc: '',
+        keywords: '',
+        folders: '',
+        titleErr: false,
+        urlErr: false,
+        descErr: false,
+        newKeywordErr: false
+      };
+    }
+    else {
+      return {
+        title: tempBookmark.name,
+        url: '',
+        desc: '',
+        keywords: '',
+        folders: '',
+        titleErr: false,
+        urlErr: false,
+        descErr: false,
+        newKeywordErr: false
+      };
+    }
   },
   updateTitle: function(event) {
     this.setState({title: event.target.value});
@@ -82,6 +111,7 @@ var EditBookmarkComponent = React.createClass({
     }
   },
   render: function() {
+
     var folderNodes = this.props.folderList.map(function(folder) {
       return (
         <OptionComponent
@@ -91,6 +121,17 @@ var EditBookmarkComponent = React.createClass({
         />
       )
     });
+    /*
+    var KeywordNodes = this.props.bookmark.keywords.map(function(folder) {
+      return (
+        <OptionComponent
+        name={folder.name}
+        id={folder.id}
+        key={folder.id}
+        />
+      )
+    });
+    */
     return (
       <section className="slide">
         <div className="formcontainer column-40">
@@ -132,17 +173,14 @@ var EditBookmarkComponent = React.createClass({
             </div>
             <div className="hashtagcontainer">
               <label><i>Click to Delete Keyword</i></label>
-              <div className="hashtaggroup">
-                <input type="checkbox" name="oldkeyword_ids" value="<%=keyword.k_id%>"/>
-                <p>keyword</p>
-              </div>
+
             </div>
             <div className="labelgroup">
               <label>Folder</label>
             </div>
-            <div className="inputgroup"
+            <div className="inputgroup">
               <select name="folder" onChange={this.updateSelectValue}>
-                {folderNoes}
+                {folderNodes}
               </select>
             </div>
             <div className="inputgroup">
