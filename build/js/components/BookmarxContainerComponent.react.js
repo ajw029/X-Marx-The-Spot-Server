@@ -13,7 +13,7 @@ var BookmarkComponent = React.createClass({
     else {
       favButton = <button onClick={this.favoriteClick} className="fab"><img src="/img/ic_star_white_48dp_2x.png" alt="star"></img></button>;
     }
-    var editUrl ='/editmybookmark/'+ this.props.id;
+
     return (
       <li>
         <div className="bookmark">
@@ -27,7 +27,7 @@ var BookmarkComponent = React.createClass({
               <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
               {favButton}
             </form>
-            <Link to={editUrl} params={{bookmarx_id: this.props.id}} className="card__button">EDIT</Link>
+            <Link to={'/editmybookmark/'+ this.props.id} className="card__button">EDIT</Link>
           </div>
         </div>
       </li>

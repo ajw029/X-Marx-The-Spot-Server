@@ -149,7 +149,7 @@ app.get('/bookmarx/export',bookmarx.exportBookmarks);
 
 app.get('/api/getfolders', apis.apiGetFolders);
 app.get('/api/getbookmarks', apis.apiGetBookmarks);
-
+app.get('/api/getbookmark', apis.apiGetBookmark);
 
 app.get('/api/add', apis.apiAdd);
 app.post('/api/add', apis.apiAddBookmarxAuth);

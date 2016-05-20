@@ -11,7 +11,7 @@ var account_table = tables.user_table;
 *add api
 */
 var apiAdd = module.exports.apiAdd = function(req, response) {
-  
+
   var account_id = req.body.account_id;
 
   var queryFolderListString = db.squel
@@ -98,7 +98,7 @@ var apiAddBookmarxAuth = module.exports.apiAddBookmarxAuth = function(req, respo
               }
                 if (res2) {
                  //Do nothing, insert success
-                
+
                 }
               });
             });
@@ -113,7 +113,7 @@ var apiAddBookmarxAuth = module.exports.apiAddBookmarxAuth = function(req, respo
 };
 
 var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
-  
+
   var account_id = req.body.account_id;
   console.log("in get folder"+account_id);
   var queryFolderListString = db.squel
@@ -129,6 +129,35 @@ var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
     }
     if (folderRes) {
       response.status(200).send(folderRes);
+    }
+  });
+};
+
+var apiGetBookmark = module.exports.apiGetBookmark = function(req, response) {
+  var account_id = req.body.account_id;
+  var bookmark_id = req.query.bookmark_id;
+
+  var queryBookmarks = db.squel.select()
+      .field("b.id", "id")
+      .field("b.name", "name")
+      .field("b.folder_id")
+      .field("b.favorite")
+      .field("b.url")
+      .field("b.deleted")
+      .field("b.description")
+      .field("k.name", "keyword")
+      .from(bookmarx_table, 'b')
+      .join(keywords_table, 'k', 'k.bookmark_id=b.id')
+      .where('b.account_id=' + db.escape(account_id))
+      .where('b.id=' + bookmark_id)
+      .where('deleted=0').toString();
+
+  db.query(queryBookmarks, function(err, bookmarks) {
+    if (err) {
+      throw err;
+    }
+    if (bookmarks) {
+      return response.status(200).send(bookmarks);
     }
   });
 };
@@ -828,7 +857,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
         .where('account_id=' + account_id)
         .where('name=' + db.escape(importJson['folders'][i]['name']))
         .toString();
-     
+
 
       db.query(querystring, function(err, res) {
         if(err) {console.log(err);}
@@ -842,7 +871,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
             'name': importJson['folders'][i]['name']
           })
           .toString();
-      
+
           db.query(insertFolderString, function(err, res) {
             if(err) {console.log(err);}
             if(res) {
@@ -860,7 +889,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           });
         }
         else {
-        
+
           folderOldNewId[importJson['folders'][i]['id']] = res[0].id;
           if(i == ( importJson['folders'].length - 1) ) {
                     bookmarkInsertStep();
@@ -950,6 +979,3 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
   }
 
 };
-
-
-
