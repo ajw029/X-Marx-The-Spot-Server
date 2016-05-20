@@ -26,7 +26,7 @@ var NavBar = React.createClass({
     return (
       <nav>
         <ul className="nav-title">
-          <li><a href="index.html">BookMarx</a></li>
+          <li><Link to={'/home'}>BookMarx</Link></li>
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">

@@ -40,6 +40,7 @@ var HomeContainer = React.createClass({
      }
      // Gets all the bookmarks
      this.serverRequest = $.get("/api/getbookmarks", body, function (result) {
+       console.log(result)
        this.setState({
          myBookmarks: result
        });

@@ -3,7 +3,10 @@ var Link = require('react-router').Link;
 
 var BookmarkComponent = React.createClass({
   favoriteClick: function() {
-
+    // TODO
+  },
+  deleteBookmark: function() {
+    // TODO
   },
   render: function() {
     var favButton;
@@ -20,7 +23,7 @@ var BookmarkComponent = React.createClass({
             <h2>{this.props.name}</h2>
             <h3>{this.props.url}</h3>
           </a>
-          <a className="closeButton" href="/bookmarx/delete/{id}/{folder_id}/1"><img src="/img/ic_close_black_48dp_2x.png" alt="x"></img></a>
+          <a className="closeButton" onClick={this.deleteBookmark}><img src="/img/ic_close_black_48dp_2x.png" alt="x"></img></a>
           <div className="card__action-bar">
             <form action="/bookmarx/staraction/1" method="POST">
               <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
@@ -60,4 +63,5 @@ var BookmarxContainerComponent = React.createClass({
     );
   }
 });
+
 module.exports = BookmarxContainerComponent;

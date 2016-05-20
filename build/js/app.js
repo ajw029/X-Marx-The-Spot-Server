@@ -34,5 +34,6 @@ render.render((
 
     <Route path="/gotosettings" component={Settings}></Route>
     <Route path="/editmybookmark" path="/:bookmarx_id" component={EditBookmarkPageComponent}></Route>
+    <Route path="/" component={HomeContainer}></Route>  
   </Router>
 ), document.getElementById('myapp'));
