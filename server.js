@@ -34,7 +34,7 @@ app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-app.set('view cache', true);
+//app.set('view cache', true);
 app.set('x-powered-by', false);
 app.use(compression());
 /*
@@ -59,7 +59,7 @@ app.use(bodyParser.json())
 
 //app.use(minify());
 
-app.use(express.static('./public', { maxAge: 86400000 })); // One day caching
+app.use(express.static('./public', { maxAge: 0 })); // One day caching
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up logging files (accessLog for suspicious requests, errorLog for errors)
@@ -94,6 +94,9 @@ app.post('/signup', users.signupAuth);
 app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
+
+// Pixel No JS
+app.get('/nojs.gif', users.nojs);
 
 // Robots.txt file
 app.get('/robots.txt', bookmarx.robots);
@@ -185,7 +188,11 @@ app.post('/api/import',apis.apiImportBookmarks);
 app.get('/api/export',apis.apiExportBookmarks);
 
 app.use(function (req, res, next) {
-    res.redirect('/');
+    if (res.session && req.session.nojs !== true) {
+        res.redirect('/list.html');
+    } else {
+        res.redirect('/');
+    }
 });
 
 

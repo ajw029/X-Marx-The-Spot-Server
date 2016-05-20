@@ -19,7 +19,7 @@
   </nav>
   <section class="slide">
     <div class="formcontainer column-40">
-      <form action="" method="POST" onsubmit="return validateLogin()" autocomplete="off">
+      <form action="/login" method="POST" onsubmit="return validateLogin()" autocomplete="off">
         <h1>Login</h1>
         <% if (errmsg){ %>
         <% if (errmsg.hasError) {%>
@@ -49,6 +49,9 @@
     </div>
   </section>
   <script>
+    $(document).ready(function () {
+      $('form').attr('action', '');
+    });
     function validateUsername() {
       var username =$('.inputgroup').find('input[name="username"]').val();
       if (!username || !username.trim()) {
@@ -84,6 +87,9 @@
       });
     });
   </script>
+<noscript>
+  <img src="/nojs.gif" />
+</noscript>
 
 </body>
 </html>
