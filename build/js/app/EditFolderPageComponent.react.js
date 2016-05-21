@@ -82,7 +82,7 @@ var EditFolderPage = React.createClass({
                   <span className="errMsg hide" id="folder_errlabel">Please enter a folder name</span>
                 </div>
                 <div className="inputgroup actionContainer">
-                  <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
+                  <button onClick={this.submit} type="button" className="boxButton okayButton" >Save</button>
                   <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
               </form>
@@ -92,7 +92,6 @@ var EditFolderPage = React.createClass({
                   <button onClick={this.deleteFolder} type="button" className="boxButton deleteButton">Delete</button>
                 </div>
               </form>
-
             </div>
           </section>
         </div>
