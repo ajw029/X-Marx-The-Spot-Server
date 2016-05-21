@@ -47,7 +47,6 @@ var BookmarkComponent = React.createClass({
           error: function(xhr, status, err) {
           }.bind(this)
         });
-        console.log(this.props.url)
         var redirectURL = this.props.url;
         if (redirectURL.indexOf('https://') > -1 || redirectURL.indexOf('http://')>-1){
 

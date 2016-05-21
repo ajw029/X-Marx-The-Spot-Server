@@ -22,6 +22,7 @@ var EditBookmarkPage = React.createClass({
       oldkeywords: [],
       oldkeywordsOutput: [],
       curFolder: '',
+      overallErr: false,
       titleErr: false,
       urlErr: false,
       descErr: false,
@@ -192,7 +193,7 @@ var EditBookmarkPage = React.createClass({
                 <h1>Editing</h1>
                 <div className="inputgroup">
                    <ToggleDisplay show={this.state.overallErr}>
-                    <span className="errMsg">this.state.overallErr</span>
+                    <span className="errMsg">{this.state.overallErr}</span>
                    </ToggleDisplay>
                 </div>
 

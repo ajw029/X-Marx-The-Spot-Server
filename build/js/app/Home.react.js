@@ -5,7 +5,8 @@ var HomeContainer = React.createClass({
     return {
       curFolder: '',
       folderList: [],
-      myBookmarks: []
+      myBookmarks: [],
+      curFolderName: ''
       };
   },
   componentDidMount: function() {
@@ -16,7 +17,8 @@ var HomeContainer = React.createClass({
       });
       if (!this.state.curFolder.trim() && result && result.length > 0) {
         this.setState({
-          curFolder: result[0].id
+          curFolder: result[0].id,
+          curFolderName: result[0].name
         });
       }
     }.bind(this));
@@ -75,6 +77,7 @@ var HomeContainer = React.createClass({
             />
             <MobileFolderSwitcherContainer
               curFolder={this.state.curFolder}
+              curFolderName={this.state.curFolderName}
               folderList={this.state.folderList}
               getBookmarks={this.getBookmarks}
               />
