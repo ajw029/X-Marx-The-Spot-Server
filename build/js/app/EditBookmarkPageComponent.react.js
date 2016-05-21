@@ -22,6 +22,7 @@ var EditBookmarkPage = React.createClass({
       oldkeywords: [],
       oldkeywordsOutput: [],
       curFolder: '',
+      overallErr: false,
       titleErr: false,
       urlErr: false,
       descErr: false,
@@ -189,10 +190,10 @@ var EditBookmarkPage = React.createClass({
             <div className="formcontainer column-40">
               <BackButton/>
               <form action="/bookmarx/edit" method="POST">
-                <h1>Editting</h1>
+                <h1>Editing</h1>
                 <div className="inputgroup">
                    <ToggleDisplay show={this.state.overallErr}>
-                    <span className="errMsg">this.state.overallErr</span>
+                    <span className="errMsg">{this.state.overallErr}</span>
                    </ToggleDisplay>
                 </div>
 

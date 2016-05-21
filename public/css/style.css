@@ -493,7 +493,17 @@ nav h2 {
 	padding: 6px;
 	border-radius: 0;
 }
-
+.mobileView .folderContainer a {
+	height: 36px;
+	width: 32px;
+	display: inline-block;
+	vertical-align: middle;
+	float: right;
+}
+.mobileView .folderContainer a img {
+	height: 100%;
+	width: 100%;
+}
 .mobileView .folderContainer input, .mobileView .folderContainer button {
 	font-size: 16px;
 	color: white;
@@ -677,6 +687,7 @@ button.boxButton {
 	color: white;
 	font-weight: 400;
 	margin-bottom: 16px;
+	font-size: 18px;
 }
 input.boxButton {
 	width: 100%;
