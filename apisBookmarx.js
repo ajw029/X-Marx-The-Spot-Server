@@ -133,6 +133,47 @@ var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
   });
 };
 
+var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
+  var account_id = req.body.account_id;
+  console.log("in get folder"+account_id);
+  var queryFolderListString = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('deleted=0')
+      .toString();
+
+  db.query(queryFolderListString, function(err, folderRes) {
+    if (err) {
+      throw err;
+    }
+    if (folderRes) {
+      response.status(200).send(folderRes);
+    }
+  });
+};
+
+var apiGetFolder = module.exports.apiGetFolder = function(req, response) {
+  var account_id = req.body.account_id;
+  var folder_id = req.param.folder_id;
+  var queryFolderString = db.squel
+      .select()
+      .from(folder_table)
+      .where('account_id=' + db.escape(account_id))
+      .where('id='+folder_id)
+      .where('deleted=0')
+      .toString();
+
+  db.query(queryFolderString, function(err, folderRes) {
+    if (err) {
+      throw err;
+    }
+    if (folderRes) {
+      response.status(200).send(folderRes);
+    }
+  });
+};
+
 var apiGetBookmark = module.exports.apiGetBookmark = function(req, response) {
   var account_id = req.body.account_id;
   var bookmark_id = req.query.bookmark_id;
@@ -400,7 +441,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
         .where('id=' + bookmarx_id)
         .where('account_id=' + account_id)
         .toString();
-        
+
         db.query(querystring, function(err, res) {
           if (err) {
             response.status(500).send({errmsg: "Can't edit,please retry"});
