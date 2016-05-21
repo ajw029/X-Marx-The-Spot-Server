@@ -715,9 +715,8 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
         .toString();
     db.query(queryString,function(err,res){
       if(err){
+        response.status(500).send({errmsg:" Error"});
         throw err;
-        //console.log(err);
-         response.status(500).send({errmsg:" Error"});
       }
       if(res){
         var redirectString = db.squel

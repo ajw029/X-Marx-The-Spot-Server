@@ -8,7 +8,7 @@ var Keyword = React.createClass({
       <p>{this.props.name}</p>
     </div>);
   }
-})
+});
 
 var EditBookmarkPage = React.createClass({
   getInitialState: function () {
@@ -131,8 +131,7 @@ var EditBookmarkPage = React.createClass({
     }
   },
   componentDidMount: function() {
-    var res = window.location.href.split("/");
-    var id = res[res.length-1];
+    var id = this.props.routeParams.bookmarx_id;
     // Gets all the folders
     this.serverRequest = $.get("/api/getfolders", function (result) {
       var body = {};
@@ -140,8 +139,7 @@ var EditBookmarkPage = React.createClass({
 
       this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
         var oldkeywordsList = [];
-        var i = 0;
-        for (i=0; i< result2.length; i++) {
+        for (var i=0; i< result2.length; i++) {
           var keyword_item = {};
           keyword_item.name=result2[i].keyword;
           keyword_item.keyword_id=result2[i].keyword_id;
