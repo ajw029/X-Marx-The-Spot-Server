@@ -35,7 +35,24 @@ var SettingsComponent = React.createClass({
   submit: function() {
     var okay = this.validateSubmit();
     if (okay) {
+    var body = {};
+        body.pwd= this.state.pwd;
+        body.newpwd= this.state.newpwd;
+        body.repwd= this.state.repwd;
 
+        $.ajax({
+              url: '/api/updatePassword',
+              dataType: 'json',
+              cache: false,
+              type: 'post',
+              data: body,
+              success: function(data) {
+                browserHistory.push('/app/home')
+              }.bind(this),
+              error: function(xhr, status, err) {
+                this.setState({overallErr: true});
+              }.bind(this)
+            });
     }
   },
   render: function () {

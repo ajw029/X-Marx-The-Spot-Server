@@ -161,12 +161,13 @@ module.exports.apiSignUpAuth = function(req, response) {
 };
 
 
-module.exports.apiUpdatePassword=function(req,res){
-  var account_id = db.escape(req.body.account_id);
+module.exports.apiUpdatePassword=function(req,response){
 
-  var oldPassword=req.body.oldPassword;
-  var newPassword=req.body.newPassword;
-  var reNewPassword=req.body.reNewPassword;
+
+  var account_id = db.escape(req.body.account_id);
+  var oldPassword=req.body.pwd;
+  var newPassword=req.body.newpwd;
+  var reNewPassword=req.body.repwd;
 
   if(oldPassword&&newPassword&&reNewPassword){
     if(newPassword==reNewPassword){
@@ -176,13 +177,13 @@ module.exports.apiUpdatePassword=function(req,res){
       .from(user_table)
       .where('id=' + db.escape(account_id) + '')
       .toString();
-
+  
       db.query(queryPasswordString,function(err,res1){
         if(err){
           throw err;
           response.status(500).send(JSON.stringify({msg:"Can't update"}));
         }
-
+     
         if(res1[0] && res1[0].password==encryption.encrypt(oldPassword)){
 
           var updatePasswordQuery = db.squel
@@ -191,13 +192,14 @@ module.exports.apiUpdatePassword=function(req,res){
           .set('password', encryption.encrypt(newPassword))
           .where('id=' + db.escape(account_id))
           .toString();
-
+          
           db.query(updatePasswordQuery,function(err,res2){
             if(err){
               throw err;
               response.status(500).send(JSON.stringify({msg: "Can't update"}));
             }
             if(res2){
+             
               response.status(200).send(JSON.stringify({msg:"Update successful"}));
             }
           });

@@ -101,7 +101,7 @@ app.get('/robots.txt', bookmarx.robots);
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 
-//app.post('/booapikmarx/updatepassword',users.updatepassword);
+app.post('/api/updatePassword',apisUser.apiUpdatePassword);
 
 // Bookmarx Routes
 app.get(['/bookmarx',
