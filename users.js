@@ -224,3 +224,15 @@ module.exports.logout = function(req, res) {
   req.session.destroy();
   res.redirect('/login');
 };
+
+module.exports.nojs = function (req, res) {
+  req.session.nojs = true;
+  const emptyGifBuffer = new Buffer('R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', 'base64');
+  const emptyGifBufferLength = emptyGifBuffer.length;
+  res.set({
+    'Content-Type': 'image/jpeg',
+    'Content-Length': emptyGifBufferLength,
+    'Cache-Control': 'max-age=0'
+  });
+  res.end(emptyGifBuffer, 'binary');
+};
