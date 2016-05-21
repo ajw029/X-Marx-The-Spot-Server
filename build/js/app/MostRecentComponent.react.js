@@ -8,32 +8,14 @@ var MyFavComponent = React.createClass({
   },
   componentDidMount: function() {
     // Gets all the folders
-    this.serverRequest = $.get("/api/getfolders", function (result) {
-      this.setState({
-        folderList: result
-      });
-      if (!this.state.curFolder.trim() && result && result.length > 0) {
-        this.setState({
-          curFolder: result[0].id
-        });
-      }
-    }.bind(this));
-    this.getBookmarks();
-   },
-   getBookmarks(folderID) {
-     var body = {};
-     if (folderID) {
-       body.folder_id = folderID;
-       this.setState({
-         curFolder: folderID
-       });
-     }
-     // Gets all the bookmarks
-     this.serverRequest = $.get("/api/getbookmarks", body, function (result) {
+    this.serverRequest = $.get("/api/mostvisited", function (result) {
        this.setState({
          myBookmarks: result
        });
-     }.bind(this));
+    
+    }.bind(this));
+    this.getBookmarks();
+   
    },
    render: function() {
      return (
