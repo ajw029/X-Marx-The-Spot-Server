@@ -9,13 +9,12 @@ var MyFavComponent = React.createClass({
   componentDidMount: function() {
     // Gets all the folders
     this.serverRequest = $.get("/api/mostvisited", function (result) {
+      console.log(result)
        this.setState({
-         myBookmarks: result
+         myBookmarks: result.bookmarxList
        });
-    
+
     }.bind(this));
-    this.getBookmarks();
-   
    },
    render: function() {
      return (

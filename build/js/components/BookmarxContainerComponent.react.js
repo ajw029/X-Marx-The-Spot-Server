@@ -55,7 +55,7 @@ var BookmarkComponent = React.createClass({
               <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
               {favButton}
             </form>
-            <Link to={'/editmybookmark/'+ this.props.id} className="card__button">EDIT</Link>
+            <Link to={'/app/editmybookmark/'+ this.props.id} className="card__button">EDIT</Link>
           </div>
         </div>
       </li>

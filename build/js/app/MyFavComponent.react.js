@@ -11,10 +11,9 @@ var MyFavComponent = React.createClass({
     // Gets all the folders
     this.serverRequest = $.get("/api/favorites", function (result) {
        this.setState({
-         myBookmarks: result
+         myBookmarks: result.bookmarxList
        });
     }.bind(this));
-    this.getBookmarks();
    },
    render: function() {
      return (

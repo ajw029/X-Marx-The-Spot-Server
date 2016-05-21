@@ -168,7 +168,7 @@ var AddBookmarkComponent = React.createClass({
           </div>
           <div className="inputgroup">
             <button type="button" onClick={this.submit} className="boxButton okayButton">Save</button>
-            <Link to={'/home'} className="boxButton cancelButton">Cancel</Link>
+            <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
           </div>
         </form>
       </div>

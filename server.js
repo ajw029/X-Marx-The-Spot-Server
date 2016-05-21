@@ -184,18 +184,13 @@ app.post('/api/import',apis.apiImportBookmarks);
 app.get('/api/export',apis.apiExportBookmarks);
 
 app.get('/app/*', function (req, res) {
-    console.log('GET APP');
     res.sendFile(__dirname + '/views/list.html');
 });
 
 app.use(function (req, res, next) {
-    console.log('NOPE ' + req.url);
     if (res.session && req.session.nojs) {
-        console.log('NO JS');
         res.redirect('/');
     } else {
-        console.log('JS');
-        //res.redirect('/app/home');
         res.sendFile(__dirname + '/views/list.html');
     }
 });
