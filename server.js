@@ -31,7 +31,7 @@ app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-app.set('view cache', true);
+//app.set('view cache', true);
 app.set('x-powered-by', false);
 app.use(compression());
 /*
@@ -91,6 +91,9 @@ app.post('/signup', users.signupAuth);
 app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
+
+// Pixel No JS
+app.get('/nojs.gif', users.nojs);
 
 // Robots.txt file
 app.get('/robots.txt', bookmarx.robots);
@@ -180,8 +183,21 @@ app.get('/api/search',apis.apiSearch);
 app.post('/api/import',apis.apiImportBookmarks);
 app.get('/api/export',apis.apiExportBookmarks);
 
+app.get('/app/*', function (req, res) {
+    console.log('GET APP');
+    res.sendFile(__dirname + '/views/list.html');
+});
+
 app.use(function (req, res, next) {
-    res.redirect('/');
+    console.log('NOPE ' + req.url);
+    if (res.session && req.session.nojs) {
+        console.log('NO JS');
+        res.redirect('/');
+    } else {
+        console.log('JS');
+        //res.redirect('/app/home');
+        res.sendFile(__dirname + '/views/list.html');
+    }
 });
 
 app.listen(config.PORT, function () {
