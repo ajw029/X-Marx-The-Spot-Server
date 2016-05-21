@@ -5,3 +5,4 @@ cache/*
 *.log
 my_configs.js
 build/node_modules/*
+public/js/bundle.js

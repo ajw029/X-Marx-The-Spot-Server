@@ -22,7 +22,19 @@ var EditFolderComponent = React.createClass({
     }
   },
   deleteFolder: function() {
-
+    $.ajax({
+        url: '/api/deletefolder',
+        dataType: 'json',
+        cache: false,
+        type: 'post',
+        data: body,
+        success: function(data) {
+          browserHistory.push('/home')
+        }.bind(this),
+        error: function(xhr, status, err) {
+          this.setState({overallErr: true});
+        }.bind(this)
+      });
   },
   render: function() {
     return (
@@ -37,7 +49,6 @@ var EditFolderComponent = React.createClass({
             <label>Title</label>
             <span className="errMsg hide" id="folder_errlabel">Please enter a folder name</span>
           </div>
-
           <div className="inputgroup actionContainer">
             <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
             <Link to={'/home'} className="boxButton cancelButton">Cancel</Link>
