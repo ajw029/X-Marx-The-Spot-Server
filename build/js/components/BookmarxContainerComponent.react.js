@@ -34,6 +34,30 @@ var BookmarkComponent = React.createClass({
           }.bind(this)
         });
   },
+  openLink: function() {
+    var body = {};
+    body.bookmarx_id=this.props.id;
+    $.ajax({
+          url: '/api/click',
+          dataType: 'json',
+          cache: false,
+          type: 'get',
+          success: function(data) {
+          }.bind(this),
+          error: function(xhr, status, err) {
+          }.bind(this)
+        });
+        console.log(this.props.url)
+        var redirectURL = this.props.url;
+        if (redirectURL.indexOf('https://') > -1 || redirectURL.indexOf('http://')>-1){
+
+        }
+        else {
+          redirectURL='http://'+ redirectURL;
+        }
+
+        window.location = redirectURL;
+  },
   render: function() {
     var favButton;
     if (this.props.favorite) {
@@ -45,7 +69,7 @@ var BookmarkComponent = React.createClass({
     return (
       <li>
         <div className="bookmark">
-          <a href='/bookmarx/click/{id}'>
+          <a onClick={this.openLink}>
             <h2>{this.props.name}</h2>
             <h3>{this.props.url}</h3>
           </a>

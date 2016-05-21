@@ -724,9 +724,7 @@ var apiOpenFavoritesView=module.exports.apiOpenFavoritesView=function(req,respon
 
 var apiClickCount=module.exports.apiClickCount=function(req,response){
     var account_id=req.body.account_id;
-    var bookmark_id=db.escape(req.params.bookmarx_id);
-    var folder_id=req.params.folder_id;
-    var page=req.params.page;
+    var bookmark_id=db.escape(req.query.bookmarx_id);
     var queryString = db.squel
         .update()
         .table(bookmarx_table)
@@ -754,13 +752,7 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
            response.status(500).send({errmsg:" Error,stay on home page"});
           }
           if (res2) {
-            // var redirectURL = res2[0].url;
-            // if (redirectURL.indexOf('https://') > -1 || redirectURL.indexOf('http://')>-1){
 
-            // }
-            // else {
-            //   redirectURL='http://'+ redirectURL;
-            // }
             response.status(200).send({successmg:" Open the url"});
           }
         });

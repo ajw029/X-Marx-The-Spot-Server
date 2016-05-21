@@ -112,7 +112,7 @@ var EditBookmarkPage = React.createClass({
     body.oldkeywords=this.oldkeywordsOutput;
     body.folder= parseInt(this.state.curFolder);
     body.bookmark_id = this.state.bookmark_id;
-    console.log(body)
+
     if (okay) {
       $.ajax({
             url: '/api/edit',
@@ -124,6 +124,7 @@ var EditBookmarkPage = React.createClass({
               browserHistory.push('/home')
             }.bind(this),
             error: function(xhr, status, err) {
+              this.setState({overallErr: JSON.stringify(err)});
               console.error(JSON.stringify(err));
             }.bind(this)
       });
@@ -154,8 +155,6 @@ var EditBookmarkPage = React.createClass({
           oldkeywords:oldkeywordsList,
           curFolder: result2[0].folder_id,
         });
-        console.log("Stateid " + this.state.bookmark_id);
-
       }.bind(this));
     }.bind(this));
   },
@@ -191,6 +190,12 @@ var EditBookmarkPage = React.createClass({
               <BackButton/>
               <form action="/bookmarx/edit" method="POST">
                 <h1>Editting</h1>
+                <div className="inputgroup">
+                   <ToggleDisplay show={this.state.overallErr}>
+                    <span className="errMsg">this.state.overallErr</span>
+                   </ToggleDisplay>
+                </div>
+
                 <div className="inputgroup">
                   <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
                   <span className="bar"></span>

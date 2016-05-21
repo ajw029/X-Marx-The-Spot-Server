@@ -21,7 +21,6 @@ var MyFavComponent = React.createClass({
         <NavBar/>
         <div className="container">
           <SideBar/>
-
           <section className="right-container center-container">
             <BookmarxContainerComponent
               myBookmarks={this.state.myBookmarks}/>
