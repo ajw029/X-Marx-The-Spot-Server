@@ -2,7 +2,6 @@ var BookmarkComponent = React.createClass({
   favoriteClick: function() {
     var body = {};
     body.bookmarx_id=this.props.id;
-
     $.ajax({
           url: '/api/staraction',
           dataType: 'json',

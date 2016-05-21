@@ -122,7 +122,7 @@ var EditBookmarkPage = React.createClass({
             type: 'post',
             data: body,
             success: function(data) {
-              browserHistory.push('/home')
+              browserHistory.push('/app/home')
             }.bind(this),
             error: function(xhr, status, err) {
               this.setState({overallErr: JSON.stringify(err)});
