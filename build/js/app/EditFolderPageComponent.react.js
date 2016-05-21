@@ -2,7 +2,7 @@ var EditFolderPage = React.createClass({
   getInitialState: function () {
     return {
       folderList: [],
-        title: this.props.name
+      title: ''
       };
   },
   updateTitle: function(event) {
@@ -19,10 +19,27 @@ var EditFolderPage = React.createClass({
   submit: function() {
     var okay = this.validateSubmit();
     if (okay) {
-
+      var body = {};
+      body.folder_id = this.props.routeParams.folder_id;
+      body.newname =this.state.title;
+      $.ajax({
+          url: '/api/updatefolder',
+          dataType: 'json',
+          cache: false,
+          type: 'post',
+          data: body,
+          success: function(data) {
+            browserHistory.push('/app/home')
+          }.bind(this),
+          error: function(xhr, status, err) {
+            this.setState({overallErr: true});
+          }.bind(this)
+        });
     }
   },
   deleteFolder: function() {
+    var body = {};
+    body.folder_id = this.props.routeParams.folder_id;
     $.ajax({
         url: '/api/deletefolder',
         dataType: 'json',
@@ -30,7 +47,7 @@ var EditFolderPage = React.createClass({
         type: 'post',
         data: body,
         success: function(data) {
-          browserHistory.push('/home')
+            browserHistory.push('/app/home')
         }.bind(this),
         error: function(xhr, status, err) {
           this.setState({overallErr: true});
@@ -39,9 +56,12 @@ var EditFolderPage = React.createClass({
   },
   componentDidMount: function() {
     // Gets all the folders
-    this.serverRequest = $.get("/api/getfolder", function (result) {
+    var body = {};
+    body.folder_id= this.props.routeParams.folder_id;;
+    this.serverRequest = $.get("/api/getfolder", body, function (result) {
       this.setState({
-        folderList: result
+        folder: result,
+        title: result[0].name
       });
     }.bind(this));
   },
@@ -63,7 +83,7 @@ var EditFolderPage = React.createClass({
                 </div>
                 <div className="inputgroup actionContainer">
                   <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
-                  <Link to={'/home'} className="boxButton cancelButton">Cancel</Link>
+                  <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
               </form>
               <form action="/bookmarx/deletefolder" method="POST">

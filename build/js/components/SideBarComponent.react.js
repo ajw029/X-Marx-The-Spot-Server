@@ -5,9 +5,9 @@ var SideBar = React.createClass({
         <h2>Quicklinks</h2>
         <ul>
           <li className="side-nav-divider"></li>
-          <li><Link to={'home'}>My BookMarx</Link></li>
-          <li><Link to={'myrecent'}>Most Visited</Link></li>
-          <li><Link to={'myfavlinks'}>Favorites</Link></li>
+          <li><Link to={'/app/home'}>My BookMarx</Link></li>
+          <li><Link to={'/app/myrecent'}>Most Visited</Link></li>
+          <li><Link to={'/app/myfavlinks'}>Favorites</Link></li>
         </ul>
       </section>
     );

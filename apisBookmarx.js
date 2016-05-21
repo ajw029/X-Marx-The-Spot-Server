@@ -133,29 +133,9 @@ var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
   });
 };
 
-var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
-  var account_id = req.body.account_id;
-  console.log("in get folder"+account_id);
-  var queryFolderListString = db.squel
-      .select()
-      .from(folder_table)
-      .where('account_id=' + db.escape(account_id))
-      .where('deleted=0')
-      .toString();
-
-  db.query(queryFolderListString, function(err, folderRes) {
-    if (err) {
-      throw err;
-    }
-    if (folderRes) {
-      response.status(200).send(folderRes);
-    }
-  });
-};
-
 var apiGetFolder = module.exports.apiGetFolder = function(req, response) {
   var account_id = req.body.account_id;
-  var folder_id = req.param.folder_id;
+  var folder_id = req.query.folder_id;
   var queryFolderString = db.squel
       .select()
       .from(folder_table)
@@ -163,7 +143,7 @@ var apiGetFolder = module.exports.apiGetFolder = function(req, response) {
       .where('id='+folder_id)
       .where('deleted=0')
       .toString();
-
+      console.log(queryFolderString)
   db.query(queryFolderString, function(err, folderRes) {
     if (err) {
       throw err;
@@ -581,8 +561,8 @@ var apiDeleteFolder=module.exports.apiDeleteFolder=function(req,response){
 
 var apiUpdateFolder = module.exports.apiUpdateFolder = function(req, response) {
 
-  var folder_id  = req.bodu.folder_id;
-  var account_id = req.body.asccount_id;
+  var folder_id  = req.body.folder_id;
+  var account_id = req.body.account_id;
   if (isNaN(folder_id)|| isNaN(account_id)) {
    response.status(500).send({errmsg: "Can't update ,please retry"});
   }

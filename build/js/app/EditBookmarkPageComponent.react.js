@@ -77,7 +77,6 @@ var EditBookmarkPage = React.createClass({
     var items = 0;
     $('.hashtaggroup').find('input').each(function(index) {
       if ($(this).is(':checked')) {
-        console.log("Checked: " + parseInt(this.value));
         checkedKeywords.push(parseInt(this.value));
       }
       items++;

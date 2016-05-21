@@ -14,7 +14,7 @@ var BookmarksFolderComponent = React.createClass({
           <div className="folder">
             <h2>{this.props.name}</h2>
             <a className="folderToggle openFolder" onClick={this.changeFolders}></a>
-            <Link to={"/editmyfolder"} className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
+            <Link to={"/app/editmyfolder/"+this.props.id} className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
           </div>
         </div>
       )
@@ -25,7 +25,7 @@ var BookmarksFolderComponent = React.createClass({
         <div className="folder">
           <h2>{this.props.name}</h2>
           <a className="folderToggle openFolder" onClick={this.changeFolders}><img src="/img/ic_keyboard_arrow_up_black_48dp_2x.png" alt="arrow"></img></a>
-          <Link to={"/editmyfolder"} className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
+          <Link to={"/app/editmyfolder/"+this.props.id}  className={editFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
         </div>
       </div>);
     }
