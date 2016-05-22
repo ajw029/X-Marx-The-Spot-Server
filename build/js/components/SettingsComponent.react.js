@@ -102,6 +102,9 @@ var SettingsComponent = React.createClass({
             if(status == "timeout" || xhr.readyState == 0) {
               window.location = '/';
             }
+            else {
+              $('#import_errlabel').removeClass('hide');
+            }
 
           }.bind(this)
         });
@@ -146,6 +149,9 @@ var SettingsComponent = React.createClass({
           </div>
           <div className="settinggroup">
             <h2>Import/Export Bookmarks</h2>
+            <div className="inputgroup">
+                <span className="errMsg hide" id="import_errlabel">Import failed.</span>
+              </div>
             <div className="inputgroup">
               Please copy paste contents of backup into:
               <input type="text" id="json_bookmark_import" name="bookmarksJsonText"></input>
