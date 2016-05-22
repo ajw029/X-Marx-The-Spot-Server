@@ -1,5 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700,300);
 
+#myapp {
+  height: 100%;
+  width: 100%;
+}
 * {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
