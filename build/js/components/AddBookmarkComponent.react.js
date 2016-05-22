@@ -1,5 +1,4 @@
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
-var CommonComponent = React.createFactory(require('./CommonComponent.react'));
 
 var AddBookmarkComponent = React.createClass({
   getInitialState: function () {
