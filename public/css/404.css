@@ -1,0 +1,18 @@
+#ErrorBody {
+  background-color: #80dfff;
+  color: #ffffff;
+  font: 100% "Lato" , sans-serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  text-align: center;
+  display: block;
+}
+
+#errorH1 {
+  padding-top:40%;
+}
+
+#left, #right { 
+  display: inline-block;
+  vertical-align: top;
+}

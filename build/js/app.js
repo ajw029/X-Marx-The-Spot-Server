@@ -20,6 +20,8 @@ var EditBookmarkPageComponent = require('./app/EditBookmarkPageComponent.react')
 var AddFolderPage = require('./app/AddFolderPageComponent.react');
 var EditFolder = require('./app/EditFolderPageComponent.react');
 
+var SearchView = require('./app/SearchComponent.react');
+
 // Setings
 var Settings = require('./app/SettingsPageComponent.react');
 
@@ -41,7 +43,9 @@ route = (<Router history={browserHistory}>
   <Route path="/app/myrecent" name="recent" component={MostRecentComponent}></Route>
 
   <Route path="/app/addnewbookmark" component={AddBookmarkPageComponent}></Route>
-
+  <Route path="/app/search/:searchorder/:searchinput" component={SearchView}></Route>
+  <Route path="/app/search/:searchorder/" component={SearchView}></Route>
+  <Route path="/app/search" component={SearchView}></Route>
   <Route path="/app/addnewfolder" component={AddFolderPage}></Route>
   <Route path="/app/editmyfolder/:folder_id" component={EditFolder}></Route>
 

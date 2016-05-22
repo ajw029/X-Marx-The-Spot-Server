@@ -191,7 +191,7 @@ app.use(function (req, res, next) {
     if (res.session && req.session.nojs) {
         res.redirect('/');
     } else {
-        res.sendFile(__dirname + '/views/list.html');
+        res.render('bookmarx/404.ejs');
     }
 });
 
