@@ -139,7 +139,6 @@ var EditBookmarkPage = React.createClass({
       body.bookmark_id = id;
 
       this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
-        console.log(result2);
         if (!result2 || result2.length < 1) {
           window.location = '/app/home';
         }
