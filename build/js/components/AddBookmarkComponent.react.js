@@ -79,12 +79,11 @@ var AddBookmarkComponent = React.createClass({
     var okay = this.validateSubmit();
     if (okay) {
       var body = {};
-      body.title= this.state.title;
-      body.url= this.state.url;
-      body.desc= this.state.desc;
-      body.keywords= this.state.keywords;
+      body.title= this.state.title.trim();
+      body.url= this.state.url.trim();
+      body.desc= this.state.desc.trim();
+      body.keywords= this.state.keywords.trim();
       body.folder= this.state.curFolder;
-
       $.ajax({
             url: this.props.source,
             dataType: 'json',
@@ -125,7 +124,7 @@ var AddBookmarkComponent = React.createClass({
           <h1>Create New BookMarx</h1>
           <div className="inputgroup">
             <ToggleDisplay show={this.state.overallErr}>
-              <span className="errMsg">Could not create bookmark</span>
+              <span className="errMsg">Could not Create Bookmark</span>
             </ToggleDisplay>
           </div>
           <div className="inputgroup">
