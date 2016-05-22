@@ -92,7 +92,6 @@ var EditFolderPage = React.createClass({
           <section className="slide">
             <div className="formcontainer column-40">
               <BackButton/>
-              <form onSubmit={this.submit}>
                 <h1>Edit {this.props.name}</h1>
                 <div className="inputgroup">
                   <input type="text" onChange={this.updateTitle} name="newname" value={this.state.title} required></input>
@@ -104,13 +103,10 @@ var EditFolderPage = React.createClass({
                   <button onClick={this.submit} type="button" className="boxButton okayButton" >Save</button>
                   <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
-              </form>
-              <form action="/bookmarx/deletefolder" method="POST">
                 <div className="inputgroup actionContainer">
                   <input type="hidden" name="folder_id"></input>
                   <button onClick={this.deleteFolder} type="button" className="boxButton deleteButton">Delete</button>
                 </div>
-              </form>
             </div>
           </section>
         </div>

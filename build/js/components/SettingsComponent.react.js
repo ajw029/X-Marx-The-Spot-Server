@@ -4,6 +4,7 @@ var SettingsComponent = React.createClass({
       pwd: '',
       newpwd: '',
       repwd: '',
+      overallErr: false
     }
   },
   updatePwd: function(event) {
@@ -29,13 +30,22 @@ var SettingsComponent = React.createClass({
       $('#newpwd_errlabel').removeClass('hide');
       okay = false;
     }
+    else {
+      $('#newpwd_errlabel').addClass('hide');
+    }
     if (!repwd || !repwd.trim()) {
       $('#renewpwd_errlabel').removeClass('hide');
       okay = false;
     }
+    else {
+      $('#renewpwd_errlabel').addClass('hide');
+    }
     if(newpwd != repwd) {
       $('#matchpwd_errlabel').removeClass('hide');
       okay = false;
+    }
+    else {
+      $('#matchpwd_errlabel').addClass('hide');
     }
     return okay;
   },
@@ -75,9 +85,11 @@ var SettingsComponent = React.createClass({
         <div className="formcontainer column-40">
           <h1>Settings</h1>
           <BackButton/>
+          <div className="inputgroup">
+            <span className="errMsg">Could not Create Bookmark</span>
+          </div>
           <div className="settinggroup">
             <h2>Change Password</h2>
-            <form action="updatepassword" onsubmit="return validateUpdatePwd()" method="POST">
               <div className="inputgroup">
                 <input type="password" name="oldPassword" value={this.state.pwd} onChange={this.updatePwd} autofocus required></input>
                 <span className="bar"></span>
@@ -100,22 +112,17 @@ var SettingsComponent = React.createClass({
               <div className="inputgroup">
                 <button onClick={this.submit} type="button" className="boxButton okayButton">Change Password</button>
               </div>
-            </form>
           </div>
           <div className="settinggroup">
             <h2>Import/Export Bookmarks</h2>
-            <form action="import" method="POST">
-              <div className="inputgroup">
-                Please copy paste contents of backup into:
-                <input type="text" name="bookmarksJsonText"></input>
-                <input type="submit" className="boxButton okayButton" value="Import Bookmarks"></input>
-              </div>
-            </form>
-            <form >
-              <div className="inputgroup">
-                <a className="boxButton cancelButton" href="/bookmarx/export">Export Bookmarks</a>
-              </div>
-            </form>
+            <div className="inputgroup">
+              Please copy paste contents of backup into:
+              <input type="text" name="bookmarksJsonText"></input>
+              <input type="submit" className="boxButton okayButton" value="Import Bookmarks"></input>
+            </div>
+            <div className="inputgroup">
+              <a className="boxButton cancelButton" href="/bookmarx/export">Export Bookmarks</a>
+            </div>
           </div>
         </div>
       </section>
