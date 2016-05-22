@@ -8,11 +8,16 @@ var BookmarkComponent = React.createClass({
           cache: false,
           type: 'post',
           data: body,
+          timeout: 5000,
           success: function(data) {
             this.props.favBookmark(this.props.id)
 
           }.bind(this),
           error: function(xhr, status, err) {
+            //timeout or connection refused
+            if(status == "timeout" || xhr.readyState == 0) {
+              window.location = '/';
+            }
           }.bind(this)
         });
   },
@@ -25,11 +30,16 @@ var BookmarkComponent = React.createClass({
           cache: false,
           type: 'post',
           data: body,
+          timeout: 5000,
           success: function(data) {
             this.props.deleteBookmark(this.props.id);
 
           }.bind(this),
           error: function(xhr, status, err) {
+            //timeout or connection refused
+            if(status == "timeout" || xhr.readyState == 0) {
+              window.location = '/';
+            }
           }.bind(this)
         });
   },
@@ -41,9 +51,14 @@ var BookmarkComponent = React.createClass({
           dataType: 'json',
           cache: false,
           type: 'get',
+          timeout: 5000,
           success: function(data) {
           }.bind(this),
           error: function(xhr, status, err) {
+            //timeout or connection refused
+            if(status == "timeout" || xhr.readyState == 0) {
+              window.location = '/';
+            }
           }.bind(this)
         });
         var redirectURL = this.props.url;
