@@ -45,6 +45,13 @@ var EditBookmarkPage = React.createClass({
   updateSelectValue: function(event) {
     this.setState({curFolder: event.target.value});
   },
+  keyPress: function(event) {
+    console.log(event);
+    if(event.keyCode == 13) {
+      this.submit;
+      return false;
+    }
+  },
   validateSubmit: function() {
     var okay = true;
     var title = this.state.title;
@@ -201,7 +208,7 @@ var EditBookmarkPage = React.createClass({
           <section className="slide">
             <div className="formcontainer column-40">
               <BackButton/>
-              <form action="/bookmarx/edit" method="POST">
+              <form method="POST">
                 <h1>Editing</h1>
                 <div className="inputgroup">
                    <ToggleDisplay show={this.state.overallErr}>
@@ -255,7 +262,7 @@ var EditBookmarkPage = React.createClass({
                   </select>
                 </div>
                 <div className="inputgroup">
-                  <button type="button" onClick={this.submit} className="boxButton okayButton">Save</button>
+                  <button type="button" onClick={this.submit} onKeypress={this.keyPress} className="boxButton okayButton">Save</button>
                   <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
               </form>
