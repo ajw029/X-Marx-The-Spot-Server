@@ -413,7 +413,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
                  .from(keywords_table)
                  .where("id = ?", word_id)
                  .toString();
-              console.log(queryStringDelete);
+                 
                db.query(queryStringDelete, function(err3, res3) {
                if (err3){
                  //throw err;
