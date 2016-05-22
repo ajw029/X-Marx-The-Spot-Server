@@ -780,6 +780,7 @@ input.boxButton:hover {
 	top: 8px;
 	right: 8px;
 }
+
 .deleteConfirmationContainer {
 	position: absolute;
 	top: 4px;
@@ -798,6 +799,26 @@ input.boxButton:hover {
 .closeButton img{
 	width: 16px;
 	height: 16px;
+}
+
+.bookmarkDeleteConf {
+	position: absolute;
+	bottom: 16px;
+	left: 0;
+	right: 0;
+	background-color: rgba(26,26,26,.6);
+	width: 80%;
+	height: 32px;
+	margin: 0 auto;
+	display: inline-block;
+}
+.bookmarkDeleteConf h1 {
+	line-height: 16px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 200px;
+	color: white;
+	text-align: center;
 }
 
 .okayButton {

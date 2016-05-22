@@ -40,6 +40,18 @@ var MyFavComponent = React.createClass({
      myBookmarksList.splice(i, 1);
      this.setState({myBookmarks: myBookmarksList});
    },
+   favBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Favorite Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
+   deleteBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Delete Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
    render: function() {
      return (
       <div>
@@ -50,7 +62,10 @@ var MyFavComponent = React.createClass({
             <BookmarxContainerComponent
               myBookmarks={this.state.myBookmarks}
               favBookmark={this.favBookmark}
-              deleteBookmark={this.deleteBookmark} />
+              deleteBookmark={this.deleteBookmark}
+              favBookmarkErr={this.favBookmarkErr}
+              deleteBookmarkErr={this.deleteBookmarkErr}
+              />
           </section>
         </div>
         <AddBookmarkContainer/>

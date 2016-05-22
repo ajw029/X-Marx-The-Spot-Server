@@ -5,7 +5,8 @@ var HomeContainer = React.createClass({
       curFolder: '',
       folderList: [],
       myBookmarks: [],
-      curFolderName: ''
+      curFolderName: '',
+      showErrOverlay: false
       };
   },
   componentDidMount: function() {
@@ -62,6 +63,18 @@ var HomeContainer = React.createClass({
      myBookmarksList.splice(i, 1);
      this.setState({myBookmarks: myBookmarksList});
    },
+   favBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Favorite Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
+   deleteBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Delete Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
    render: function() {
      return (
       <div>
@@ -86,8 +99,15 @@ var HomeContainer = React.createClass({
               myBookmarks={this.state.myBookmarks}
               favBookmark={this.favBookmark}
               deleteBookmark={this.deleteBookmark}
+              favBookmarkErr={this.favBookmarkErr}
+              deleteBookmarkErr={this.deleteBookmarkErr}
               />
           </section>
+          <ToggleDisplay show={this.state.showErrOverlay}>
+            <ConfirmationOverlay
+              errMsg={this.state.overlayMsg}
+            />
+          </ToggleDisplay>
         </div>
         <AddBookmarkContainer/>
         <MobileNav/>

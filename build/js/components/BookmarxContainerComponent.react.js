@@ -1,4 +1,9 @@
 var BookmarkComponent = React.createClass({
+  getInitialState: function () {
+    return {showDeleteButton: true,
+            showDeleteConf: false};
+  },
+
   favoriteClick: function() {
     var body = {};
     body.bookmarx_id=this.props.id;
@@ -18,6 +23,7 @@ var BookmarkComponent = React.createClass({
             if(status == "timeout" || xhr.readyState == 0) {
               window.location = '/';
             }
+            this.props.favBookmarkErr();
           }.bind(this)
         });
   },
@@ -40,6 +46,7 @@ var BookmarkComponent = React.createClass({
             if(status == "timeout" || xhr.readyState == 0) {
               window.location = '/';
             }
+            this.props.deleteBookmarkErr();
           }.bind(this)
         });
   },
@@ -71,6 +78,15 @@ var BookmarkComponent = React.createClass({
 
         window.location = redirectURL;
   },
+  showDelete: function() {
+    this.setState({showDeleteButton: false,
+                   showDeleteConf: true});
+  },
+  closeDeleteConf: function() {
+    this.setState({showDeleteButton: true,
+                   showDeleteConf: false});
+                   console.log('hi')
+  },
   render: function() {
     var favButton;
     if (this.props.favorite) {
@@ -86,7 +102,17 @@ var BookmarkComponent = React.createClass({
             <h2>{this.props.name}</h2>
             <h3>{this.props.url}</h3>
           </a>
-          <a className="closeButton" onClick={this.deleteBookmark}><img src="/img/ic_close_black_48dp_2x.png" alt="x"></img></a>
+          <ToggleDisplay show={this.state.showDeleteButton}>
+            <button className="closeButton" onClick={this.showDelete}><img src="/img/ic_close_black_48dp_2x.png"  alt="x"></img></button>
+          </ToggleDisplay>
+          <ToggleDisplay show={this.state.showDeleteConf}>
+            <div className="deleteConfirmationContainer">
+              <label>Delete?</label>
+              <button className="confDelete deleteButton" onClick={this.deleteBookmark}>Yes</button>
+              <button className="confDelete cancelButton" onClick={this.closeDeleteConf}>No</button>
+            </div>
+          </ToggleDisplay>
+
           <div className="card__action-bar">
             <form action="/bookmarx/staraction/1" method="POST">
               <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
@@ -114,6 +140,8 @@ var BookmarxContainerComponent = React.createClass({
                  id={bookmark.id}
                  favBookmark={this.props.favBookmark}
                  deleteBookmark={this.props.deleteBookmark}
+                 favBookmarkErr={this.props.favBookmarkErr}
+                 deleteBookmarkErr={this.props.deleteBookmarkErr}
                  />
       );
     }.bind(this));

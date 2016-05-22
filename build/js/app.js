@@ -36,6 +36,7 @@ AddBookmarkContainer = React.createFactory(require('./components/AddBookMarkFab.
 FolderContainerComponent = React.createFactory(require('./components/FolderContainer.react'));
 BookmarxContainerComponent = React.createFactory(require('./components/BookmarxContainerComponent.react'));
 MobileFolderSwitcherContainer = React.createFactory(require('./components/MobileFolderComponent.react'));
+ConfirmationOverlay = React.createFactory(require('./components/ConfirmationOverlay.react'));
 
 route = (<Router history={browserHistory}>
   <Route path="/app/home" name="home" component={HomeContainer}></Route>

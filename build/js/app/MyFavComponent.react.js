@@ -17,14 +17,22 @@ var MyFavComponent = React.createClass({
    },
    favBookmark: function(b_id) {
      var myBookmarksList =this.state.myBookmarks;
-     for (var i = 0; i < myBookmarksList.length; i++) {
+     var fav = true;
+     var i = 0;
+     for (; i < myBookmarksList.length; i++) {
        var myBookmark = myBookmarksList[i];
        if (myBookmark.id == b_id) {
          myBookmarksList[i].favorite = (!myBookmark.favorite);
+         fav = myBookmarksList[i].favorite;
          break;
        }
      }
+     if (!fav) {
+       myBookmarksList.splice(i, 1);
+     }
+
      this.setState({myBookmarks: myBookmarksList});
+
    },
    deleteBookmark: function(b_id) {
      var myBookmarksList =this.state.myBookmarks;
@@ -39,6 +47,18 @@ var MyFavComponent = React.createClass({
      myBookmarksList.splice(i, 1);
      this.setState({myBookmarks: myBookmarksList});
    },
+   favBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Favorite Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
+   deleteBookmarkErr: function() {
+     this.setState({showErrOverlay: true, overlayMsg: 'Could Not Delete Bookmark Try Again Later'});
+     setTimeout(function(){
+       this.setState({showErrOverlay: false});
+     }.bind(this), 3000);
+   },
    render: function() {
      return (
       <div>
@@ -50,6 +70,8 @@ var MyFavComponent = React.createClass({
               myBookmarks={this.state.myBookmarks}
               favBookmark={this.favBookmark}
               deleteBookmark={this.deleteBookmark}
+              favBookmarkErr={this.favBookmarkErr}
+              deleteBookmarkErr={this.deleteBookmarkErr}
               />
           </section>
         </div>
