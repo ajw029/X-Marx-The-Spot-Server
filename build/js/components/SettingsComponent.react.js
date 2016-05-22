@@ -82,6 +82,31 @@ var SettingsComponent = React.createClass({
             });
     }
   },
+  importBookmarks: function() {
+    var body = {};
+    body.bookmarksJsonText = $('#json_bookmark_import').val();
+
+    $.ajax({
+          url: '/api/import',
+          dataType: 'json',
+          cache: false,
+          type: 'post',
+          data: body,
+          timeout: 5000,
+          success: function(data) {
+            browserHistory.push('/app/home');
+
+          }.bind(this),
+          error: function(xhr, status, err) {
+            //timeout or connection refused
+            if(status == "timeout" || xhr.readyState == 0) {
+              window.location = '/';
+            }
+
+          }.bind(this)
+        });
+
+  },
   render: function () {
     return (
       <section className="slide">
@@ -123,8 +148,8 @@ var SettingsComponent = React.createClass({
             <h2>Import/Export Bookmarks</h2>
             <div className="inputgroup">
               Please copy paste contents of backup into:
-              <input type="text" name="bookmarksJsonText"></input>
-              <input type="submit" className="boxButton okayButton" value="Import Bookmarks"></input>
+              <input type="text" id="json_bookmark_import" name="bookmarksJsonText"></input>
+              <input type="submit" onClick={this.importBookmarks} className="boxButton okayButton" value="Import Bookmarks"></input>
             </div>
             <div className="inputgroup">
               <a className="boxButton cancelButton" href="/bookmarx/export">Export Bookmarks</a>

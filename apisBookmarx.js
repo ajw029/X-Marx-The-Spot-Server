@@ -142,7 +142,7 @@ var apiGetFolder = module.exports.apiGetFolder = function(req, response) {
       .where('id='+folder_id)
       .where('deleted=0')
       .toString();
-     
+
   db.query(queryFolderString, function(err, folderRes) {
     if (err) {
       throw err;
@@ -279,7 +279,7 @@ var apiSearch=module.exports.apiSearch=function(req,response){
         throw err;
       }
       if (res) {
-        
+
         response.status(200).send({
           bookmarxList: res,
           search: req.query.search || '',
@@ -296,7 +296,7 @@ var apiSearch=module.exports.apiSearch=function(req,response){
 var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req, response) {
   var account_id = req.body.account_id;
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  
+
   //Not deleted but hidden
   var deleteBookMarksQuery = db.squel
       .update()
@@ -305,7 +305,7 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
       .where('account_id=' + db.escape(account_id))
       .where('id=' + bookmarx_id)
       .toString();
-     
+
   db.query(deleteBookMarksQuery, function(err, res) {
     if (err){
       console.log(err)
@@ -369,7 +369,7 @@ var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) 
             keyword.word = word;
             keywordList.push(keyword)
           });
-          
+
           response.status(200).send({keywordList: keywordList,
                                                 bookmarx: res[0],
                                                 foldersList: folderList,
@@ -400,7 +400,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = JSON.parse(req.body.oldkeywords); // not escaping because messes up array
- 
+
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -516,7 +516,7 @@ var apiFolderSettings = module.exports.apiFolderSettings =  function(req, respon
 
 var apiDeleteFolder=module.exports.apiDeleteFolder=function(req,response){
 
-  
+
   var folder_id= db.escape(req.body.folder_id);
   var account_id = db.escape(req.body.account_id);
 
@@ -759,7 +759,7 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
 };
 
 var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, response) {
-  
+
 
   var backup = {};
   backup['folders'] = new Array();
@@ -799,7 +799,7 @@ var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, respo
             if (err) { throw err; }
             if (resObj) {
               backup['keywords'] = resObj;
-          
+
 
               var today = new Date();
               var fileName = 'backup_'+today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'.json';
@@ -816,30 +816,23 @@ var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, respo
 };
 
 var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, response){
-
-
   var importJson = {};
-
   try {
     importJson = JSON.parse(req.body.bookmarksJsonText);
   }
   catch (e) {
-
     response.status(400).send(
       JSON.stringify({msg: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'}));
     return;
   }
-
   if(!(importJson['folders'] && importJson['bookmarks'] && importJson['keywords'])) {
     response.status(400).send(
       JSON.stringify({msg: 'Backup missing component. Please make sure JSON has folders & bookmarks & keywords'}));
     return;
   }
 
-  
   var account_id=req.body.account_id;
   var folderOldNewId = {};
-
 
   try {
   for(var i=0; i < importJson['folders'].length; i++) {
@@ -915,12 +908,12 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           'visit_count': 0
         })
         .toString();
-   
+
 
         db.query(insertBookmarkString, function(err, res) {
           if(err) {console.log(err);}
           if(res) {
-         
+
             bookmarksOldNewIdHash[importJson['bookmarks'][i]['id']] = res.insertId;
             if(i == ( importJson['bookmarks'].length - 1) ) {
                     keywordInsertStep();
@@ -946,7 +939,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           'bookmark_id': bookmarksOldNewIdHash[importJson['keywords'][i]['id']]
         })
         .toString();
-     
+
 
         db.query(insertKeywordsString, function(err, res) {
           if(err) {
