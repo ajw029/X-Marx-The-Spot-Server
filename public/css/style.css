@@ -220,6 +220,22 @@ nav.nav-mobile ul li a:hover {
 	height: 36px;
 }
 
+.folderSearchBar a:hover {
+	cursor: pointer;
+}
+.folderSearchBar a {
+	padding-top: 8px;
+	margin: 0 auto;
+	font-size: 16px;
+	width: 15%;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #FF9800;
+	color: white;
+	z-index: 9996;
+	height: 36px;
+}
+
 .folderSearchBar div img {
 	position: absolute;
 	height: 32px;
