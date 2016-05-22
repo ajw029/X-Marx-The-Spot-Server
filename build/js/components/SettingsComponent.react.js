@@ -34,27 +34,21 @@ var SettingsComponent = React.createClass({
     } else {
       $('#newpwd_errlabel').addClass('hide');
     }
-    else {
-      $('#newpwd_errlabel').addClass('hide');
-    }
+
     if (!repwd || !repwd.trim()) {
       $('#renewpwd_errlabel').removeClass('hide');
       okay = false;
     } else {
       $('#renewpwd_errlabel').addClass('hide');
     }
-    else {
-      $('#renewpwd_errlabel').addClass('hide');
-    }
+
     if(newpwd != repwd) {
       $('#matchpwd_errlabel').removeClass('hide');
       okay = false;
     } else {
       $('#matchpwd_errlabel').addClass('hide');
     }
-    else {
-      $('#matchpwd_errlabel').addClass('hide');
-    }
+
     return okay;
   },
   submit: function() {
