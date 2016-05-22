@@ -114,10 +114,7 @@ var BookmarkComponent = React.createClass({
           </ToggleDisplay>
 
           <div className="card__action-bar">
-            <form action="/bookmarx/staraction/1" method="POST">
-              <input type="hidden" name="bookmarx_id" value="{bookmarx.id}"></input>
-              {favButton}
-            </form>
+          {favButton}
             <Link to={'/app/editmybookmark/'+ this.props.id} className="card__button">EDIT</Link>
           </div>
         </div>

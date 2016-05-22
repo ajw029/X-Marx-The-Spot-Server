@@ -43,14 +43,12 @@ var NavBar = React.createClass({
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">
-            <form onSubmit={this.returnFalse} autocomplete="off">
             <input className={searchClass} type="text" onChange={this.updateSearchValue} name="search" placeholder="Search" value={this.state.searchInput}></input>
             <select onChange={this.updateSelectValue} value={this.state.ordering} name="ordering">
               <option value="asc">A-Z</option>
               <option value="desc">Z-A</option>
             </select>
             <input type="button" onClick={this.find} value="Find"></input>
-          </form>
           </div>
         </div>
         <ul className="navbar-right">

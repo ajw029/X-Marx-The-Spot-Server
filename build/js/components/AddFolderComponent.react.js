@@ -53,26 +53,24 @@ var AddFolderComponent = React.createClass({
     <section className="slide">
       <div className="formcontainer column-40">
         <BackButton/>
-        <form action="/bookmarx/addfolder" method="POST">
-          <h1>Add Folder</h1>
-          <div className="inputgroup">
-            <ToggleDisplay show={this.state.overallErr}>
-              <span className="errMsg">Could not Create Folder</span>
-            </ToggleDisplay>
-          </div>
-          <div className="inputgroup">
-            <input type="text" onChange={this.updateTitle} name="folder_title" autofocus required/>
-            <span className="bar"></span>
-            <label>Title</label>
-            <ToggleDisplay show={this.state.folderErr}>
-              <span className="errMsg" id="folder_errlabel">Please enter a folder name</span>
-            </ToggleDisplay>
-          </div>
-          <div className="inputgroup actionContainer">
-            <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
-            <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
-          </div>
-        </form>
+        <h1>Add Folder</h1>
+        <div className="inputgroup">
+          <ToggleDisplay show={this.state.overallErr}>
+            <span className="errMsg">Could not Create Folder</span>
+          </ToggleDisplay>
+        </div>
+        <div className="inputgroup">
+          <input type="text" onChange={this.updateTitle} name="folder_title" autofocus required/>
+          <span className="bar"></span>
+          <label>Title</label>
+          <ToggleDisplay show={this.state.folderErr}>
+            <span className="errMsg" id="folder_errlabel">Please enter a folder name</span>
+          </ToggleDisplay>
+        </div>
+        <div className="inputgroup actionContainer">
+          <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
+          <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
+        </div>
       </div>
     </section>
     )
