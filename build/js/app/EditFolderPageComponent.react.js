@@ -12,6 +12,7 @@ var EditFolderPage = React.createClass({
     var okay = true;
     var title = this.state.title;
     if (!title || !title.trim()) {
+      $('#folder_errlabel').removeClass('hide');
       okay = false;
     }
     return okay;
@@ -42,6 +43,7 @@ var EditFolderPage = React.createClass({
             }
           }.bind(this)
         });
+      return false;
     }
   },
   deleteFolder: function() {
@@ -90,7 +92,7 @@ var EditFolderPage = React.createClass({
           <section className="slide">
             <div className="formcontainer column-40">
               <BackButton/>
-              <form action="/bookmarx/updatefolder/" method="POST">
+              <form onSubmit={this.submit}>
                 <h1>Edit {this.props.name}</h1>
                 <div className="inputgroup">
                   <input type="text" onChange={this.updateTitle} name="newname" value={this.state.title} required></input>

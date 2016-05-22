@@ -1,5 +1,5 @@
 var BookmarksFolderComponent = React.createClass({
-  changeFolders() {
+  changeFolders: function() {
     this.props.getBookmarks(this.props.id)
   },
   render: function() {

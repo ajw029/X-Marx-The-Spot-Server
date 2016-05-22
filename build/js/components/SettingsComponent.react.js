@@ -22,12 +22,19 @@ var SettingsComponent = React.createClass({
     var repwd = this.state.repwd;
 
     if (!pwd || !pwd.trim()) {
+      $('#originalpwd_errlabel').removeClass('hide');
       okay = false;
     }
     if (!newpwd || !newpwd.trim()) {
+      $('#newpwd_errlabel').removeClass('hide');
       okay = false;
     }
     if (!repwd || !repwd.trim()) {
+      $('#renewpwd_errlabel').removeClass('hide');
+      okay = false;
+    }
+    if(newpwd != repwd) {
+      $('#matchpwd_errlabel').removeClass('hide');
       okay = false;
     }
     return okay;
@@ -88,6 +95,7 @@ var SettingsComponent = React.createClass({
                 <span className="bar"></span>
                 <label>Confirm New Password</label>
                 <span className="errMsg hide" id="renewpwd_errlabel">Please confirm new password</span>
+                <span className="errMsg hide" id="matchpwd_errlabel">New passwords do not match</span>
               </div>
               <div className="inputgroup">
                 <button onClick={this.submit} type="button" className="boxButton okayButton">Change Password</button>

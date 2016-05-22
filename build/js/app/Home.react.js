@@ -24,7 +24,7 @@ var HomeContainer = React.createClass({
     }.bind(this));
     this.getBookmarks();
    },
-   getBookmarks(folderID) {
+   getBookmarks: function(folderID) {
      var body = {};
      if (folderID) {
        body.folder_id = folderID;

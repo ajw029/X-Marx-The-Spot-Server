@@ -22,6 +22,8 @@ var EditFolder = require('./app/EditFolderPageComponent.react');
 
 var SearchView = require('./app/SearchComponent.react');
 
+var NotFoundComponent = require('./components/NotFoundComponent.react');
+
 // Setings
 var Settings = require('./app/SettingsPageComponent.react');
 
@@ -52,6 +54,7 @@ route = (<Router history={browserHistory}>
 
   <Route path="/app/gotosettings" component={Settings}></Route>
   <Route path="/app/editmybookmark/:bookmarx_id" component={EditBookmarkPageComponent}></Route>
+  <Route path="*" component={NotFoundComponent}></Route>
 </Router>);
 
 render.render((

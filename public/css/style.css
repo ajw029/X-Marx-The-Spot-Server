@@ -40,6 +40,10 @@
 	url('/fonts/Roboto-700/Roboto-700.svg#Roboto') format('svg');
 }
 
+#myapp {
+  height: 100%;
+  width: 100%;
+}
 * {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
