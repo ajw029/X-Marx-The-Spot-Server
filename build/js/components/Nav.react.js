@@ -27,6 +27,9 @@ var NavBar = React.createClass({
       this.setState({searchEmpty:false});
     }
   },
+  returnFalse: function() {
+    return false;
+  },
   render: function() {
     var searchClass = "";
     if (this.state.searchEmpty) {
@@ -39,7 +42,7 @@ var NavBar = React.createClass({
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">
-            <form action="/bookmarx/search" onsubmit="return false;" method="GET" autocomplete="off">
+            <form onSubmit={this.returnFalse} autocomplete="off">
             <input className={searchClass} type="text" onChange={this.updateSearchValue} name="search" placeholder="Search" value={this.state.searchInput}></input>
             <select onChange={this.updateSelectValue} value={this.state.ordering} name="ordering">
               <option value="asc">A-Z</option>
