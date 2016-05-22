@@ -57,8 +57,11 @@ var EditFolderPage = React.createClass({
   componentDidMount: function() {
     // Gets all the folders
     var body = {};
-    body.folder_id= this.props.routeParams.folder_id;;
+    body.folder_id= this.props.routeParams.folder_id;
     this.serverRequest = $.get("/api/getfolder", body, function (result) {
+        if (!result || result.length < 1) {
+            window.location = '/app/home';
+        }
       this.setState({
         folder: result,
         title: result[0].name
