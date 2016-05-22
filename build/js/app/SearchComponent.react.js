@@ -5,7 +5,8 @@ var SearchResultsComponent = React.createClass({
     return {
       myBookmarks: [],
       ordering: this.props.routeParams.searchorder,
-      searchinput: this.props.routeParams.searchinput
+      searchinput: this.props.routeParams.searchinput,
+      showErrOverlay: false
     };
   },
   loadParams: function(nextProps) {
@@ -90,6 +91,11 @@ var SearchResultsComponent = React.createClass({
               deleteBookmarkErr={this.deleteBookmarkErr}
               />
           </section>
+          <ToggleDisplay show={this.state.showErrOverlay}>
+            <ConfirmationOverlay
+              errMsg={this.state.overlayMsg}
+            />
+          </ToggleDisplay>
         </div>
         <MobileNav/>
       </div>

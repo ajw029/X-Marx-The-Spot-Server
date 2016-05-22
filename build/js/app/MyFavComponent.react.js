@@ -4,7 +4,8 @@ var MyFavComponent = React.createClass({
     return {
       curFolder: '',
       folderList: [],
-      myBookmarks: []
+      myBookmarks: [],
+      showErrOverlay: false
       };
   },
   componentDidMount: function() {
@@ -74,6 +75,11 @@ var MyFavComponent = React.createClass({
               deleteBookmarkErr={this.deleteBookmarkErr}
               />
           </section>
+          <ToggleDisplay show={this.state.showErrOverlay}>
+            <ConfirmationOverlay
+              errMsg={this.state.overlayMsg}
+            />
+          </ToggleDisplay>
         </div>
         <AddBookmarkContainer/>
         <MobileNav/>
