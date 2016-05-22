@@ -113,9 +113,7 @@ var SettingsComponent = React.createClass({
         <div className="formcontainer column-40">
           <h1>Settings</h1>
           <BackButton/>
-          <div className="inputgroup">
-            <span className="errMsg">Could not Create Bookmark</span>
-          </div>
+
           <div className="settinggroup">
             <h2>Change Password</h2>
               <div className="inputgroup">
