@@ -149,34 +149,61 @@ var EditBookmarkPage = React.createClass({
   },
   componentDidMount: function() {
     var id = this.props.routeParams.bookmarx_id;
-    // Gets all the folders
-    this.serverRequest = $.get("/api/getfolders", function (result) {
-      var body = {};
-      body.bookmark_id = id;
 
-      this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
-        if (!result2 || result2.length < 1) {
+    // Gets all the folders
+
+    $.ajax({
+        url: "/api/getfolders",
+        dataType: 'json',
+        cache: false,
+        type: 'get',
+        timeout: 5000,
+        success: function(data) {
+          var result = data;
+
+          var body = {};
+          body.bookmark_id = id;
+          $.ajax({
+              url: "/api/getbookmark",
+              dataType: 'json',
+              cache: false,
+              type: 'get',
+              data: body,
+              timeout: 5000,
+              success: function(data2) {
+                var result2 = data2;
+                if (!result2 || result2.length < 1) {
+                  window.location = '/app/home';
+                }
+                var oldkeywordsList = [];
+                for (var i=0; i< result2.length; i++) {
+                  var keyword_item = {};
+                  keyword_item.name=result2[i].keyword;
+                  keyword_item.keyword_id=result2[i].keyword_id;
+                  oldkeywordsList.push(keyword_item);
+                }
+                this.setState({
+                  bookmark_id: id,
+                  bookmark: result2,
+                  folderList: result,
+                  title: result2[0].name,
+                  url: result2[0].url,
+                  desc: result2[0].description,
+                  oldkeywords:oldkeywordsList,
+                  curFolder: result2[0].folder_id
+                });
+              }.bind(this),
+              error: function(xhr, status, err) {
+                window.location = '/app/home';
+              }.bind(this)
+            });
+
+        }.bind(this),
+        error: function(xhr, status, err) {
           window.location = '/app/home';
-        }
-        var oldkeywordsList = [];
-        for (var i=0; i< result2.length; i++) {
-          var keyword_item = {};
-          keyword_item.name=result2[i].keyword;
-          keyword_item.keyword_id=result2[i].keyword_id;
-          oldkeywordsList.push(keyword_item);
-        }
-        this.setState({
-          bookmark_id: id,
-          bookmark: result2,
-          folderList: result,
-          title: result2[0].name,
-          url: result2[0].url,
-          desc: result2[0].description,
-          oldkeywords:oldkeywordsList,
-          curFolder: result2[0].folder_id
-        });
-      }.bind(this));
-    }.bind(this));
+        }.bind(this)
+      });
+
   },
   render: function() {
     var folderNodes = this.state.folderList.map(function(folder) {

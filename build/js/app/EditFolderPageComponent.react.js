@@ -74,15 +74,28 @@ var EditFolderPage = React.createClass({
     // Gets all the folders
     var body = {};
     body.folder_id= this.props.routeParams.folder_id;
-    this.serverRequest = $.get("/api/getfolder", body, function (result) {
-        if (!result || result.length < 1) {
-            window.location = '/app/home';
-        }
-      this.setState({
-        folder: result,
-        title: result[0].name
+
+    $.ajax({
+        url: "/api/getfolder",
+        dataType: 'json',
+        cache: false,
+        type: 'get',
+        data: body,
+        timeout: 5000,
+        success: function(data2) {
+          if (!result || result.length < 1) {
+              window.location = '/app/home';
+          }
+        this.setState({
+          folder: result,
+          title: result[0].name
+        });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          window.location = '/app/home';
+        }.bind(this)
       });
-    }.bind(this));
+
   },
   render: function() {
     return (
