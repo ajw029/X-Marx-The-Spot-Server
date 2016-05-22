@@ -546,11 +546,10 @@ nav h2 {
 .mobileView .folderContainer {
 	background-color: white;
 	box-shadow: 0 1px 2px #aaa;
-}
-.mobileView .folderContainer form {
 	padding: 16px;
 	vertical-align: top;
 }
+
 .mobileView .folderContainer  select {
 	width: 40%;
 	display: inline-block;
@@ -1440,7 +1439,7 @@ h3 {
   text-align: center;
 }
 
-#left, #right { 
+#left, #right {
   display: inline-block;
   vertical-align: top;
 }
