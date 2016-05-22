@@ -1,20 +1,18 @@
-body {
+#ErrorBody {
   background-color: #80dfff;
   color: #ffffff;
   font: 100% "Lato" , sans-serif;
   font-size: 1.8rem;
   font-weight: 300;
   text-align: center;
+  display: block;
 }
 
-h1 {
-  padding-top:20%;
+#errorH1 {
+  padding-top:40%;
 }
 
-#left { 
-  position: absolute; left: 10%; top: 9%; width: 30%; 
-}
-
-#right { 
-  position: absolute; right: 26%; top: 17%; width: 30%; 
+#left, #right { 
+  display: inline-block;
+  vertical-align: top;
 }
