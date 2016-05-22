@@ -28,6 +28,7 @@ var NavBar = React.createClass({
     }
   },
   returnFalse: function() {
+    this.find();
     return false;
   },
   render: function() {
