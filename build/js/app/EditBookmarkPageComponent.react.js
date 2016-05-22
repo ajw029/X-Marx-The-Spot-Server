@@ -208,7 +208,6 @@ var EditBookmarkPage = React.createClass({
           <section className="slide">
             <div className="formcontainer column-40">
               <BackButton/>
-              <form method="POST">
                 <h1>Editing</h1>
                 <div className="inputgroup">
                    <ToggleDisplay show={this.state.overallErr}>
@@ -265,7 +264,6 @@ var EditBookmarkPage = React.createClass({
                   <button type="button" onClick={this.submit} onKeypress={this.keyPress} className="boxButton okayButton">Save</button>
                   <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
-              </form>
             </div>
           </section>
           </div>

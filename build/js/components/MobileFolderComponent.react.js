@@ -38,16 +38,14 @@ var MobileFolderSwitcherContainer = React.createClass({
     return (
       <div className="slide mobileView">
         <div className="column- folderContainer">
-          <form action="/bookmarx/" method="GET">
-            <span className="folder_label_mobile">Folder: </span>
-              <select onChange={this.updateSelectValue} value={this.state.curFolder} name="folder_id">
-                {folderNodes}
-              </select>
-              <ToggleDisplay show={showSettings}>
-                <Link to={"/app/editmyfolder/"+this.props.curFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
-              </ToggleDisplay>
-              <button type="button" onClick={this.changeFolders}>Change</button>
-          </form>
+          <span className="folder_label_mobile">Folder: </span>
+            <select onChange={this.updateSelectValue} value={this.state.curFolder} name="folder_id">
+              {folderNodes}
+            </select>
+            <ToggleDisplay show={showSettings}>
+              <Link to={"/app/editmyfolder/"+this.props.curFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
+            </ToggleDisplay>
+            <button type="button" onClick={this.changeFolders}>Change</button>
         </div>
       </div>
     );
