@@ -2,35 +2,42 @@ var SearchResultsComponent = React.createClass({
   getInitialState: function () {
     var ordering = this.props.routeParams.searchorder;
     var searchinput = this.props.routeParams.searchinput;
-
     return {
       myBookmarks: [],
-      ordering: ordering,
-      searchinput: searchinput
+      ordering: this.props.routeParams.searchorder,
+      searchinput: this.props.routeParams.searchinput
     };
+  },
+  loadParams: function(nextProps) {
+    this.setState({ordering: nextProps.searchorder,searchinput: nextProps.searchinput});
+    this.loadSearch(nextProps.searchorder, nextProps.searchinput);
+  },
+  componentWillReceiveProps: function (nextProps) {
+    this.loadParams(nextProps.params);
   },
   componentDidMount: function() {
     // Gets all the folders
-    var body = {};
-    body.search = this.state.searchinput;
-    body.ordering = this.state.ordering;
-    if (body.search && body.ordering) {
-      $.ajax({
-            url: '/api/search',
-            dataType: 'json',
-            cache: false,
-            type: 'get',
-            data: body,
-            success: function(data) {
-              console.log(data)
-              this.setState({myBookmarks: data.bookmarxList});
-            }.bind(this),
-            error: function(xhr, status, err) {
-              this.setState({overallErr: true});
-            }.bind(this)
-          });
-    }
-
+    this.loadSearch();
+   },
+   loadSearch: function(searchorder, searchinput) {
+     var body = {};
+     body.search = searchinput? searchinput:this.state.searchinput;
+     body.ordering = searchorder? searchorder:this.state.ordering;
+     if (body.search && body.search.trim() && body.ordering && body.ordering.trim()) {
+       $.ajax({
+             url: '/api/search',
+             dataType: 'json',
+             cache: false,
+             type: 'get',
+             data: body,
+             success: function(data) {
+               this.setState({myBookmarks: data.bookmarxList});
+             }.bind(this),
+             error: function(xhr, status, err) {
+               this.setState({overallErr: true});
+             }.bind(this)
+           });
+     }
    },
   render: function() {
     return (

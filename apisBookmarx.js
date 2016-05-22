@@ -40,14 +40,14 @@ var apiAdd = module.exports.apiAdd = function(req, response) {
 var apiAddBookmarxAuth = module.exports.apiAddBookmarxAuth = function(req, response) {
 
 
-  var bookmarx_title = db.escape(req.body.title);
-  var bookmarx_url = db.escape(req.body.url);
-  var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_folder_id = db.escape(req.body.folder);
+  var bookmarx_title = db.escape(req.body.title.trim());
+  var bookmarx_url = db.escape(req.body.url.trim());
+  var bookmarx_desc = db.escape(req.body.desc.trim());
+  var bookmarx_keywords = db.escape(req.body.keywords.trim());
+  var bookmarx_folder_id = db.escape(req.body.folder.trim());
   var account_id = db.escape(req.body.account_id);
 
-  console.log("in add "+account_id+bookmarx_url);
+
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -115,7 +115,6 @@ var apiAddBookmarxAuth = module.exports.apiAddBookmarxAuth = function(req, respo
 var apiGetFolders = module.exports.apiGetFolders = function(req, response) {
 
   var account_id = req.body.account_id;
-  console.log("in get folder"+account_id);
   var queryFolderListString = db.squel
       .select()
       .from(folder_table)
@@ -143,7 +142,7 @@ var apiGetFolder = module.exports.apiGetFolder = function(req, response) {
       .where('id='+folder_id)
       .where('deleted=0')
       .toString();
-      console.log(queryFolderString)
+     
   db.query(queryFolderString, function(err, folderRes) {
     if (err) {
       throw err;
@@ -187,7 +186,7 @@ var apiGetBookmark = module.exports.apiGetBookmark = function(req, response) {
 var apiGetBookmarks = module.exports.apiGetBookmarks = function(req, response) {
   var account_id = req.body.account_id;
   var folder_id =  req.query.folder_id;
-  console.log("in get bookmarks"+folder_id)
+
   var queryBookmarks = db.squel.select()
       .from(bookmarx_table)
       .where('account_id=' + db.escape(account_id))
@@ -275,13 +274,12 @@ var apiSearch=module.exports.apiSearch=function(req,response){
     }
 
     queryBookmarks.where(whereExpr).group('b.id');
-
     db.query(queryBookmarks.toString(), function (err, res) {
       if (err) {
         throw err;
       }
       if (res) {
-        console.log(res)
+        
         response.status(200).send({
           bookmarxList: res,
           search: req.query.search || '',
@@ -298,7 +296,7 @@ var apiSearch=module.exports.apiSearch=function(req,response){
 var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req, response) {
   var account_id = req.body.account_id;
   var bookmarx_id = db.escape(req.body.bookmarx_id);
-  console.log('deleting')
+  
   //Not deleted but hidden
   var deleteBookMarksQuery = db.squel
       .update()
@@ -307,7 +305,7 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
       .where('account_id=' + db.escape(account_id))
       .where('id=' + bookmarx_id)
       .toString();
-      console.log(deleteBookMarksQuery)
+     
   db.query(deleteBookMarksQuery, function(err, res) {
     if (err){
       console.log(err)
@@ -323,7 +321,7 @@ var apiDeleteBookmarxAuth = module.exports.apiDeleteBookmarxAuth =  function(req
 };
 
 var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) {
-    console.log('SUP')
+
   var account_id = db.escape(req.body.account_id);
   var bookmarx_id = db.escape(req.params.bookmarx_id);
 
@@ -371,7 +369,7 @@ var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) 
             keyword.word = word;
             keywordList.push(keyword)
           });
-          //console.log(res)
+          
           response.status(200).send({keywordList: keywordList,
                                                 bookmarx: res[0],
                                                 foldersList: folderList,
@@ -389,11 +387,11 @@ var apiEditBookmarx = module.exports.apiEditBookmarx =  function(req, response) 
 
 
 var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, response) {
-  var bookmarx_title = db.escape(req.body.title);
-  var bookmarx_url = db.escape(req.body.url);
-  var bookmarx_desc = db.escape(req.body.desc);
-  var bookmarx_keywords = db.escape(req.body.keywords);
-  var bookmarx_folder_id = db.escape(req.body.folder);
+  var bookmarx_title = db.escape(req.body.title.trim());
+  var bookmarx_url = db.escape(req.body.url.trim());
+  var bookmarx_desc = db.escape(req.body.desc.trim());
+  var bookmarx_keywords = db.escape(req.body.keywords.trim());
+  var bookmarx_folder_id = db.escape(req.body.folder.trim());
   var bookmarx_id = db.escape(req.body.bookmark_id);
 
   //Get the referer URL so we can return back to page where we clicked edit
@@ -402,7 +400,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
 
   var account_id = db.escape(req.body.account_id);
   var bookmarx_old_keywords_id = JSON.parse(req.body.oldkeywords); // not escaping because messes up array
-  //console.log("oldkeywords: " + JSON.parse(bookmarx_old_keywords_id));
+ 
 
   if (bookmarx_title &&
       bookmarx_url   &&
@@ -518,7 +516,7 @@ var apiFolderSettings = module.exports.apiFolderSettings =  function(req, respon
 
 var apiDeleteFolder=module.exports.apiDeleteFolder=function(req,response){
 
-  console.log("in delete folder");
+  
   var folder_id= db.escape(req.body.folder_id);
   var account_id = db.escape(req.body.account_id);
 
@@ -761,7 +759,7 @@ var apiClickCount=module.exports.apiClickCount=function(req,response){
 };
 
 var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, response) {
-  console.log('>>>>>');
+  
 
   var backup = {};
   backup['folders'] = new Array();
@@ -801,7 +799,7 @@ var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, respo
             if (err) { throw err; }
             if (resObj) {
               backup['keywords'] = resObj;
-              //console.log(backup);
+          
 
               var today = new Date();
               var fileName = 'backup_'+today.getFullYear()+'_'+(today.getMonth()+1)+'_'+today.getDate()+'.json';
@@ -826,7 +824,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
     importJson = JSON.parse(req.body.bookmarksJsonText);
   }
   catch (e) {
-    console.log('not valid json');
+
     response.status(400).send(
       JSON.stringify({msg: 'Entered invalid Json. Make sure you copy paste the entire file. You can search for a Json validator to fix any mistakes you may have made to the bakup.'}));
     return;
@@ -838,7 +836,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
     return;
   }
 
-  //console.log(importJson);
+  
   var account_id=req.body.account_id;
   var folderOldNewId = {};
 
@@ -917,13 +915,12 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           'visit_count': 0
         })
         .toString();
-        //console.log(insertBookmarkString);
+   
 
         db.query(insertBookmarkString, function(err, res) {
           if(err) {console.log(err);}
           if(res) {
-            //console.log("inserted this");
-            //console.log(res.insertId);
+         
             bookmarksOldNewIdHash[importJson['bookmarks'][i]['id']] = res.insertId;
             if(i == ( importJson['bookmarks'].length - 1) ) {
                     keywordInsertStep();
@@ -949,7 +946,7 @@ var apiImportBookmarks = module.exports.apiImportBookmarks = function(req, respo
           'bookmark_id': bookmarksOldNewIdHash[importJson['keywords'][i]['id']]
         })
         .toString();
-        //console.log(insertKeywordsString);
+     
 
         db.query(insertKeywordsString, function(err, res) {
           if(err) {

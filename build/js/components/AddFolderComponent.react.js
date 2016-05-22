@@ -1,7 +1,9 @@
 var AddFolderComponent = React.createClass({
   getInitialState: function () {
     return ({
-      title: ''
+      title: '',
+      overallErr: false,
+      folderErr: false
     });
   },
   updateTitle: function(event) {
@@ -12,6 +14,10 @@ var AddFolderComponent = React.createClass({
     var title = this.state.title;
     if (!title || !title.trim()) {
       okay = false;
+      this.setState({folderErr: true});
+    }
+    else {
+      this.setState({folderErr: false});
     }
     return okay;
   },
@@ -19,17 +25,25 @@ var AddFolderComponent = React.createClass({
     var okay = this.validateSubmit();
     if (okay) {
       var body = {};
-      body.folder_title = this.state.title;
+      body.folder_title = this.state.title.trim();
       $.ajax({
             url: '/api/addfolder',
             dataType: 'json',
             cache: false,
             type: 'post',
             data: body,
+            timeout: 5000,
             success: function(data) {
               browserHistory.push('/app/home');
             }.bind(this),
             error: function(xhr, status, err) {
+              //timeout or connection refused
+              if(status == "timeout" || xhr.readyState == 0) {
+                window.location = '/';
+              }
+              else {
+                this.setState({overallErr: true});
+              }
             }.bind(this)
           });
     }
@@ -42,10 +56,17 @@ var AddFolderComponent = React.createClass({
         <form action="/bookmarx/addfolder" method="POST">
           <h1>Add Folder</h1>
           <div className="inputgroup">
+            <ToggleDisplay show={this.state.overallErr}>
+              <span className="errMsg">Could not Create Folder</span>
+            </ToggleDisplay>
+          </div>
+          <div className="inputgroup">
             <input type="text" onChange={this.updateTitle} name="folder_title" autofocus required/>
             <span className="bar"></span>
             <label>Title</label>
-            <span className="errMsg hide" id="folder_errlabel">Please enter a folder name</span>
+            <ToggleDisplay show={this.state.folderErr}>
+              <span className="errMsg" id="folder_errlabel">Please enter a folder name</span>
+            </ToggleDisplay>
           </div>
           <div className="inputgroup actionContainer">
             <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>

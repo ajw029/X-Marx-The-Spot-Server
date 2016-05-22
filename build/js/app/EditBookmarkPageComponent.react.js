@@ -22,6 +22,7 @@ var EditBookmarkPage = React.createClass({
       oldkeywords: [],
       oldkeywordsOutput: [],
       curFolder: '',
+      overallErrMsg: '',
       overallErr: false,
       titleErr: false,
       urlErr: false,
@@ -105,28 +106,36 @@ var EditBookmarkPage = React.createClass({
   },
   submit: function() {
     var okay = this.validateSubmit();
-    var body = {};
-    body.title= this.state.title;
-    body.url= this.state.url;
-    body.desc= this.state.desc;
-    body.keywords= this.state.keywords;
-    body.oldkeywords=this.oldkeywordsOutput;
-    body.folder= parseInt(this.state.curFolder);
-    body.bookmark_id = this.state.bookmark_id;
 
     if (okay) {
+      var body = {};
+      body.title= this.state.title.trim();
+      body.url= this.state.url.trim();
+      body.desc= this.state.desc.trim();
+      body.keywords= this.state.keywords.trim();
+      body.oldkeywords=this.oldkeywordsOutput.trim();
+      body.folder= parseInt(this.state.curFolder);
+      body.bookmark_id = this.state.bookmark_id.trim();
       $.ajax({
             url: '/api/edit',
             dataType: 'json',
             cache: false,
             type: 'post',
             data: body,
+            timeout: 5000,
             success: function(data) {
-              browserHistory.push('/app/home')
+              browserHistory.push('/app/home');
+              this.setState({overallErr: false});
             }.bind(this),
             error: function(xhr, status, err) {
-              this.setState({overallErr: JSON.stringify(err)});
-              console.error(JSON.stringify(err));
+              //timeout or connection refused
+              if(status == "timeout" || xhr.readyState == 0) {
+                window.location = '/';
+              }
+              else {
+                this.setState({overallErr: true});
+                this.setState({overallErrMsg: JSON.stringify(err)});
+              }
             }.bind(this)
       });
     }
@@ -157,7 +166,7 @@ var EditBookmarkPage = React.createClass({
           url: result2[0].url,
           desc: result2[0].description,
           oldkeywords:oldkeywordsList,
-          curFolder: result2[0].folder_id,
+          curFolder: result2[0].folder_id
         });
       }.bind(this));
     }.bind(this));
@@ -196,7 +205,7 @@ var EditBookmarkPage = React.createClass({
                 <h1>Editing</h1>
                 <div className="inputgroup">
                    <ToggleDisplay show={this.state.overallErr}>
-                    <span className="errMsg">{this.state.overallErr}</span>
+                    <span className="errMsg">{this.state.overallErrMsg}</span>
                    </ToggleDisplay>
                 </div>
 
