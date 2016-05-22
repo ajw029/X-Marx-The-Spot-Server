@@ -1418,3 +1418,33 @@ h3 {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+#ErrorBody {
+  height: 100%;
+  width: 100%;
+  background-color: #80dfff;
+  color: #ffffff;
+  font: 100% "Lato" , sans-serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  text-align: center;
+  display: block;
+}
+
+#errorH1 {
+  padding-top:50%;
+  color: #ffffff;
+  font: 100% "Lato" , sans-serif;
+  font-size: 3.0rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+#left, #right { 
+  display: inline-block;
+  vertical-align: top;
+}
+
+#right {
+  padding-top: 7%;
+}

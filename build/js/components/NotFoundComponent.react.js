@@ -1,4 +1,3 @@
-
 var NotFoundComponent = React.createClass({
   render: function() {
     return (
@@ -19,5 +18,3 @@ var NotFoundComponent = React.createClass({
 });
 
 module.exports = NotFoundComponent;
-
-//<h5><a href="/app/home">Go to Home</a></h5>
