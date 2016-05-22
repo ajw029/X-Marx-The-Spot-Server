@@ -31,10 +31,10 @@ app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-//app.set('view cache', true);
+app.set('view cache', true);
 app.set('x-powered-by', false);
 app.use(compression());
-/*
+
 app.use(minify({cache: './cache'}));
 app.use(minifyHTML({
     override:      true,
@@ -48,15 +48,12 @@ app.use(minifyHTML({
     }
 }));
 
-*/
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-//app.use(minify());
-
-app.use(express.static('./public', { maxAge: 0 })); // One day caching
+app.use(express.static('./public', { maxAge: 86400000 })); // One day caching
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up logging files (accessLog for suspicious requests, errorLog for errors)
