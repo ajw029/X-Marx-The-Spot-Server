@@ -17,7 +17,7 @@ var MobileFolderSwitcherContainer = React.createClass({
    updateSelectValue: function(event) {
     this.setState({curFolder: event.target.value});
    },
-   changeFolders() {
+   changeFolders: function() {
      this.props.getBookmarks(this.state.curFolder)
    },
    render: function () {
