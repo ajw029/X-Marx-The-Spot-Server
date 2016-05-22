@@ -1,4 +1,5 @@
 var OptionComponent = React.createFactory(require('./OptionComponent.react'));
+var CommonComponent = React.createFactory(require('./CommonComponent.react'));
 
 var AddBookmarkComponent = React.createClass({
   getInitialState: function () {
@@ -91,11 +92,18 @@ var AddBookmarkComponent = React.createClass({
             cache: false,
             type: 'post',
             data: body,
+            timeout: 5000,
             success: function(data) {
               browserHistory.push('/app/home')
             }.bind(this),
             error: function(xhr, status, err) {
-              this.setState({overallErr: true});
+              //timeout or connection refused
+              if(status == "timeout" || xhr.readyState == 0) {
+                window.location = '/';
+              }
+              else {
+                this.setState({overallErr: true});
+              }
             }.bind(this)
           });
     }

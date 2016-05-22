@@ -121,12 +121,19 @@ var EditBookmarkPage = React.createClass({
             cache: false,
             type: 'post',
             data: body,
+            timeout,
             success: function(data) {
               browserHistory.push('/app/home')
             }.bind(this),
             error: function(xhr, status, err) {
-              this.setState({overallErr: JSON.stringify(err)});
-              console.error(JSON.stringify(err));
+              //timeout or connection refused
+              if(status == "timeout" || xhr.readyState == 0) {
+                window.location = '/';
+              }
+              else {
+                this.setState({overallErr: JSON.stringify(err)});
+                console.error(JSON.stringify(err));
+              }
             }.bind(this)
       });
     }
