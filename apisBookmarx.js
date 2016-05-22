@@ -246,7 +246,6 @@ var apiSearch=module.exports.apiSearch=function(req,response){
   var keywordList = [];
   if (keyword)
     keywordList = (keyword.trim()).split(' ');
-
   // All existing bookmarks
   var queryBookmarks = db.squel.select()
       .field("b.id", "id")
@@ -282,6 +281,7 @@ var apiSearch=module.exports.apiSearch=function(req,response){
         throw err;
       }
       if (res) {
+        console.log(res)
         response.status(200).send({
           bookmarxList: res,
           search: req.query.search || '',
@@ -434,7 +434,7 @@ var apiEditBookmarxAuth = module.exports.apiEditBookmarxAuth =  function(req, re
                  .from(keywords_table)
                  .where("id = ?", word_id)
                  .toString();
-                 
+
                db.query(queryStringDelete, function(err3, res3) {
                if (err3){
                  //throw err;

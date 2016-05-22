@@ -1,12 +1,39 @@
-
 var SearchResultsComponent = React.createClass({
   getInitialState: function () {
+    var ordering = this.props.routeParams.searchorder;
+    var searchinput = this.props.routeParams.searchinput;
+
     return {
-      myBookmarks: []
-      };
+      myBookmarks: [],
+      ordering: ordering,
+      searchinput: searchinput
+    };
   },
-   render: function() {
-     return (
+  componentDidMount: function() {
+    // Gets all the folders
+    var body = {};
+    body.search = this.state.searchinput;
+    body.ordering = this.state.ordering;
+    if (body.search && body.ordering) {
+      $.ajax({
+            url: '/api/search',
+            dataType: 'json',
+            cache: false,
+            type: 'get',
+            data: body,
+            success: function(data) {
+              console.log(data)
+              this.setState({myBookmarks: data.bookmarxList});
+            }.bind(this),
+            error: function(xhr, status, err) {
+              this.setState({overallErr: true});
+            }.bind(this)
+          });
+    }
+
+   },
+  render: function() {
+    return (
       <div>
         <NavBar/>
         <div className="container">
@@ -19,43 +46,6 @@ var SearchResultsComponent = React.createClass({
         <MobileNav/>
       </div>
     );
-  },
-  validateSubmit: function() {
-    var okay = true;
-
-    if(!query || !trim(query)) {
-      okay = false;
-      this.setState({newKeywordErr: true});
-    }
-
-    this.setState({query: $("input[name='search']")})
-    console.log("query: " + this.state.query);
-    console.log("searchInput: " + this.state.searchInput);
-
-    return okay;
-
-  },
-  submit: function() {
-    var okay = this.validateSubmit();
-    var body = {};
-    body.query = this.state.searchInput;
-
-    console.log(body)
-    
-    if (okay) {
-      $.ajax({
-            url: '/api/search',
-            dataType: 'json',
-            cache: false,
-            type: 'post',
-            data: body,
-            success: function(data) {
-              
-            }.bind(this),
-            error: function(xhr, status, err) {
-              
-            }.bind(this)
-      });
-    }
+  }
 });
 module.exports = SearchResultsComponent;

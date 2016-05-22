@@ -18,6 +18,13 @@ var NavBar = React.createClass({
     this.setState({searchInput: event.target.value});
   },
   find: function() {
+    if (!this.state.searchInput || !this.state.searchInput.trim() || !this.state.ordering) {
+
+    }
+    else {
+      browserHistory.push("/app/search/"+this.state.ordering+"/"+this.state.searchInput)
+    }
+    //to={"}
   },
   render: function() {
     return (
@@ -27,13 +34,13 @@ var NavBar = React.createClass({
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">
-            <form action="/bookmarx/search" method="GET">
+            <form action="/bookmarx/search" onsubmit="return false;" method="GET">
             <input type="text" onChange={this.updateSearchValue} name="search" placeholder="Search" value={this.state.searchInput}></input>
             <select onChange={this.updateSelectValue} value={this.state.ordering} name="ordering">
               <option value="asc">A-Z</option>
               <option value="desc">Z-A</option>
             </select>
-            <Link to={"/app/search/"+this.state.ordering+"/"+this.state.searchInput} placeholder="Find"></Link>
+            <input type="button" onClick={this.find} value="Find"></input>
           </form>
           </div>
         </div>
