@@ -96,9 +96,9 @@ module.exports.apiLoginAuth = function(req, response) {
 * Attempt to Signup the user.
 */
 module.exports.apiSignUpAuth = function(req, response) {
-  var username = db.escape(req.body.username);
-  var password = req.body.pass;
-  var repassword = req.body.repass;
+  var username = db.escape(req.body.username.trim());
+  var password = req.body.pass.trim();
+  var repassword = req.body.repass.trim();
 
   if(password==repassword && password.trim()){
     // Encrypt Pwd
@@ -165,9 +165,9 @@ module.exports.apiUpdatePassword=function(req,response){
 
 
   var account_id = db.escape(req.body.account_id);
-  var oldPassword=req.body.pwd;
-  var newPassword=req.body.newpwd;
-  var reNewPassword=req.body.repwd;
+  var oldPassword=req.body.pwd.trim();
+  var newPassword=req.body.newpwd.trim();
+  var reNewPassword=req.body.repwd.trim();
 
   if(oldPassword&&newPassword&&reNewPassword){
     if(newPassword==reNewPassword){
