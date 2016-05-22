@@ -36,9 +36,9 @@ BookmarxContainerComponent = React.createFactory(require('./components/BookmarxC
 MobileFolderSwitcherContainer = React.createFactory(require('./components/MobileFolderComponent.react'));
 
 route = (<Router history={browserHistory}>
-  <Route path="/app/home" component={HomeContainer}></Route>
+  <Route path="/app/home" name="home" component={HomeContainer}></Route>
   <Route path="/app/myfavlinks" component={MyFavComponent}></Route>
-  <Route path="/app/myrecent" component={MostRecentComponent}></Route>
+  <Route path="/app/myrecent" name="recent" component={MostRecentComponent}></Route>
 
   <Route path="/app/addnewbookmark" component={AddBookmarkPageComponent}></Route>
 

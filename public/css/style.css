@@ -126,6 +126,9 @@ nav.nav-mobile ul li a {
 	height: 100%;
 	position:relative
 }
+nav.nav-mobile ul li a.active {
+	border-bottom: 3px solid white;
+}
 nav.nav-mobile ul li a img {
 	height: 70%;
 	position: relative;
