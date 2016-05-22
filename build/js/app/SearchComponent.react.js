@@ -23,7 +23,7 @@ var SearchResultsComponent = React.createClass({
      var body = {};
      body.search = searchinput? searchinput:this.state.searchinput;
      body.ordering = searchorder? searchorder:this.state.ordering;
-     if (body.search && body.ordering) {
+     if (body.search && body.search.trim() && body.ordering && body.ordering.trim()) {
        $.ajax({
              url: '/api/search',
              dataType: 'json',
@@ -31,7 +31,6 @@ var SearchResultsComponent = React.createClass({
              type: 'get',
              data: body,
              success: function(data) {
-               console.log(data)
                this.setState({myBookmarks: data.bookmarxList});
              }.bind(this),
              error: function(xhr, status, err) {
