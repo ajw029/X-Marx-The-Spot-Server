@@ -275,7 +275,6 @@ var apiSearch=module.exports.apiSearch=function(req,response){
     }
 
     queryBookmarks.where(whereExpr).group('b.id');
-
     db.query(queryBookmarks.toString(), function (err, res) {
       if (err) {
         throw err;

@@ -205,6 +205,9 @@ nav.nav-mobile ul li a:hover {
 	margin: 0;
 	position: relative;
 }
+.searchErr {
+	border: 1px solid #F44336;
+}
 .folderSearchBar input[type="button"]:hover, .folderSearchBar input[type="submit"]:hover {
 	cursor: pointer;
 }

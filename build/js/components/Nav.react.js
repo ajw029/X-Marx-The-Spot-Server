@@ -19,14 +19,19 @@ var NavBar = React.createClass({
   },
   find: function() {
     if (!this.state.searchInput || !this.state.searchInput.trim() || !this.state.ordering) {
-
+      this.setState({searchEmpty:true});
     }
     else {
-      browserHistory.push("/app/search/"+this.state.ordering+"/"+this.state.searchInput)
+      browserHistory.push("/app/home");
+      browserHistory.push("/app/search/"+this.state.ordering+"/"+this.state.searchInput);
+      this.setState({searchEmpty:false});
     }
-    //to={"}
   },
   render: function() {
+    var searchClass = "";
+    if (this.state.searchEmpty) {
+      searchClass = "searchErr"
+    }
     return (
       <nav>
         <ul className="nav-title">
@@ -34,8 +39,8 @@ var NavBar = React.createClass({
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">
-            <form action="/bookmarx/search" onsubmit="return false;" method="GET">
-            <input type="text" onChange={this.updateSearchValue} name="search" placeholder="Search" value={this.state.searchInput}></input>
+            <form action="/bookmarx/search" onsubmit="return false;" method="GET" autocomplete="off">
+            <input className={searchClass} type="text" onChange={this.updateSearchValue} name="search" placeholder="Search" value={this.state.searchInput}></input>
             <select onChange={this.updateSelectValue} value={this.state.ordering} name="ordering">
               <option value="asc">A-Z</option>
               <option value="desc">Z-A</option>
