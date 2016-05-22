@@ -10,15 +10,10 @@ var MobileFolderSwitcher = React.createClass({
 var MobileFolderSwitcherContainer = React.createClass({
   getInitialState: function () {
     return {folderList: [],
-            curFolder: this.props.curFolder};
+            curFolder: this.props.curFolder,
+            curFolderName: this.props.curFolderName
+          };
   },
-  componentDidMount: function() {
-     this.serverRequest = $.get(this.props.source, function (result) {
-       this.setState({
-         folderList: result
-       });
-     }.bind(this));
-   },
    updateSelectValue: function(event) {
     this.setState({curFolder: event.target.value});
    },
@@ -35,6 +30,11 @@ var MobileFolderSwitcherContainer = React.createClass({
         />
       )
     });
+    // TODO
+    var showSettings = false;
+    if (this.state.curFolderName && this.state.curFolderName == 'Default') {
+      showSettings = false;
+    }
     return (
       <div className="slide mobileView">
         <div className="column- folderContainer">
@@ -43,7 +43,10 @@ var MobileFolderSwitcherContainer = React.createClass({
               <select onChange={this.updateSelectValue} value={this.state.curFolder} name="folder_id">
                 {folderNodes}
               </select>
-            <button type="button" onClick={this.changeFolders}>Change</button>
+              <ToggleDisplay show={showSettings}>
+                <Link to={"/app/editmyfolder/"+this.props.curFolder}><img className="verticalmenu" src="/img/ic_more_horiz_black_48dp_2x.png" alt="settings"></img></Link>
+              </ToggleDisplay>
+              <button type="button" onClick={this.changeFolders}>Change</button>
           </form>
         </div>
       </div>

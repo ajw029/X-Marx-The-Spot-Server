@@ -8,7 +8,7 @@ var Keyword = React.createClass({
       <p>{this.props.name}</p>
     </div>);
   }
-})
+});
 
 var EditBookmarkPage = React.createClass({
   getInitialState: function () {
@@ -22,6 +22,7 @@ var EditBookmarkPage = React.createClass({
       oldkeywords: [],
       oldkeywordsOutput: [],
       curFolder: '',
+      overallErr: false,
       titleErr: false,
       urlErr: false,
       descErr: false,
@@ -77,7 +78,6 @@ var EditBookmarkPage = React.createClass({
     var items = 0;
     $('.hashtaggroup').find('input').each(function(index) {
       if ($(this).is(':checked')) {
-        console.log("Checked: " + parseInt(this.value));
         checkedKeywords.push(parseInt(this.value));
       }
       items++;
@@ -113,7 +113,7 @@ var EditBookmarkPage = React.createClass({
     body.oldkeywords=this.oldkeywordsOutput;
     body.folder= parseInt(this.state.curFolder);
     body.bookmark_id = this.state.bookmark_id;
-    console.log(body)
+
     if (okay) {
       $.ajax({
             url: '/api/edit',
@@ -122,26 +122,28 @@ var EditBookmarkPage = React.createClass({
             type: 'post',
             data: body,
             success: function(data) {
-              browserHistory.push('/home')
+              browserHistory.push('/app/home')
             }.bind(this),
             error: function(xhr, status, err) {
+              this.setState({overallErr: JSON.stringify(err)});
               console.error(JSON.stringify(err));
             }.bind(this)
       });
     }
   },
   componentDidMount: function() {
-    var res = window.location.href.split("/");
-    var id = res[res.length-1];
+    var id = this.props.routeParams.bookmarx_id;
     // Gets all the folders
     this.serverRequest = $.get("/api/getfolders", function (result) {
       var body = {};
       body.bookmark_id = id;
 
       this.serverRequest = $.get("/api/getbookmark", body, function (result2) {
+        if (!result2 || result2.length < 1) {
+          window.location = '/app/home';
+        }
         var oldkeywordsList = [];
-        var i = 0;
-        for (i=0; i< result2.length; i++) {
+        for (var i=0; i< result2.length; i++) {
           var keyword_item = {};
           keyword_item.name=result2[i].keyword;
           keyword_item.keyword_id=result2[i].keyword_id;
@@ -157,8 +159,6 @@ var EditBookmarkPage = React.createClass({
           oldkeywords:oldkeywordsList,
           curFolder: result2[0].folder_id,
         });
-        console.log("Stateid " + this.state.bookmark_id);
-
       }.bind(this));
     }.bind(this));
   },
@@ -193,7 +193,13 @@ var EditBookmarkPage = React.createClass({
             <div className="formcontainer column-40">
               <BackButton/>
               <form action="/bookmarx/edit" method="POST">
-                <h1>Editting</h1>
+                <h1>Editing</h1>
+                <div className="inputgroup">
+                   <ToggleDisplay show={this.state.overallErr}>
+                    <span className="errMsg">{this.state.overallErr}</span>
+                   </ToggleDisplay>
+                </div>
+
                 <div className="inputgroup">
                   <input type="text" name="title" onChange={this.updateTitle} value={this.state.title} autofocus required></input>
                   <span className="bar"></span>
@@ -241,7 +247,7 @@ var EditBookmarkPage = React.createClass({
                 </div>
                 <div className="inputgroup">
                   <button type="button" onClick={this.submit} className="boxButton okayButton">Save</button>
-                  <Link to={'/home'} className="boxButton cancelButton">Cancel</Link>
+                  <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
                 </div>
               </form>
             </div>

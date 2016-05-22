@@ -27,7 +27,7 @@ var AddFolderComponent = React.createClass({
             type: 'post',
             data: body,
             success: function(data) {
-              browserHistory.push('/home');
+              browserHistory.push('/app/home');
             }.bind(this),
             error: function(xhr, status, err) {
             }.bind(this)
@@ -49,7 +49,7 @@ var AddFolderComponent = React.createClass({
           </div>
           <div className="inputgroup actionContainer">
             <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
-            <Link to={'/home'} className="boxButton cancelButton">Cancel</Link>
+            <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
           </div>
         </form>
       </div>

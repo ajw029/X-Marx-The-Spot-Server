@@ -1,3 +1,4 @@
+
 var MyFavComponent = React.createClass({
   getInitialState: function () {
     return {
@@ -8,32 +9,36 @@ var MyFavComponent = React.createClass({
   },
   componentDidMount: function() {
     // Gets all the folders
-    this.serverRequest = $.get("/api/getfolders", function (result) {
-      this.setState({
-        folderList: result
-      });
-      if (!this.state.curFolder.trim() && result && result.length > 0) {
-        this.setState({
-          curFolder: result[0].id
-        });
-      }
+    this.serverRequest = $.get("/api/mostvisited", function (result) {
+       this.setState({
+         myBookmarks: result.bookmarxList
+       });
+
     }.bind(this));
-    this.getBookmarks();
    },
-   getBookmarks(folderID) {
-     var body = {};
-     if (folderID) {
-       body.folder_id = folderID;
-       this.setState({
-         curFolder: folderID
-       });
+   favBookmark: function(b_id) {
+     var myBookmarksList =this.state.myBookmarks;
+     for (var i = 0; i < myBookmarksList.length; i++) {
+       var myBookmark = myBookmarksList[i];
+       if (myBookmark.id == b_id) {
+         myBookmarksList[i].favorite = (!myBookmark.favorite);
+         break;
+       }
      }
-     // Gets all the bookmarks
-     this.serverRequest = $.get("/api/getbookmarks", body, function (result) {
-       this.setState({
-         myBookmarks: result
-       });
-     }.bind(this));
+     this.setState({myBookmarks: myBookmarksList});
+   },
+   deleteBookmark: function(b_id) {
+     var myBookmarksList =this.state.myBookmarks;
+     var i = 0;
+     for (; i < myBookmarksList.length; i++) {
+       var myBookmark = myBookmarksList[i];
+       if (myBookmark.id == b_id) {
+         myBookmarksList[i].favorite = (!myBookmark.favorite);
+         break;
+       }
+     }
+     myBookmarksList.splice(i, 1);
+     this.setState({myBookmarks: myBookmarksList});
    },
    render: function() {
      return (
@@ -43,7 +48,9 @@ var MyFavComponent = React.createClass({
           <SideBar/>
           <section className="right-container center-container">
             <BookmarxContainerComponent
-              myBookmarks={this.state.myBookmarks}/>
+              myBookmarks={this.state.myBookmarks}
+              favBookmark={this.favBookmark}
+              deleteBookmark={this.deleteBookmark} />
           </section>
         </div>
         <AddBookmarkContainer/>

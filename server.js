@@ -25,14 +25,13 @@ var mySession = session({
   cookie: { secure: false }
 });
 
-
 var app = express();
 // Set up session
 app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
 app.set('view engine', 'ejs');
-app.set('view cache', true);
+//app.set('view cache', true);
 app.set('x-powered-by', false);
 app.use(compression());
 /*
@@ -93,13 +92,16 @@ app.get('/login', users.login);
 app.post('/login', users.loginAuth);
 app.get('/logout', users.logout);
 
+// Pixel No JS
+app.get('/nojs.gif', users.nojs);
+
 // Robots.txt file
 app.get('/robots.txt', bookmarx.robots);
 
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 
-//app.post('/booapikmarx/updatepassword',users.updatepassword);
+app.post('/api/updatePassword',apisUser.apiUpdatePassword);
 
 // Bookmarx Routes
 app.get(['/bookmarx',
@@ -145,6 +147,7 @@ app.get('/bookmarx/export',bookmarx.exportBookmarks);
   apis
 */
 
+app.get('/api/getfolder', apis.apiGetFolder);
 app.get('/api/getfolders', apis.apiGetFolders);
 app.get('/api/getbookmarks', apis.apiGetBookmarks);
 app.get('/api/getbookmark', apis.apiGetBookmark);
@@ -180,8 +183,16 @@ app.get('/api/search',apis.apiSearch);
 app.post('/api/import',apis.apiImportBookmarks);
 app.get('/api/export',apis.apiExportBookmarks);
 
+app.get('/app/*', function (req, res) {
+    res.sendFile(__dirname + '/views/list.html');
+});
+
 app.use(function (req, res, next) {
-    res.redirect('/');
+    if (res.session && req.session.nojs) {
+        res.redirect('/');
+    } else {
+        res.sendFile(__dirname + '/views/list.html');
+    }
 });
 
 app.listen(config.PORT, function () {

@@ -16,7 +16,7 @@ module.exports.apiSignUp = function(req, res) {
     res.status(200).send({successmsg:" "});
   }
   else {
-    res.status(400).send({errmsg:"Session doesn't exist"});
+    res.status(400).send(JSON.stringify({msg:"Session doesn't exist"}));
   }
 
 };
@@ -31,7 +31,7 @@ module.exports.apiLogin = function(req, res) {
     res.status(200).send({successmsg:" "});
   }
   else {
-     res.status(400).send({errmsg:"Session doesn't exist"});
+     res.status(400).send(JSON.stringify({msg:"Session doesn't exist"}));
   }
 };
 
@@ -46,7 +46,7 @@ module.exports.apiAuth = function(req, res, next) {
     return next();
   }
   else {
-    res.status(200).send( {successmsg:""});
+    res.status(200).send( JSON.stringify({msg:" "}));
   }
 };
 
@@ -115,7 +115,7 @@ module.exports.apiSignUpAuth = function(req, response) {
 
     db.query(createUserQueryString, function (err, res) {
       if (err) {
-        response.status(400).send(JSON.stringify({success: "0", msg:  "Username already exists"}));
+        response.status(400).send(JSON.stringify({msg:  "Username already exists"}));
       }
       
       if (res && res.insertId) {
@@ -132,7 +132,7 @@ module.exports.apiSignUpAuth = function(req, response) {
           db.query(createDefaultFolder, function (err, folderRes) {
             if (err) {
               throw err;
-              response.status(500).send(JSON.stringify({success: "0", msg: "Query error"}));
+              response.status(500).send(JSON.stringify({ msg: "Query error"}));
             }
             if (folderRes) {
               var queryString = db.squel
@@ -143,11 +143,11 @@ module.exports.apiSignUpAuth = function(req, response) {
 
               db.query(queryString, function (err, res) {
                 if (err) {
-                  response.status(200).send(JSON.stringify({success: "1", msg: "not in db yet"}));
+                  response.status(200).send(JSON.stringify({ msg: "not in db yet"}));
                 }
                 if (res) {
                   req.session.username = encryption.encrypt(res[0].id.toString());
-                  response.status(200).send(JSON.stringify({success: "1", msg: "signup successful"}));
+                  response.status(200).send(JSON.stringify({msg: "signup successful"}));
                 }
               });
             }
@@ -156,17 +156,18 @@ module.exports.apiSignUpAuth = function(req, response) {
     });
   }
   else {
-   response.status(500).send(JSON.stringify({success: "0", msg: "Passwords don't match"}));
+   response.status(500).send(JSON.stringify({msg: "Passwords don't match"}));
   }
 };
 
 
-module.exports.apiUpdatePassword=function(req,res){
-  var account_id = db.escape(req.body.account_id);
+module.exports.apiUpdatePassword=function(req,response){
 
-  var oldPassword=req.body.oldPassword;
-  var newPassword=req.body.newPassword;
-  var reNewPassword=req.body.reNewPassword;
+
+  var account_id = db.escape(req.body.account_id);
+  var oldPassword=req.body.pwd;
+  var newPassword=req.body.newpwd;
+  var reNewPassword=req.body.repwd;
 
   if(oldPassword&&newPassword&&reNewPassword){
     if(newPassword==reNewPassword){
@@ -176,13 +177,13 @@ module.exports.apiUpdatePassword=function(req,res){
       .from(user_table)
       .where('id=' + db.escape(account_id) + '')
       .toString();
-
+  
       db.query(queryPasswordString,function(err,res1){
         if(err){
           throw err;
-          response.status(500).send({errmsg: "Can't update"});
+          response.status(500).send(JSON.stringify({msg:"Can't update"}));
         }
-
+     
         if(res1[0] && res1[0].password==encryption.encrypt(oldPassword)){
 
           var updatePasswordQuery = db.squel
@@ -191,25 +192,26 @@ module.exports.apiUpdatePassword=function(req,res){
           .set('password', encryption.encrypt(newPassword))
           .where('id=' + db.escape(account_id))
           .toString();
-
+          
           db.query(updatePasswordQuery,function(err,res2){
             if(err){
               throw err;
-              response.status(500).send({errmsg: "Can't update"});
+              response.status(500).send(JSON.stringify({msg: "Can't update"}));
             }
             if(res2){
-              response.status(200).send({successmsg: "Update successful"});
+             
+              response.status(200).send(JSON.stringify({msg:"Update successful"}));
             }
           });
         }
         else {
-          response.status(500).send({errmsg: "Can't update"});
+          response.status(500).send(JSON.stringify({msg: "Can't update"}));
         }
 
       });
 
     }else{
-      response.status(500).send({errmsg: "Can't update"});
+      response.status(500).send(JSON.stringify({msg: "Can't update"}));
     }
   }
 
