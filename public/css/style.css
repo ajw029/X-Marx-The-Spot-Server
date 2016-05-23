@@ -793,6 +793,7 @@ input.boxButton:hover {
 	display: inline-block;
 	width: 40px;
 	color: white;
+	margin-left: 4px;
 }
 
 .deleteConfirmationContainer .confDelete:hover {
