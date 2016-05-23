@@ -75,26 +75,34 @@ var EditFolderPage = React.createClass({
     var body = {};
     body.folder_id= this.props.routeParams.folder_id;
 
-    $.ajax({
-        url: "/api/getfolder",
-        dataType: 'json',
-        cache: false,
-        type: 'get',
-        data: body,
-        timeout: 5000,
-        success: function(data2) {
-          if (!result || result.length < 1) {
-              window.location = '/app/home';
-          }
-        this.setState({
-          folder: result,
-          title: result[0].name
+    var folderId = this.props.routeParams.folder_id;
+    if (isNaN(folderId) || folderId < 0) {
+      browserHistory.push('/app/home')
+    }
+    else {
+      $.ajax({
+          url: "/api/getfolder",
+          dataType: 'json',
+          cache: false,
+          type: 'get',
+          data: body,
+          timeout: 5000,
+          success: function(data) {
+            var result = data;
+            if (!result || result.length < 1) {
+                window.location = '/app/home';
+            }
+          this.setState({
+            folder: result,
+            title: result[0].name
+          });
+          }.bind(this),
+          error: function(xhr, status, err) {
+            window.location = '/app/home';
+          }.bind(this)
         });
-        }.bind(this),
-        error: function(xhr, status, err) {
-          window.location = '/app/home';
-        }.bind(this)
-      });
+    }
+
 
   },
   render: function() {
