@@ -76,6 +76,8 @@ var HomeContainer = React.createClass({
      }.bind(this), 3000);
    },
    render: function() {
+    mixpanel.track("Home Page");
+    console.log("here");
      return (
       <div>
         <NavBar/>
