@@ -1422,17 +1422,16 @@ h3 {
 #ErrorBody {
   height: 100%;
   width: 100%;
-  background-color: #80dfff;
-  color: #ffffff;
-  font: 100% "Lato" , sans-serif;
+  background-color: #2196f3;
   font-size: 1.8rem;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
   display: block;
 }
 
 #errorH1 {
   padding-top:50%;
+  padding-bottom:20px;
   color: #ffffff;
   font: 100% "Lato" , sans-serif;
   font-size: 3.0rem;
@@ -1441,10 +1440,11 @@ h3 {
 }
 
 #left, #right {
+  padding-top: 10%;
   display: inline-block;
   vertical-align: top;
 }
 
 #right {
-  padding-top: 7%;
+  padding-top: 15%;
 }

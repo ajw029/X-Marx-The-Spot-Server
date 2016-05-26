@@ -7,10 +7,11 @@ var NotFoundComponent = React.createClass({
         </div>
         <div id='right'>
           <h1 id="errorH1">
-            404<br/>
+            404
+            <br/>
             O.O Sorry
           </h1>
-          <Link to={'/app/home'} className="boxButton">Home</Link>
+          <Link to={'/app/home'} className="boxButton cancelButton">Home</Link>
         </div>
       </div>
       ) 
