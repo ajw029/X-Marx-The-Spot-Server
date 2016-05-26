@@ -5,6 +5,7 @@ var BookmarkComponent = React.createClass({
   },
 
   favoriteClick: function() {
+     mixpanel.track("Favorite Click");
     var body = {};
     body.bookmarx_id=this.props.id;
     $.ajax({
@@ -29,6 +30,7 @@ var BookmarkComponent = React.createClass({
         mixpanel.track("favorite");
   },
   deleteBookmark: function() {
+     mixpanel.track("Delete bookmark");
     var body = {};
     body.bookmarx_id=this.props.id
     $.ajax({
@@ -53,6 +55,7 @@ var BookmarkComponent = React.createClass({
     mixpanel.track("delete");
   },
   openLink: function() {
+     mixpanel.track("Open Link");
     var body = {};
     body.bookmarx_id=this.props.id;
     $.ajax({

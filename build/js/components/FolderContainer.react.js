@@ -1,7 +1,7 @@
 var BookmarksFolderComponent = React.createClass({
   changeFolders: function() {
     this.props.getBookmarks(this.props.id);
-    mixpanel.track("change folders");
+    mixpanel.track("Change Folders");
   },
   render: function() {
     var folderRedirect="/bookmarx/"+this.props.id;

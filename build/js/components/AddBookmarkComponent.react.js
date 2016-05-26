@@ -2,6 +2,7 @@ var OptionComponent = React.createFactory(require('./OptionComponent.react'));
 
 var AddBookmarkComponent = React.createClass({
   getInitialState: function () {
+     mixpanel.track("Add Bookmark");
     return {
       title: '',
       url: '',

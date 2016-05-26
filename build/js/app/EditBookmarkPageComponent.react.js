@@ -12,6 +12,7 @@ var Keyword = React.createClass({
 
 var EditBookmarkPage = React.createClass({
   getInitialState: function () {
+     mixpanel.track("Edit bookmark");
     return {
       folderList: [],
       bookmark: {},
@@ -106,7 +107,7 @@ var EditBookmarkPage = React.createClass({
   },
   submit: function() {
     var okay = this.validateSubmit();
-
+     mixpanel.track("Submit Edit Bookmark");
     if (okay) {
       var body = {};
       body.title= this.state.title.trim();

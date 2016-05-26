@@ -1,5 +1,6 @@
 var AddBookmarkPage = React.createClass({
   getInitialState: function () {
+     mixpanel.track("Add Bookmark");
     return {
       folderList: [],
       curFolder: ''

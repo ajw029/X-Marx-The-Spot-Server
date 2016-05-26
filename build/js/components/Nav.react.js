@@ -9,6 +9,7 @@ var NavBar = React.createClass({
     this.setState({ordering: event.target.value});
   },
   getSelectValue: function() {
+     mixpanel.track("Select Sorting");
       if (!this.state.ordering) {
           return 'asc';
       }

@@ -6,9 +6,11 @@ var EditFolderPage = React.createClass({
       };
   },
   updateTitle: function(event) {
+     mixpanel.track("Update Folder Title");
     this.setState({title: event.target.value})
   },
   validateSubmit: function() {
+     mixpanel.track("submit update Folder");
     var okay = true;
     var title = this.state.title;
     if (!title || !title.trim()) {
@@ -48,6 +50,7 @@ var EditFolderPage = React.createClass({
     }
   },
   deleteFolder: function() {
+     mixpanel.track("Delete Folder");
     var body = {};
     body.folder_id = this.props.routeParams.folder_id;
     $.ajax({

@@ -1,5 +1,6 @@
 var AddFolderComponent = React.createClass({
   getInitialState: function () {
+     mixpanel.track("Add Folder");
     return ({
       title: '',
       overallErr: false,

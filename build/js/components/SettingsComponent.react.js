@@ -1,5 +1,6 @@
 var SettingsComponent = React.createClass({
   getInitialState: function () {
+     mixpanel.track("Setting");
     return {
       pwd: '',
       newpwd: '',
@@ -83,6 +84,7 @@ var SettingsComponent = React.createClass({
     }
   },
   importBookmarks: function() {
+     mixpanel.track("Import Bookmarks");
     var body = {};
     body.bookmarksJsonText = $('#json_bookmark_import').val();
 
