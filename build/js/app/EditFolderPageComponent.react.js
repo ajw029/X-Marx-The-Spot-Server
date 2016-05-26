@@ -43,6 +43,7 @@ var EditFolderPage = React.createClass({
             }
           }.bind(this)
         });
+        mixpanel.track("edit folders");
       return false;
     }
   },

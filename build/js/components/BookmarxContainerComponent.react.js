@@ -26,6 +26,7 @@ var BookmarkComponent = React.createClass({
             this.props.favBookmarkErr();
           }.bind(this)
         });
+        mixpanel.track("favorite");
   },
   deleteBookmark: function() {
     var body = {};
@@ -49,6 +50,7 @@ var BookmarkComponent = React.createClass({
             this.props.deleteBookmarkErr();
           }.bind(this)
         });
+    mixpanel.track("delete");
   },
   openLink: function() {
     var body = {};
@@ -75,7 +77,7 @@ var BookmarkComponent = React.createClass({
         else {
           redirectURL='http://'+ redirectURL;
         }
-
+  
         window.location = redirectURL;
   },
   showDelete: function() {

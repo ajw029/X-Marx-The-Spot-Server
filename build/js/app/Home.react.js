@@ -12,17 +12,20 @@ var HomeContainer = React.createClass({
   },
   componentDidMount: function() {
     // Gets all the folders
-    this.serverRequest = $.get("/api/getfolders", function (result) {
+    this.serverRequest = $.get("/api/getfolders", function (result,status,xhr) {
+
       this.setState({
         folderList: result
       });
       if (!this.state.curFolder.trim() && result && result.length > 0) {
+        mixpanel.identify(result[0].account_id);
         this.setState({
           curFolder: result[0].id,
           curFolderName: result[0].name
         });
       }
     }.bind(this));
+
     this.getBookmarks();
    },
    getBookmarks: function(folderID) {
@@ -50,7 +53,6 @@ var HomeContainer = React.createClass({
        }
      }
      this.setState({myBookmarks: myBookmarksList});
-     mixpanel.track("favorite");
    },
    deleteBookmark: function(b_id) {
      var myBookmarksList =this.state.myBookmarks;
@@ -64,7 +66,6 @@ var HomeContainer = React.createClass({
      }
      myBookmarksList.splice(i, 1);
      this.setState({myBookmarks: myBookmarksList});
-     mixpanel.track("delete");
    },
    favBookmarkErr: function() {
      this.setState({showErrOverlay: true, overlayMsg: 'Could Not Favorite Bookmark Try Again Later'});

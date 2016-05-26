@@ -104,6 +104,7 @@ var AddBookmarkComponent = React.createClass({
               }
             }.bind(this)
           });
+        mixpanel.track("add bookmark");
     }
   },
   render: function() {

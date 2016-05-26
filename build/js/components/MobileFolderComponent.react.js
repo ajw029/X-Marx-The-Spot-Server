@@ -18,7 +18,8 @@ var MobileFolderSwitcherContainer = React.createClass({
     this.setState({curFolder: event.target.value});
    },
    changeFolders: function() {
-     this.props.getBookmarks(this.state.curFolder)
+     this.props.getBookmarks(this.state.curFolder);
+     mixpanel.track("change folders");
    },
    render: function () {
      var folderNodes = this.props.folderList.map(function(folder) {

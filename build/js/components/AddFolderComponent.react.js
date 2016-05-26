@@ -46,6 +46,7 @@ var AddFolderComponent = React.createClass({
               }
             }.bind(this)
           });
+        mixpanel.track("add folder");
     }
   },
   render: function() {
