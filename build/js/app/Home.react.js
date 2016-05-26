@@ -18,7 +18,7 @@ var HomeContainer = React.createClass({
         folderList: result
       });
       if (!this.state.curFolder.trim() && result && result.length > 0) {
-        mixpanel.identify(result[0].account_id);
+        mixpanel.identify(result[0].account_id.toString());
         this.setState({
           curFolder: result[0].id,
           curFolderName: result[0].name

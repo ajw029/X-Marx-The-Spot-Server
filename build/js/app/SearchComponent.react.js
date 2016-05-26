@@ -74,6 +74,10 @@ var SearchResultsComponent = React.createClass({
                this.setState({overallErr: true});
              }.bind(this)
            });
+       mixpanel.track(
+         "Search",
+         body
+       );
      }
    },
   render: function() {
