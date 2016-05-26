@@ -1,6 +1,7 @@
 
 var MyFavComponent = React.createClass({
   getInitialState: function () {
+    mixpanel.track("Fav Page");
     return {
       curFolder: '',
       folderList: [],

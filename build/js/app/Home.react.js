@@ -1,6 +1,7 @@
 
 var HomeContainer = React.createClass({
   getInitialState: function () {
+    mixpanel.track("Home Page");
     return {
       curFolder: '',
       folderList: [],
@@ -49,6 +50,7 @@ var HomeContainer = React.createClass({
        }
      }
      this.setState({myBookmarks: myBookmarksList});
+     mixpanel.track("favorite");
    },
    deleteBookmark: function(b_id) {
      var myBookmarksList =this.state.myBookmarks;
@@ -62,6 +64,7 @@ var HomeContainer = React.createClass({
      }
      myBookmarksList.splice(i, 1);
      this.setState({myBookmarks: myBookmarksList});
+     mixpanel.track("delete");
    },
    favBookmarkErr: function() {
      this.setState({showErrOverlay: true, overlayMsg: 'Could Not Favorite Bookmark Try Again Later'});
@@ -76,8 +79,6 @@ var HomeContainer = React.createClass({
      }.bind(this), 3000);
    },
    render: function() {
-    mixpanel.track("Home Page");
-    console.log("here");
      return (
       <div>
         <NavBar/>
