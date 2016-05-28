@@ -2,6 +2,14 @@
 
 Project located @ http://54.218.36.167/
 
+### Revision 3
+
+#### Optimizations
+- Analytics 
+  - Use of Mixpanel and Google Analytics client-side scripts to track usage of the app
+
+### Main Features
+
 - Create an account
   - going to http://54.218.36.167/bookmarx prompts you to either login or go to signup page
 - Login
