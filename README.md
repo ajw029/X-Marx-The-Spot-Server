@@ -5,19 +5,30 @@ Project located @ http://54.218.36.167/
 ### Revision 3
 
 #### Optimizations
-- Analytics 
-  - Use of Mixpanel and Google Analytics client-side scripts to track usage of the app
+- Analytics
+  - Use of Mixpanel client-side scripts to track usage of the app
+- Indexing
+  - 3 of the tables have indices on them in order to speed up some queries.
+- Service Worker
+  - /list.html has been cached via service worker. Since list.html is a SPA
+    react app, the entire app is essentially working offline. The endpoints are
+    not cached since it doesn't work well with react. In order to work around
+    this issue, we used local storage to store some of the results from the REST
+    apis. There is no synchronization logic to keep the server and client synced.
+- bundle.js Minification
+  - We have a packager that bundles all the React components into one js file.
+    Initially it was 4mb, but we minified it. 
 
 ### Main Features
 
 - Create an account
-  - going to http://54.218.36.167/bookmarx prompts you to either login or go to signup page
+  - going to http://54.218.36.167/ prompts you to either login or go to signup page
 - Login
-  - Going to http://54.218.36.167/bookmarx (home)
+  - Going to http://54.218.36.167/ (home)
 - Logout
-  - top right (door with right arrow icon) 
+  - top right (door with right arrow icon)
 - Change a password
-  - http://54.218.36.167/bookmarx/settings 
+  - http://54.218.36.167/bookmarx/settings
 - Add a Bookmark
   - use Floating Action Button (FAB) (Circle with plus icon) in bottom right
 - Edit a Bookmark
@@ -43,11 +54,8 @@ Project located @ http://54.218.36.167/
   - http://54.218.36.167/bookmarx/settings
   - export saves a JSON file (backup_<datestamp>.json)
   - to import copy paste JSON file contents into provided input area
-    - error messages if user modifies backup in a way that breaks json structure or content integrity 
+    - error messages if user modifies backup in a way that breaks json structure or content integrity
 - Speed
-  - caching 
+  - caching
   - minification
-  - compression 
-
-
-
+  - compression
