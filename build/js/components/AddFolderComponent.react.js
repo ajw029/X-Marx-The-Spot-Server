@@ -35,12 +35,12 @@ var AddFolderComponent = React.createClass({
             data: body,
             timeout: 5000,
             success: function(data) {
-              browserHistory.push('/app/home');
+              browserHistory.push('/list.html');
             }.bind(this),
             error: function(xhr, status, err) {
               //timeout or connection refused
               if(status == "timeout" || xhr.readyState == 0) {
-                window.location = '/';
+                //window.location = '/';
               }
               else {
                 this.setState({overallErr: true});
@@ -71,7 +71,7 @@ var AddFolderComponent = React.createClass({
         </div>
         <div className="inputgroup actionContainer">
           <button onClick={this.submit} type="button" className="boxButton okayButton" >Create</button>
-          <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
+          <Link to={'/list.html'} className="boxButton cancelButton">Cancel</Link>
         </div>
       </div>
     </section>

@@ -23,7 +23,7 @@ var NavBar = React.createClass({
       this.setState({searchEmpty:true});
     }
     else {
-      browserHistory.push("/app/home");
+      browserHistory.push("/list.html");
       browserHistory.push("/app/search/"+this.state.ordering+"/"+this.state.searchInput);
       this.setState({searchEmpty:false});
     }
@@ -36,7 +36,7 @@ var NavBar = React.createClass({
     localStorage.removeItem('myFolders');
     localStorage.removeItem('curFolder');
     localStorage.removeItem('curFolderName');
-    browserHistory.push('/logout')
+    window.location = '/logout';
   },
   render: function() {
     var searchClass = "";
@@ -46,7 +46,7 @@ var NavBar = React.createClass({
     return (
       <nav>
         <ul className="nav-title">
-          <li><Link to={'/app/home'}>BookMarx</Link></li>
+          <li><Link to={'/list.html'}>BookMarx</Link></li>
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">

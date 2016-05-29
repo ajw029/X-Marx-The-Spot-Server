@@ -38,7 +38,10 @@ var FolderContainerComponent = React.createClass({
     return {folderList: this.props.folderList, curFolder: this.props.curFolder};
   },
   render: function () {
-    var folderNodes = this.props.folderList.map(function(folder) {
+    var myfolders = []
+    if (this.props.folderList)
+      myfolders = this.props.folderList;
+    var folderNodes = myfolders.map(function(folder) {
       return (
         <BookmarksFolderComponent
                  curFolder={this.props.curFolder}
@@ -50,7 +53,7 @@ var FolderContainerComponent = React.createClass({
       );
     }.bind(this));
     return (
-          <div className="slide desktopView">
+      <div className="slide desktopView">
         {folderNodes}
       </div>
     );

@@ -93,12 +93,12 @@ var AddBookmarkComponent = React.createClass({
             data: body,
             timeout: 5000,
             success: function(data) {
-              browserHistory.push('/app/home')
+              browserHistory.push('/list.html');
             }.bind(this),
             error: function(xhr, status, err) {
               //timeout or connection refused
               if(status == "timeout" || xhr.readyState == 0) {
-                window.location = '/';
+                //window.location = '/';
               }
               else {
                 this.setState({overallErr: true});
@@ -175,7 +175,7 @@ var AddBookmarkComponent = React.createClass({
           </div>
           <div className="inputgroup">
             <button type="button" onClick={this.submit} className="boxButton okayButton">Save</button>
-            <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
+            <Link to={'/list.html'} className="boxButton cancelButton">Cancel</Link>
           </div>
       </div>
     </section>

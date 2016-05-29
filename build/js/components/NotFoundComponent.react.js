@@ -11,10 +11,10 @@ var NotFoundComponent = React.createClass({
             <br/>
             O.O Sorry
           </h1>
-          <Link to={'/app/home'} className="boxButton cancelButton">Home</Link>
+          <Link to={'/list.html'} className="boxButton cancelButton">Home</Link>
         </div>
       </div>
-      ) 
+      )
   }
 });
 

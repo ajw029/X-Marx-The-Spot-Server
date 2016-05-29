@@ -22,7 +22,7 @@ var BookmarkComponent = React.createClass({
           error: function(xhr, status, err) {
             //timeout or connection refused
             if(status == "timeout" || xhr.readyState == 0) {
-              window.location = '/';
+              //window.location = '/';
             }
             this.props.favBookmarkErr();
           }.bind(this)
@@ -47,7 +47,7 @@ var BookmarkComponent = React.createClass({
           error: function(xhr, status, err) {
             //timeout or connection refused
             if(status == "timeout" || xhr.readyState == 0) {
-              window.location = '/';
+              //window.location = '/';
             }
             this.props.deleteBookmarkErr();
           }.bind(this)
@@ -69,7 +69,7 @@ var BookmarkComponent = React.createClass({
           error: function(xhr, status, err) {
             //timeout or connection refused
             if(status == "timeout" || xhr.readyState == 0) {
-              window.location = '/';
+              //window.location = '/';
             }
           }.bind(this)
         });

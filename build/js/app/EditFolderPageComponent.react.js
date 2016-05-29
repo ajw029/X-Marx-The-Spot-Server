@@ -33,12 +33,12 @@ var EditFolderPage = React.createClass({
           data: body,
           timeout: 5000,
           success: function(data) {
-            browserHistory.push('/app/home')
+            browserHistory.push('/list.html')
           }.bind(this),
           error: function(xhr, status, err) {
             //timeout or connection refused
             if(status == "timeout" || xhr.readyState == 0) {
-              window.location = '/';
+              //window.location = '/';
             }
             else {
               this.setState({overallErr: true});
@@ -66,7 +66,7 @@ var EditFolderPage = React.createClass({
         error: function(xhr, status, err) {
           //timeout or connection refused
           if(status == "timeout" || xhr.readyState == 0) {
-            window.location = '/';
+            //window.location = '/';
           }
           else {
             this.setState({overallErr: true});
@@ -94,7 +94,7 @@ var EditFolderPage = React.createClass({
           success: function(data) {
             var result = data;
             if (!result || result.length < 1) {
-                window.location = '/app/home';
+                window.location = '/list.html';
             }
           this.setState({
             folder: result,
@@ -102,7 +102,7 @@ var EditFolderPage = React.createClass({
           });
           }.bind(this),
           error: function(xhr, status, err) {
-            window.location = '/app/home';
+            //window.location = '/app/home';
           }.bind(this)
         });
     }

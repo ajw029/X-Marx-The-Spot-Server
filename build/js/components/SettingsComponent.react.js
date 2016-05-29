@@ -68,12 +68,12 @@ var SettingsComponent = React.createClass({
               data: body,
               timeout: 5000,
               success: function(data) {
-                browserHistory.push('/app/home')
+                browserHistory.push('/list.html')
               }.bind(this),
               error: function(xhr, status, err) {
                 //timeout or connection refused
                 if(status == "timeout" || xhr.readyState == 0) {
-                  window.location = '/';
+                  //window.location = '/';
                 }
                 else {
                   $('#server_errlabel').removeClass('hide');
@@ -102,7 +102,7 @@ var SettingsComponent = React.createClass({
           error: function(xhr, status, err) {
             //timeout or connection refused
             if(status == "timeout" || xhr.readyState == 0) {
-              window.location = '/';
+              //window.location = '/';
             }
             else {
               $('#import_errlabel').removeClass('hide');

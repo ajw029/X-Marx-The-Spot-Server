@@ -125,13 +125,13 @@ var EditBookmarkPage = React.createClass({
             data: body,
             timeout: 5000,
             success: function(data) {
-              browserHistory.push('/app/home');
+              browserHistory.push('/list.html');
               this.setState({overallErr: false});
             }.bind(this),
             error: function(xhr, status, err) {
               //timeout or connection refused
               if(status == "timeout" || xhr.readyState == 0) {
-                window.location = '/';
+                //window.location = '/';
               }
               else {
                 this.setState({overallErr: true});
@@ -145,7 +145,7 @@ var EditBookmarkPage = React.createClass({
     var id = this.props.routeParams.bookmarx_id;
 
     if (isNaN(id) || id < 0) {
-      browserHistory.push('/app/home')
+      browserHistory.push('/list.html')
     }
     else {
       // Gets all the folders
@@ -170,7 +170,7 @@ var EditBookmarkPage = React.createClass({
                 success: function(data2) {
                   var result2 = data2;
                   if (!result2 || result2.length < 1) {
-                    window.location = '/app/home';
+                    //window.location = '/list.html';
                   }
                   var oldkeywordsList = [];
                   for (var i=0; i< result2.length; i++) {
@@ -191,13 +191,13 @@ var EditBookmarkPage = React.createClass({
                   });
                 }.bind(this),
                 error: function(xhr, status, err) {
-                  window.location = '/app/home';
+                  //window.location = '/app/home';
                 }.bind(this)
               });
 
           }.bind(this),
           error: function(xhr, status, err) {
-            window.location = '/app/home';
+            //window.location = '/app/home';
           }.bind(this)
         });
     }
@@ -287,7 +287,7 @@ var EditBookmarkPage = React.createClass({
                 </div>
                 <div className="inputgroup">
                   <button type="button" onClick={this.submit} onKeypress={this.keyPress} className="boxButton okayButton">Save</button>
-                  <Link to={'/app/home'} className="boxButton cancelButton">Cancel</Link>
+                  <Link to={'/list.html'} className="boxButton cancelButton">Cancel</Link>
                 </div>
             </div>
           </section>

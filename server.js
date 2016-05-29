@@ -74,7 +74,7 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
 ));
 
 
-app.get('/home', function(req, res) {
+app.get(['/home', '/list.html'], function(req, res) {
     res.sendFile(__dirname + '/views/list.html');
 });
 

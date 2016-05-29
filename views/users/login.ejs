@@ -52,6 +52,7 @@
     localStorage.removeItem('myFolders');
     localStorage.removeItem('curFolder');
     localStorage.removeItem('curFolderName');
+
     $(document).ready(function () {
       $('form').attr('action', '');
     });
@@ -87,7 +88,8 @@
         url: '/api/login/',
         data: $('form').serialize(),
         success: function(data) {
-          window.location = '/app/home';
+          window.location = '/list.html ';
+          //window.location = '/app/home';
         },
         //error handling
         error: function(data) {
