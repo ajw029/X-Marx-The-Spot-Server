@@ -1,5 +1,8 @@
 var filesToCache = [
-  '/'
+  '/list.html',
+  '/img/ic_add_white_48dp_2x.png',
+  '/img/ic_home_white_48dp_2x.png',
+  '/js/bundle.js'
 ];
 
 self.addEventListener('install', e => {

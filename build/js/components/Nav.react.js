@@ -32,6 +32,12 @@ var NavBar = React.createClass({
     this.find();
     return false;
   },
+  logout: function() {
+    localStorage.removeItem('myFolders');
+    localStorage.removeItem('curFolder');
+    localStorage.removeItem('curFolderName');
+    browserHistory.push('/logout')
+  },
   render: function() {
     var searchClass = "";
     if (this.state.searchEmpty) {
@@ -56,7 +62,7 @@ var NavBar = React.createClass({
           <li className="navbar-hide"><Link to={"/app/addnewbookmark"} className="tooltip"><img src="/img/ic_bookmark_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Add a BookMarx</span></Link></li>
           <li className="navbar-hide"><Link to={"/app/addnewfolder"} className="tooltip"><img src="/img/ic_create_new_folder_white_48dp_2x.png" alt="folder"></img><span className="tooltiptext">Add a Folder</span></Link></li>
           <li className="navbar-hide"><Link to={"/app/gotosettings"} className="tooltip"><img className="cog" src="/img/ic_settings_white_48dp_2x.png" alt="bookmark"></img><span className="tooltiptext">Settings</span></Link></li>
-          <li><a className="tooltip" href="/logout"><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"></img><span className="tooltiptext">Logout</span></a></li>
+          <li><a className="tooltip" onClick={this.logout} ><img src="/img/ic_exit_to_app_white_48dp_2x.png" alt="settings"></img><span className="tooltiptext">Logout</span></a></li>
         </ul>
       </nav>
     )

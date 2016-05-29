@@ -80,7 +80,7 @@ var BookmarkComponent = React.createClass({
         else {
           redirectURL='http://'+ redirectURL;
         }
-  
+
         window.location = redirectURL;
   },
   showDelete: function() {
@@ -90,7 +90,6 @@ var BookmarkComponent = React.createClass({
   closeDeleteConf: function() {
     this.setState({showDeleteButton: true,
                    showDeleteConf: false});
-                   console.log('hi')
   },
   render: function() {
     var favButton;

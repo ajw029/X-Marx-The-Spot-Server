@@ -49,6 +49,9 @@
     </div>
   </section>
   <script>
+    localStorage.removeItem('myFolders');
+    localStorage.removeItem('curFolder');
+    localStorage.removeItem('curFolderName');
     $(document).ready(function () {
       $('form').attr('action', '');
     });

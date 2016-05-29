@@ -55,6 +55,9 @@
     </div>
   </section>
   <script>
+    localStorage.removeItem('myFolders');
+    localStorage.removeItem('curFolder');
+    localStorage.removeItem('curFolderName');
     function validateUsername() {
       var username =$('.inputgroup').find('input[name="username"]').val();
       if (!username || !username.trim()) {

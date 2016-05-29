@@ -431,7 +431,7 @@ nav h2 {
 
 /* Bookmark */
 .bookmark {
-	width: 70%;
+	width: 85%;
 	background-color: white;
 	height: 104px;
 	display: block !important;
@@ -610,6 +610,7 @@ nav h2 {
 	position: absolute;
 	left: 8px;
 	float: left;
+
 }
 .folder button, .folder a  {
 	height: 100%;
@@ -661,6 +662,10 @@ nav h2 {
 	margin-left: 32px;
 	color: #4c4c4c;
 	vertical-align: top;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 65%;
 }
 
 .folderContent ul {
@@ -1302,6 +1307,9 @@ h3 {
 	}
 	.side-nav-container li button {
 		font-size: 16px;
+	}
+	.side-nav-container ul, .side-nav-container h2 {
+    font-size: 20px !important;
 	}
 }
 

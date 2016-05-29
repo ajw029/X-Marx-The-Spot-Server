@@ -2,11 +2,39 @@
 var HomeContainer = React.createClass({
   getInitialState: function () {
     mixpanel.track("Home Page");
+    var folderList = [];
+    var myBookmarks = [];
+    var curFolder = '';
+    var curFolderName = ''
+    if (typeof(Storage) !== "undefined") {
+      // Gets all the folders
+      if (localStorage.getItem("myFolders")) {
+        folderList = JSON.parse(localStorage.getItem("myFolders"));
+      }
+      else {
+        localStorage.setItem("myFolders", JSON.stringify([]));
+      }
+      // Gets the Default Folder
+      if (localStorage.getItem("curFolder")) {
+        curFolder = JSON.parse(localStorage.getItem("curFolder"));
+      }
+      else {
+        localStorage.setItem("curFolder", '');
+      }
+      if (localStorage.getItem("curFolderName")) {
+        curFolderName = JSON.parse(localStorage.getItem("curFolderName"));
+      }
+      else {
+        localStorage.setItem("curFolderName", '');
+      }
+  
+    }
+
     return {
-      curFolder: '',
-      folderList: [],
+      curFolder: curFolder,
+      folderList: folderList,
       myBookmarks: [],
-      curFolderName: '',
+      curFolderName: curFolderName,
       showErrOverlay: false
       };
   },
@@ -17,12 +45,15 @@ var HomeContainer = React.createClass({
       this.setState({
         folderList: result
       });
-      if (!this.state.curFolder.trim() && result && result.length > 0) {
+      if (!this.state.curFolder && result && result.length > 0) {
         mixpanel.identify(result[0].account_id.toString());
         this.setState({
           curFolder: result[0].id,
           curFolderName: result[0].name
         });
+        localStorage.setItem("myFolders", JSON.stringify(result));
+        localStorage.setItem("curFolder", JSON.stringify(result[0].id));
+        localStorage.setItem("curFolderName", JSON.stringify(result[0].name));
       }
     }.bind(this));
 
@@ -41,6 +72,7 @@ var HomeContainer = React.createClass({
        this.setState({
          myBookmarks: result
        });
+
      }.bind(this));
    },
    favBookmark: function(b_id) {
