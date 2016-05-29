@@ -7,16 +7,15 @@ var filesToCache = [
   '/img/ic_create_new_folder_white_48dp_2x.png',
   '/img/ic_settings_white_48dp_2x.png',
   '/img/ic_exit_to_app_white_48dp_2x.png',
-  '/img/ic_exit_to_app_white_48dp_2x.png',
   '/img/ic_star_white_48dp_2x.png',
   '/img/ic_close_black_48dp_2x.png',
   '/img/ic_arrow_back_black_48dp_2x.png',
   '/img/ic_more_horiz_black_48dp_2x.png',
   '/img/ic_keyboard_arrow_up_black_48dp_2x.png',
   '/js/bundle.js',
-
+  '/js/jquery.js'
 ];
-var cacheName = 'v11';
+var cacheName = 'v12';
 
 self.addEventListener('install', e => {
   e.waitUntil(
