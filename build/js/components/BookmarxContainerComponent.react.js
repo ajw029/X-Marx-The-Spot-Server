@@ -5,7 +5,7 @@ var BookmarkComponent = React.createClass({
   },
 
   favoriteClick: function() {
-     mixpanel.track("Favorite Click");
+    mixpanel.track("Favorite Click");
     var body = {};
     body.bookmarx_id=this.props.id;
     $.ajax({
@@ -27,7 +27,6 @@ var BookmarkComponent = React.createClass({
             this.props.favBookmarkErr();
           }.bind(this)
         });
-        mixpanel.track("favorite");
   },
   deleteBookmark: function() {
      mixpanel.track("Delete bookmark");
@@ -52,10 +51,9 @@ var BookmarkComponent = React.createClass({
             this.props.deleteBookmarkErr();
           }.bind(this)
         });
-    mixpanel.track("delete");
   },
   openLink: function() {
-     mixpanel.track("Open Link");
+    mixpanel.track("Open Link");
     var body = {};
     body.bookmarx_id=this.props.id;
     $.ajax({
@@ -80,7 +78,6 @@ var BookmarkComponent = React.createClass({
         else {
           redirectURL='http://'+ redirectURL;
         }
-
         window.location = redirectURL;
   },
   showDelete: function() {
