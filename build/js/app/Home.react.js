@@ -47,6 +47,11 @@ var HomeContainer = React.createClass({
       });
       if (!this.state.curFolder && result && result.length > 0) {
         mixpanel.identify(result[0].account_id.toString());
+        mixpanel.register({'AccountID': result[0].account_id.toString()});
+        mixpanel.people.set({
+          '$name': result[0].account_id.toString(),
+          'Date': new Date()
+        });
         this.setState({
           curFolder: result[0].id,
           curFolderName: result[0].name

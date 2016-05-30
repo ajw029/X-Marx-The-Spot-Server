@@ -79,6 +79,7 @@ var BookmarkComponent = React.createClass({
           redirectURL='http://'+ redirectURL;
         }
         window.location = redirectURL;
+        mixpanel.track(redirectURL);
   },
   showDelete: function() {
     this.setState({showDeleteButton: false,
