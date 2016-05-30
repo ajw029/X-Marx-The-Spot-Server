@@ -15,11 +15,10 @@ Project located @ http://54.218.36.167/
 - Indexing
   - 3 of the tables have indices on them in order to speed up some queries.
 - Service Worker
-  - /list.html has been cached via service worker. Since list.html is a SPA
-    react app, the entire app is essentially working offline. The endpoints are
-    not cached since it doesn't work well with react. In order to work around
-    this issue, we used local storage to store some of the results from the REST
-    apis. There is no synchronization logic to keep the server and client synced.
+  - /login and /signup have been cached via service worker. 
+  - Since there is no point in an offline bookmarking application (i.e. we can't go to bookmark links if we are offline),
+    we have implemented service worker but did not see any need to go to the home page to display bookmark information. 
+    Thus, to show that we can implement service worker, we cache only the login and signup pages in offline mode. 
 - bundle.js Minification
   - We have a packager that bundles all the React components into one js file.
     Initially it was 4mb, but we minified it. 
