@@ -7,6 +7,11 @@ Project located @ http://54.218.36.167/
 #### Optimizations
 - Analytics
   - Use of Mixpanel client-side scripts to track usage of the app
+  - Tracking unique users by their id in the accounts table. 
+  - Information tracked: Favoriting Bookmarks, Deleting bookmarks, Opening links (+the URL link), etc.
+  - Example analytics information: 
+      - https://github.com/ajw029/X-Marx-The-Spot-Server/blob/master/MixpanelSegmentationInfo.PNG
+      - https://github.com/ajw029/X-Marx-The-Spot-Server/blob/master/MixpanelPeopleInfo.PNG
 - Indexing
   - 3 of the tables have indices on them in order to speed up some queries.
 - Service Worker
