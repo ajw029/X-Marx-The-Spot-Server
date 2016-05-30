@@ -15,7 +15,8 @@ Project located @ http://54.218.36.167/
 - Indexing
   - 3 of the tables have indices on them in order to speed up some queries.
 - Service Worker
-  - /login and /signup have been cached via service worker. It works locally but not on server because of secure-origins issue. 
+  - /login and /signup have been cached via service worker. It works locally but not on server because of secure-origins issue.
+  - To get service workers to work on the AWS server, we'd need HTTPS/certification, which we couldn't obtain given the current time constraints.
   - Since there is no point in an offline bookmarking application (i.e. we can't go to bookmark links if we are offline),
     we have implemented service worker but did not see any need to go to the home page to display bookmark information. 
     Thus, to show that we can implement service worker, we cache only the login and signup pages in offline mode. 
