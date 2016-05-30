@@ -37,9 +37,6 @@ module.exports.login = function(req, res) {
 * Verify a user is logged in.  This middleware will be called before every request to the bookmarx directory.
 */
 module.exports.auth = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
   var session = req.session.username;
   if (session) {
     var decryptedSession = encryption.decrypt(session);
