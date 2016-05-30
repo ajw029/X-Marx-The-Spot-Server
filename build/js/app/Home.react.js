@@ -5,7 +5,8 @@ var HomeContainer = React.createClass({
     var folderList = [];
     var myBookmarks = [];
     var curFolder = '';
-    var curFolderName = ''
+    var curFolderName = '';
+
     if (typeof(Storage) !== "undefined") {
       // Gets all the folders
       if (localStorage.getItem("myFolders")) {
@@ -27,7 +28,6 @@ var HomeContainer = React.createClass({
       else {
         localStorage.setItem("curFolderName", '');
       }
-  
     }
 
     return {

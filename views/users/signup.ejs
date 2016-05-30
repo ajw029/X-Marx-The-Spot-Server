@@ -97,14 +97,13 @@
     }
     $('form').submit(function(e) {
       e.preventDefault();
-      console.log("IN HERE");
 
       $.ajax({
         type: 'POST',
         url: '/api/signup',
         data: $('form').serialize(),
         success: function(data) {
-          window.location = '/app';
+          window.location = '/login';
         },
         //error handling
         error: function(data) {
@@ -115,6 +114,23 @@
         }
       });
     });
+
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw-signup.js')
+      .then(function(registration) {
+        if(registration.installing) {
+          console.log('Service worker installing');
+        } else if(registration.waiting) {
+          console.log('Service worker installed');
+        } else if(registration.active) {
+          console.log('Service worker active');
+        }
+      });
+      navigator.serviceWorker.ready.then(function(registration) {
+        console.log('Service Worker Ready');
+      });
+    }
+
   </script>
 </body>
 </html>

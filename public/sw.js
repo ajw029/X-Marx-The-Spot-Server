@@ -1,4 +1,5 @@
 var filesToCache = [
+  '/login',
   '/list.html',
   '/css/style.css',
   '/img/ic_add_white_48dp_2x.png',
@@ -15,7 +16,7 @@ var filesToCache = [
   '/js/bundle.js',
   '/js/jquery.js'
 ];
-var cacheName = 'v12';
+var cacheName = 'v13';
 
 self.addEventListener('install', e => {
   e.waitUntil(
