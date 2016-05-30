@@ -7,6 +7,7 @@ var HomeContainer = React.createClass({
     var curFolder = '';
     var curFolderName = '';
 
+    /*
     if (typeof(Storage) !== "undefined") {
       // Gets all the folders
       if (localStorage.getItem("myFolders")) {
@@ -29,6 +30,7 @@ var HomeContainer = React.createClass({
         localStorage.setItem("curFolderName", '');
       }
     }
+    */
 
     return {
       curFolder: curFolder,
@@ -56,9 +58,9 @@ var HomeContainer = React.createClass({
           curFolder: result[0].id,
           curFolderName: result[0].name
         });
-        localStorage.setItem("myFolders", JSON.stringify(result));
-        localStorage.setItem("curFolder", JSON.stringify(result[0].id));
-        localStorage.setItem("curFolderName", JSON.stringify(result[0].name));
+        // localStorage.setItem("myFolders", JSON.stringify(result));
+        // localStorage.setItem("curFolder", JSON.stringify(result[0].id));
+        // localStorage.setItem("curFolderName", JSON.stringify(result[0].name));
       }
     }.bind(this));
 
