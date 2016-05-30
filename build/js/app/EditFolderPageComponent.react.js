@@ -33,7 +33,7 @@ var EditFolderPage = React.createClass({
           data: body,
           timeout: 5000,
           success: function(data) {
-            browserHistory.push('/list.html')
+            browserHistory.push('/app/home')
           }.bind(this),
           error: function(xhr, status, err) {
             //timeout or connection refused
@@ -94,7 +94,7 @@ var EditFolderPage = React.createClass({
           success: function(data) {
             var result = data;
             if (!result || result.length < 1) {
-                window.location = '/list.html';
+                window.location = '/app/home';
             }
           this.setState({
             folder: result,

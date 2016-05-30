@@ -41,7 +41,6 @@ MobileFolderSwitcherContainer = React.createFactory(require('./components/Mobile
 ConfirmationOverlay = React.createFactory(require('./components/ConfirmationOverlay.react'));
 
 route = (<Router history={browserHistory}>
-  <Route path="/list.html" name="home" component={HomeContainer}></Route>
   <Route path="/app/home" name="home" component={HomeContainer}></Route>
   <Route path="/app/myfavlinks" component={MyFavComponent}></Route>
   <Route path="/app/myrecent" name="recent" component={MostRecentComponent}></Route>

@@ -23,7 +23,7 @@ var NavBar = React.createClass({
       this.setState({searchEmpty:true});
     }
     else {
-      browserHistory.push("/list.html");
+      browserHistory.push("/app/home");
       browserHistory.push("/app/search/"+this.state.ordering+"/"+this.state.searchInput);
       this.setState({searchEmpty:false});
     }
@@ -46,7 +46,7 @@ var NavBar = React.createClass({
     return (
       <nav>
         <ul className="nav-title">
-          <li><Link to={'/list.html'}>BookMarx</Link></li>
+          <li><Link to={'/app/home'}>BookMarx</Link></li>
         </ul>
         <div className="searchContainer">
           <div className="folderSearchBar">

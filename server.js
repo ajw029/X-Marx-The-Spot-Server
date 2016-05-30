@@ -73,10 +73,6 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
 ));
 
 
-app.get(['/home', '/list.html'], function(req, res) {
-    res.sendFile(__dirname + '/views/list.html');
-});
-
 // Login And Signup
 app.get('/', users.login);
 // Login And Signup APIs
@@ -180,7 +176,7 @@ app.get('/api/search',apis.apiSearch);
 app.post('/api/import',apis.apiImportBookmarks);
 app.get('/api/export',apis.apiExportBookmarks);
 
-app.get('/app/*', function (req, res) {
+app.get(['/app/*'], function (req, res) {
     res.sendFile(__dirname + '/views/list.html');
 });
 

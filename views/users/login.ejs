@@ -49,9 +49,9 @@
     </div>
   </section>
   <script>
-    localStorage.removeItem('myFolders');
-    localStorage.removeItem('curFolder');
-    localStorage.removeItem('curFolderName');
+  localStorage.removeItem('myFolders');
+  localStorage.removeItem('curFolder');
+  localStorage.removeItem('curFolderName');
 
     $(document).ready(function () {
       $('form').attr('action', '');
@@ -87,9 +87,8 @@
         type: 'POST',
         url: '/api/login/',
         data: $('form').serialize(),
-        success: function(data) {
-          window.location = '/list.html ';
-          //window.location = '/app/home';
+        success: function(data, textStatus, request){
+          window.location = '/app/home';
         },
         //error handling
         error: function(data) {
@@ -100,7 +99,26 @@
         }
       });
     });
-  </script>
+
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw-login.js')
+    .then(function(registration) {
+      if(registration.installing) {
+        console.log('Service worker installing');
+      } else if(registration.waiting) {
+        console.log('Service worker installed');
+      } else if(registration.active) {
+        console.log('Service worker active');
+      }
+    });
+    navigator.serviceWorker.ready.then(function(registration) {
+      console.log('Service Worker Ready');
+    });
+  }
+
+</script>
+
+
 <noscript>
   <img src="/nojs.gif" />
 </noscript>
