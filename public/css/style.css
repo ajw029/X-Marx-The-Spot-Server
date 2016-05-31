@@ -182,11 +182,12 @@ nav.nav-mobile ul li a img {
   margin: 0 auto;
 }
 nav.nav-mobile ul li a:hover {
-	-webkit-transform: scale(1.15);
+	/*-webkit-transform: scale(1.15);
     -moz-transform: scale(1.15);
     -o-transform: scale(1.15);
-    animation: scale(1.15);
+    animation: scale(1.15);*/
 }
+
 .searchContainer {
 	width: 35%;
 	padding: 8px;
