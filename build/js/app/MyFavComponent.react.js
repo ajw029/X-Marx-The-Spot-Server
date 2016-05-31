@@ -67,17 +67,22 @@ var MyFavComponent = React.createClass({
        myBookmarks.sort(function(a,b){
          var compA = a.name.toLowerCase();
          var compB = b.name.toLowerCase();
-         return (compA > compB);
+         if(compA < compB) return -1;
+         if(compA > compB) return 1;
+         return 0;
        });
      }
      else if (sortOption == 'desc') {
        myBookmarks.sort(function(a,b){
          var compA = a.name.toLowerCase();
          var compB = b.name.toLowerCase();
-         return (compA < compB);
+         if(compA < compB) return 1;
+         if(compA > compB) return -1;
+         return 0;
        });
      }
-     this.setState({myBookmarks: myBookmarks})
+     this.setState({myBookmarks: myBookmarks});
+     this.forceUpdate();
    },
    render: function() {
      return (
