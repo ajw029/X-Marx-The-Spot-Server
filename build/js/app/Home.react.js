@@ -7,31 +7,6 @@ var HomeContainer = React.createClass({
     var curFolder = '';
     var curFolderName = '';
 
-    /*
-    if (typeof(Storage) !== "undefined") {
-      // Gets all the folders
-      if (localStorage.getItem("myFolders")) {
-        folderList = JSON.parse(localStorage.getItem("myFolders"));
-      }
-      else {
-        localStorage.setItem("myFolders", JSON.stringify([]));
-      }
-      // Gets the Default Folder
-      if (localStorage.getItem("curFolder")) {
-        curFolder = JSON.parse(localStorage.getItem("curFolder"));
-      }
-      else {
-        localStorage.setItem("curFolder", '');
-      }
-      if (localStorage.getItem("curFolderName")) {
-        curFolderName = JSON.parse(localStorage.getItem("curFolderName"));
-      }
-      else {
-        localStorage.setItem("curFolderName", '');
-      }
-    }
-    */
-
     return {
       curFolder: curFolder,
       folderList: folderList,
@@ -58,9 +33,6 @@ var HomeContainer = React.createClass({
           curFolder: result[0].id,
           curFolderName: result[0].name
         });
-        // localStorage.setItem("myFolders", JSON.stringify(result));
-        // localStorage.setItem("curFolder", JSON.stringify(result[0].id));
-        // localStorage.setItem("curFolderName", JSON.stringify(result[0].name));
       }
     }.bind(this));
 
