@@ -2,7 +2,7 @@ var OptionComponent = React.createFactory(require('../components/OptionComponent
 
 var AddBookmarkPage = React.createClass({
   getInitialState: function () {
-     mixpanel.track("Add Bookmark");
+    mixpanel.track("Add Bookmark");
     return {
       folderList: [],
       curFolder: '',
@@ -22,7 +22,7 @@ var AddBookmarkPage = React.createClass({
   validateSubmit: function() {
     var okay = true;
     var title = this.state.title.trim();
-    var url = this.state.url.tri();
+    var url = this.state.url.trim();
     var desc = this.state.desc.trim();
     var keywords = this.state.keywords.trim();
     var folders = this.state.curFolder;
