@@ -32,9 +32,6 @@ var HomeContainer = React.createClass({
           curFolder: result[0].id,
           curFolderName: result[0].name
         });
-        // localStorage.setItem("myFolders", JSON.stringify(result));
-        // localStorage.setItem("curFolder", JSON.stringify(result[0].id));
-        // localStorage.setItem("curFolderName", JSON.stringify(result[0].name));
       }
     }.bind(this));
 
@@ -98,14 +95,18 @@ var HomeContainer = React.createClass({
        myBookmarks.sort(function(a,b){
          var compA = a.name.toLowerCase();
          var compB = b.name.toLowerCase();
-         return (compA > compB);
+         if(compA < compB) return -1;
+         if(compA > compB) return 1;
+         return 0;
        });
      }
      else if (sortOption == 'desc') {
        myBookmarks.sort(function(a,b){
          var compA = a.name.toLowerCase();
          var compB = b.name.toLowerCase();
-         return (compA < compB);
+         if(compA < compB) return 1;
+         if(compA > compB) return -1;
+         return 0;
        });
      }
      this.setState({myBookmarks: myBookmarks});
