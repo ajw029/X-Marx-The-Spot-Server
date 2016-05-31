@@ -6,32 +6,6 @@ var HomeContainer = React.createClass({
     var myBookmarks = [];
     var curFolder = '';
     var curFolderName = '';
-
-    /*
-    if (typeof(Storage) !== "undefined") {
-      // Gets all the folders
-      if (localStorage.getItem("myFolders")) {
-        folderList = JSON.parse(localStorage.getItem("myFolders"));
-      }
-      else {
-        localStorage.setItem("myFolders", JSON.stringify([]));
-      }
-      // Gets the Default Folder
-      if (localStorage.getItem("curFolder")) {
-        curFolder = JSON.parse(localStorage.getItem("curFolder"));
-      }
-      else {
-        localStorage.setItem("curFolder", '');
-      }
-      if (localStorage.getItem("curFolderName")) {
-        curFolderName = JSON.parse(localStorage.getItem("curFolderName"));
-      }
-      else {
-        localStorage.setItem("curFolderName", '');
-      }
-    }
-    */
-
     return {
       curFolder: curFolder,
       folderList: folderList,
@@ -118,6 +92,24 @@ var HomeContainer = React.createClass({
        this.setState({showErrOverlay: false});
      }.bind(this), 3000);
    },
+   sortData: function(sortOption) {
+     var myBookmarks = this.state.myBookmarks;
+     if (sortOption == 'asc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         return (compA > compB);
+       });
+     }
+     else if (sortOption == 'desc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         return (compA < compB);
+       });
+     }
+     this.setState({myBookmarks: myBookmarks})
+   },
    render: function() {
      return (
       <div>
@@ -144,6 +136,8 @@ var HomeContainer = React.createClass({
               deleteBookmark={this.deleteBookmark}
               favBookmarkErr={this.favBookmarkErr}
               deleteBookmarkErr={this.deleteBookmarkErr}
+              sortData={this.sortData}
+              showSort={true}
               />
           </section>
           <ToggleDisplay show={this.state.showErrOverlay}>

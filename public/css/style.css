@@ -200,6 +200,35 @@ nav.nav-mobile ul li a:hover {
 	vertical-align: top;
 	border-radius:2px;
 }
+
+.sortContainer {
+	margin: 0 auto;
+	font-size: 16px;
+	height: 64px !important;
+	position: relative;
+	vertical-align: top;
+	border-radius:2px;
+	display: block;
+}
+.sortContainer .folderSearchBar {
+	width: 50%;
+	display: inline;
+	position: absolute;
+	right: 16px;
+}
+.sortContainer .folderSearchBar span {
+	width: 30%;
+	display: inline-block;
+	padding: 8px;
+}
+.sortContainer .folderSearchBar select {
+	width: 40%;
+}
+
+.sortContainer .folderSearchBar input[type="button"] {
+	width: 30%;
+}
+
 .folderSearchBar form {
 	width: 90%;
 	margin: 0 auto;

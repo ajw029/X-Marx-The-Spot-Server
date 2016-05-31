@@ -1,7 +1,8 @@
 var BookmarkComponent = React.createClass({
   getInitialState: function () {
     return {showDeleteButton: true,
-            showDeleteConf: false};
+            showDeleteConf: false,
+            selectValue: 'none'};
   },
 
   favoriteClick: function() {
@@ -126,6 +127,18 @@ var BookmarkComponent = React.createClass({
 });
 
 var BookmarxContainerComponent = React.createClass({
+  getInitialState: function () {
+     mixpanel.track("Add Bookmark");
+    return {
+      selectValue: 'none'
+    }
+  },
+  sort: function() {
+    this.props.sortData(this.state.selectValue);
+  },
+  updateSelectValue: function(event) {
+   this.setState({selectValue: event.target.value});
+  },
   render: function () {
     var bookmarkNodes = this.props.myBookmarks.map(function(bookmark) {
       return (
@@ -144,9 +157,24 @@ var BookmarxContainerComponent = React.createClass({
                  />
       );
     }.bind(this));
+
     return (
       <div className="slide">
         <div className="folderContent">
+          <ToggleDisplay show={this.props.showSort}>
+            <div className="bookmark sortContainer">
+              <div className="folderSearchBar">
+                <span>Sorting: </span>
+                <select name="ordering" onChange={this.updateSelectValue} value={this.state.selectValue}>
+                  <option value="none">None</option>
+                  <option value="asc">A-Z</option>
+                  <option value="desc">Z-A</option>
+                </select>
+                <input type="button" onClick={this.sort} value="Sort"></input>
+              </div>
+            </div>
+          </ToggleDisplay>
+
           <ul>
             {bookmarkNodes}
           </ul>
