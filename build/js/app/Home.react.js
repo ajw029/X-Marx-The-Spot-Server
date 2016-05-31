@@ -6,7 +6,6 @@ var HomeContainer = React.createClass({
     var myBookmarks = [];
     var curFolder = '';
     var curFolderName = '';
-
     return {
       curFolder: curFolder,
       folderList: folderList,
@@ -90,6 +89,28 @@ var HomeContainer = React.createClass({
        this.setState({showErrOverlay: false});
      }.bind(this), 3000);
    },
+   sortData: function(sortOption) {
+     var myBookmarks = this.state.myBookmarks;
+     if (sortOption == 'asc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         if(compA < compB) return -1;
+         if(compA > compB) return 1;
+         return 0;
+       });
+     }
+     else if (sortOption == 'desc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         if(compA < compB) return 1;
+         if(compA > compB) return -1;
+         return 0;
+       });
+     }
+     this.setState({myBookmarks: myBookmarks})
+   },
    render: function() {
      return (
       <div>
@@ -116,6 +137,8 @@ var HomeContainer = React.createClass({
               deleteBookmark={this.deleteBookmark}
               favBookmarkErr={this.favBookmarkErr}
               deleteBookmarkErr={this.deleteBookmarkErr}
+              sortData={this.sortData}
+              showSort={true}
               />
           </section>
           <ToggleDisplay show={this.state.showErrOverlay}>

@@ -93,6 +93,7 @@ var SearchResultsComponent = React.createClass({
               deleteBookmark={this.deleteBookmark}
               favBookmarkErr={this.favBookmarkErr}
               deleteBookmarkErr={this.deleteBookmarkErr}
+              showSort={false}
               />
           </section>
           <ToggleDisplay show={this.state.showErrOverlay}>

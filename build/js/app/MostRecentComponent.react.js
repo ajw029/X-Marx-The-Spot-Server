@@ -54,6 +54,24 @@ var MyFavComponent = React.createClass({
        this.setState({showErrOverlay: false});
      }.bind(this), 3000);
    },
+   sortData: function(sortOption) {
+     var myBookmarks = this.state.myBookmarks;
+     if (sortOption == 'asc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         return (compA > compB);
+       });
+     }
+     else if (sortOption == 'desc') {
+       myBookmarks.sort(function(a,b){
+         var compA = a.name.toLowerCase();
+         var compB = b.name.toLowerCase();
+         return (compA < compB);
+       });
+     }
+     this.setState({myBookmarks: myBookmarks})
+   },
    render: function() {
      return (
       <div>
@@ -67,6 +85,7 @@ var MyFavComponent = React.createClass({
               deleteBookmark={this.deleteBookmark}
               favBookmarkErr={this.favBookmarkErr}
               deleteBookmarkErr={this.deleteBookmarkErr}
+              showSort={true}
               />
           </section>
           <ToggleDisplay show={this.state.showErrOverlay}>
