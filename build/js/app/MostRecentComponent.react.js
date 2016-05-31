@@ -90,6 +90,7 @@ var MyFavComponent = React.createClass({
               deleteBookmark={this.deleteBookmark}
               favBookmarkErr={this.favBookmarkErr}
               deleteBookmarkErr={this.deleteBookmarkErr}
+              sortData={this.sortData}
               showSort={true}
               />
           </section>
