@@ -108,7 +108,8 @@ var HomeContainer = React.createClass({
          return (compA < compB);
        });
      }
-     this.setState({myBookmarks: myBookmarks})
+     this.setState({myBookmarks: myBookmarks});
+     this.forceUpdate();
    },
    render: function() {
      return (
