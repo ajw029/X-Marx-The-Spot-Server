@@ -1091,7 +1091,7 @@ form {
 	position: absolute;
 	padding: 0;
 	margin: 0;
-	display: none;
+	opacity: 0;
 }
 .hashtaggroup input[type=checkbox]:checked {
 	display: none;
