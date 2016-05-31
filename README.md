@@ -1,6 +1,6 @@
 ## CSE 136 HW 3
 
-Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://54.218.36.167/
+Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://x-marx-the-spot.ml/ (for HTTP)
 
 ### Revision 3
 
@@ -31,13 +31,13 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://54.218.36.1
 ### Main Features
 
 - Create an account
-  - going to http://54.218.36.167/ prompts you to either login or go to signup page
+  - going to https://x-marx-the-spot.ml/ prompts you to either login or go to signup page
 - Login
-  - Going to http://54.218.36.167/ (home)
+  - Going to https://x-marx-the-spot.ml/ (home)
 - Logout
   - top right (door with right arrow icon)
 - Change a password
-  - http://54.218.36.167/bookmarx/settings
+  - https://x-marx-the-spot.ml/bookmarx/settings
 - Add a Bookmark
   - use Floating Action Button (FAB) (Circle with plus icon) in bottom right
 - Edit a Bookmark
@@ -60,7 +60,7 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://54.218.36.1
 - Star/Unstar a bookmark
   - star icon in bottom right of each bookmark card
 - Import/Export list of bookmarks (optional for phase #1)
-  - http://54.218.36.167/bookmarx/settings
+  - https://x-marx-the-spot.ml/bookmarx/settings
   - export saves a JSON file (backup_<datestamp>.json)
   - to import copy paste JSON file contents into provided input area
     - error messages if user modifies backup in a way that breaks json structure or content integrity
@@ -68,3 +68,5 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://54.218.36.1
   - caching
   - minification
   - compression
+- Security
+  - HTTPS/SSL encryption
