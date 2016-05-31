@@ -180,16 +180,6 @@ app.get(['/app/*'], function (req, res) {
     res.sendFile(__dirname + '/views/list.html');
 });
 
-app.get(['/sw-login.js'], function (req, res) {
-    res.setHeader('content-type', 'application/javascript');
-    res.sendFile(__dirname + '/public/sw-login.js');
-});
-
-app.get(['/sw-signup.js'], function (req, res) {
-    res.setHeader('content-type', 'application/javascript');
-    res.sendFile(__dirname + '/public/sw-signup.js');
-});
-
 app.use(function (req, res, next) {
     if (res.session && req.session.nojs) {
         res.redirect('/');
