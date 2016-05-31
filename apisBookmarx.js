@@ -796,20 +796,20 @@ var apiExportBookmarks = module.exports.apiExportBookmarks = function(req, respo
     .toString();
 
   db.query(queryFolderListString, function(err, resObj) {
-    if (err) { 
+    if (err) {
       response.status(500).send(JSON.stringify({msg:"error"}));
     }
     if (resObj) {
       backup['folders'] = resObj;
 
       db.query(queryBookmarksListString, function(err, resObj) {
-        if (err) { 
+        if (err) {
           response.status(500).send(JSON.stringify({msg:"error"}));
         }
         if (resObj) {
           backup['bookmarks'] = resObj;
           db.query(queryBookmarksListString, function(err, resObj) {
-            if (err) { 
+            if (err) {
               response.status(500).send(JSON.stringify({msg:"error"}));
             }
             if (resObj) {

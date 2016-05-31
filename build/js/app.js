@@ -29,7 +29,6 @@ var Settings = require('./app/SettingsPageComponent.react');
 
 // Reused Components
 BackButton = React.createFactory(require('./components/FormBackButtonComponent.react'));
-AddBookmarkComponent = React.createFactory(require('./components/AddBookmarkComponent.react'));
 MobileNav = React.createFactory(require('./components/MobileNavComponent.react'));
 AddFolderComponent = React.createFactory(require('./components/AddFolderComponent.react'));
 NavBar = React.createFactory(require('./components/Nav.react'));
