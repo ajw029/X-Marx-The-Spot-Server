@@ -65,7 +65,7 @@
         $('#username_errlabel').removeClass('hide');
         return false;
       }
-        $('#username_errlabel').addClass('hide');
+      $('#username_errlabel').addClass('hide');
       return true;
     }
     function validatePassword() {
@@ -102,8 +102,22 @@
         type: 'POST',
         url: '/api/signup',
         data: $('form').serialize(),
-        success: function(data) {
-          window.location = '/login';
+        success: function(data, textstatus, request) {
+         $.ajax({
+          type: 'POST',
+          url: '/api/login/',
+          data: $('form').serialize(),
+          success: function(data, textStatus, request){
+            window.location = '/app/home';
+          },
+          //error handling
+          error: function(data) {
+            response = JSON.parse(data.responseText);
+
+            $('#username_errlabel').removeClass('hide');
+            $('#username_errlabel').html(response['msg']);
+          }
+          });
         },
         //error handling
         error: function(data) {
