@@ -8,34 +8,6 @@ var account_table = tables.user_table;
 var folder_table = tables.folder_table;
 
 /**
-* Render the signup form
-*/
-module.exports.apiSignUp = function(req, res) {
-  var session = req.session.username;
-  if (session) {
-    res.status(200).send({successmsg:" "});
-  }
-  else {
-    res.status(400).send(JSON.stringify({msg:"Session doesn't exist"}));
-  }
-
-};
-
-/**
-* Render the login form
-*/
-module.exports.apiLogin = function(req, res) {
-  var session = req.session.username;
-  if (session) {
-    res.session.username;
-    res.status(200).send({successmsg:" "});
-  }
-  else {
-     res.status(400).send(JSON.stringify({msg:"Session doesn't exist"}));
-  }
-};
-
-/**
 * Verify a user is logged in.  This middleware will be called before every request to the bookmarx directory.
 */
 module.exports.apiAuth = function(req, res, next) {
@@ -68,21 +40,20 @@ module.exports.apiLoginAuth = function(req, response) {
     db.query(queryString,function(err,res){
       if(err) {
         response.status(400).send(JSON.stringify({msg: "Could not login, database failure."}));
-      } else if(res) {
-        // If Null
-        if (!res || !res[0]) {
-          response.status(400).send(JSON.stringify({msg:"Could not login, please check username/password"}));
+      } 
+      // If Null
+      if (!res || !res[0]) {
+        response.status(400).send(JSON.stringify({msg:"Could not login, please check username/password"}));
+      }
+      //Otherwise check if login matches DB and send appropriate response
+      else {
+        var queryP = res[0].password;
+        if(encryption.encrypt(password.toString())===queryP.toString()){
+          req.session.username = encryption.encrypt(res[0].id.toString());
+          response.status(200).send(JSON.stringify({msg: "Successful login"}));
         }
-        //Otherwise check if login matches DB and send appropriate response
         else {
-          var queryP = res[0].password;
-          if(encryption.encrypt(password.toString())===queryP.toString()){
-            req.session.username = encryption.encrypt(res[0].id.toString());
-            response.status(200).send(JSON.stringify({msg: "Successful login"}));
-          }
-          else {
-            response.status(400).send(JSON.stringify({msg: "Could not login, please check username/password" }));
-          }
+          response.status(400).send(JSON.stringify({msg: "Could not login, please check username/password" }));
         }
       }
     });
@@ -216,5 +187,3 @@ module.exports.apiUpdatePassword=function(req,response){
   }
 
 };
-
-
