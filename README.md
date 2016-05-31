@@ -1,6 +1,6 @@
 ## CSE 136 HW 3
 
-Project located @ http://54.218.36.167/
+Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://54.218.36.167/
 
 ### Revision 3
 
