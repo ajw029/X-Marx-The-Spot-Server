@@ -166,7 +166,6 @@ var AddBookmarkComponent = React.createClass({
           </div>
           <div className="inputgroup">
             <select name="folder" onChange={this.updateSelectValue} defaultValue="" >
-              <option value=""></option>
               {folderNodes}
             </select>
             <ToggleDisplay show={this.state.folderErr}>

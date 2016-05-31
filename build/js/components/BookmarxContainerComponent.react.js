@@ -29,7 +29,7 @@ var BookmarkComponent = React.createClass({
         });
   },
   deleteBookmark: function() {
-     mixpanel.track("Delete bookmark");
+    mixpanel.track("Delete bookmark");
     var body = {};
     body.bookmarx_id=this.props.id
     $.ajax({
