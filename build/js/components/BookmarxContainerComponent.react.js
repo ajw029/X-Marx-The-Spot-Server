@@ -164,7 +164,7 @@ var BookmarxContainerComponent = React.createClass({
           <ToggleDisplay show={this.props.showSort}>
             <div className="bookmark sortContainer">
               <div className="folderSearchBar">
-                <span>Sorting: </span>
+                <span>Sort: </span>
                 <select name="ordering" onChange={this.updateSelectValue} value={this.state.selectValue}>
                   <option value="none">None</option>
                   <option value="asc">A-Z</option>
