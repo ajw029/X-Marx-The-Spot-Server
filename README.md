@@ -15,12 +15,13 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://x-marx-the-
 - Indexing
   - 3 of the tables have indices on them in order to speed up some queries.
 - Service Worker
-  - /login and /signup have been cached via service worker. It works locally but not on server because of secure-origins issue (i.e. Need HTTPS on AWS server).
-  - To get service workers to work on the AWS server, we'd need HTTPS/certification, which we couldn't obtain given our current constraints.
+  - /login and /signup have been cached via service worker.
+  - To get service workers to work on the AWS server, we'd need HTTPS/certification, which we were able to do in time (edit). 
+  - Once you visit the site (https://x-marx-the-spot.ml/), we log to the console whether or not the service worker is online and working. 
   - We believe a bookmarking application wouldn't be very useful offline  (i.e. we can't go to bookmark links if we are offline), so
     we implemented service workers but did not see any need to go beyond the login/signup page to display bookmark information. 
     Thus, to show that we can implement service worker, we cache only the login and signup pages in offline mode. 
-    - Proof of implementation can be seen in the following images:     
+    - Proof of implementation locally can be seen in the following images:     
       - https://github.com/ajw029/X-Marx-The-Spot-Server/blob/master/ServiceWorkerActive.PNG
       - https://github.com/ajw029/X-Marx-The-Spot-Server/blob/master/ServiceWorkerActiveOffline.PNG
       - https://github.com/ajw029/X-Marx-The-Spot-Server/blob/master/ServiceWorkerLocal.PNG
