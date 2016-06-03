@@ -3,7 +3,7 @@
 Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://x-marx-the-spot.ml/ (for HTTP)
 
 ### Things each Team Member Worked On
-- Anthony
+- Anthony Wang
   - Anthony worked on most of the front end development and design for the Bookmarx app as well as porting the web app over to React and EJS. After the first iteration, he also made the app responsive and mobile friendly. Anthony also helped out with the development of the server's APIs, endpoints, and the SQL queries for the postback and AJAX versions. Anthony also migrated most of the app to the AJAX version when porting it over to React. Anthony tried implementing the service worker, but had issues caching the main page; thus, he added the service worker to the login and signup page. For the last iteration, Anthony helped fix some bugs on the front end and polished some of the UI and interaction.
 
 
