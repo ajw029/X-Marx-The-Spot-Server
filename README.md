@@ -11,6 +11,9 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://x-marx-the-
   - Worked on some of back-end functionality in first two iteration: routing ,Ajax style apis(), sql queries (user login sign up update password,etc.),over all error msgs for all db queries .Helped with bug fixing and testing all around. Helped with adding track marks. Drew a cute cat for our 404 page.^ ^
 - Ivan Wu
   - Worked on AJAX and SQL queries for login, signup, edit bookmarks, and keywords. Designed and implemented MySQL database using MySQL Workbench. Also helped fix bugs that he may or may not have been responsible for introducing into the code. Helped with MixPanel and error messages.
+- Clement Roche
+  - Worked on different parts of the API, changed most of the SQL requests to use Squel, implemented the search request. Implemented the cache control and the compression, with other speed and performance improvements. Did the configuration on the server-side, including process management using PM2, user and environment setup and HTTPS/SSL configuration. Implemented the mechanism to identify clients with JS enabled on login.
+
 
 ### Revision 3
 
