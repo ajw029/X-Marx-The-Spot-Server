@@ -9,6 +9,8 @@ Project located @ https://x-marx-the-spot.ml/ (for HTTPS) and http://x-marx-the-
   - Worked on error logging, 404 pages, robots.txt, and general bug fixes for both client and server-side. On iteration 1, started the     AWS server, robots.txt, error logging. On iteration 2, worked on 404 page and general bug fixes. On iteration 3, did Mixpanel    tracking and fixed some of the things that we needed to polish up from the 2nd iteration feedback (i.e. auto-login from register).
 - Hui Chen
   - Worked on some of back-end functionality in first two iteration: routing ,Ajax style apis, sql queries,error msg etc.Helped with bug fixing and testing all around.
+- Ivan Wu
+  - Worked on AJAX and SQL queries for login, signup, edit bookmarks, and keywords. Designed and implemented MySQL database using MySQL Workbench. Also helped fix bugs that he may or may not have been responsible for introducing into the code. Helped with MixPanel and error messages.
 
 ### Revision 3
 
